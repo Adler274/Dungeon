@@ -14,14 +14,19 @@ import controller.AbstractController;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
-import ecs.entities.Entity;
-import ecs.entities.Hero;
+import ecs.entities.*;
+import ecs.entities.monster.OrcBaby;
+import ecs.entities.monster.OrcMasked;
+import ecs.entities.monster.OrcNormal;
+import ecs.entities.npc.Ghost;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
 import graphic.hud.PauseMenu;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import level.IOnLevelLoader;
 import level.LevelAPI;
@@ -31,6 +36,7 @@ import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
 import level.tools.LevelSize;
+import saveLoad.Saving;
 import tools.Constants;
 import tools.Point;
 
@@ -74,10 +80,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private Logger gameLogger;
 
+    /** Number of current level*/
+    private int levelCount;
+    /** Used to save and load savedata using files*/
+    private final Saving saving = new Saving(this);
+    /** Used to check if you have to check if a ghost is near a tombstone*/
+    private boolean hasGhost;
+    /** Needed so the object can be used to trigger its effect (in frame())*/
+    private Tombstone tomb;
+
     public static void main(String[] args) {
         // start the game
         try {
-            Configuration.loadAndGetConfiguration("dungeon_config.json", KeyboardConfig.class);
+            Configuration.loadAndGetConfiguration("dungeon_config.ser", KeyboardConfig.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -124,6 +139,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
     protected void frame() {
         setCameraFocus();
+        if(hasGhost){
+            tomb.despawnAllMonsters();
+        }
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
@@ -134,6 +152,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
+
+        if (levelCount == 0  && new File("savefile\\Save.ser").exists()){
+            saving.loadSave();
+            return;
+        }
+        levelCount++;
+        spawnMonsters();
+        spawnGhost();
+        if (levelCount > 1){
+            saving.writeSave();
+        }
     }
 
     private void manageEntitiesSets() {
@@ -284,5 +313,83 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+    }
+
+    /** Used to spawn monsters randomly based on the current level*/
+    private void spawnMonsters(){
+        if (levelCount < 4){
+            int normalCount = ThreadLocalRandom.current().nextInt(1, 4);
+            for(int i = 0; i < normalCount;i++){
+                entities.add(new OrcNormal());
+            }
+        } else if (levelCount < 7) {
+            int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
+            int babyCount = ThreadLocalRandom.current().nextInt(0, 3);
+            for(int i = 0; i < normalCount;i++){
+                entities.add(new OrcNormal());
+            }
+            for (int i = 0; i < babyCount;i++){
+                entities.add(new OrcBaby());
+            }
+        } else if (levelCount < 10){
+            int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
+            int babyCount = ThreadLocalRandom.current().nextInt(0, 2);
+            int maskedCount = ThreadLocalRandom.current().nextInt(0, 2);
+            for(int i = 0; i < normalCount;i++){
+                entities.add(new OrcNormal());
+            }
+            for (int i = 0; i < babyCount;i++){
+                entities.add(new OrcBaby());
+            }
+            for (int i = 0; i < maskedCount;i++){
+                entities.add(new OrcMasked());
+            }
+        } else {
+            int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
+            int babyCount = ThreadLocalRandom.current().nextInt(1, 4);
+            int maskedCount = ThreadLocalRandom.current().nextInt(1, 3);
+            for(int i = 0; i < normalCount;i++){
+                entities.add(new OrcNormal());
+            }
+            for (int i = 0; i < babyCount;i++){
+                entities.add(new OrcBaby());
+            }
+            for (int i = 0; i < maskedCount;i++){
+                entities.add(new OrcMasked());
+            }
+        }
+    }
+
+    /** Used to spawn a ghost and the corresponding tombstone based on chance*/
+    private void spawnGhost(){
+        int rando = ThreadLocalRandom.current().nextInt(0, 5);
+        if (rando == 4){
+            Ghost ghost = new Ghost();
+            entities.add(ghost);
+            entities.add(tomb = new Tombstone(ghost));
+            hasGhost = true;
+        } else {
+            hasGhost = false;
+        }
+    }
+
+    public int getLevelCount() {
+        return levelCount;
+    }
+
+    public void setLevelCount(int levelCount) {
+        this.levelCount = levelCount;
+    }
+
+    public boolean isHasGhost() {
+        return hasGhost;
+    }
+
+    public void setHasGhost(boolean hasGhost) {
+        this.hasGhost = hasGhost;
+    }
+
+    public void setTomb(Tombstone tomb) {
+        this.tomb = tomb;
     }
 }

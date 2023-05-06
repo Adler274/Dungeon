@@ -1,9 +1,10 @@
 package ecs.components;
 
 import ecs.entities.Entity;
+
 import java.util.logging.Logger;
 
-/*+
+/**
  *Component is a piece of data associated with an entity
  */
 public abstract class Component {

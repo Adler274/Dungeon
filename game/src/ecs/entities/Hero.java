@@ -8,6 +8,9 @@ import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
 import graphic.Animation;
 
+import java.util.Set;
+
+
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
@@ -24,10 +27,13 @@ public class Hero extends Entity {
     private final String pathToRunRight = "knight/runRight";
     private Skill firstSkill;
 
+    private SkillComponent skills; //new
+
     /** Entity with Components */
     public Hero() {
         super();
         new PositionComponent(this);
+        this.skills = new SkillComponent(this); //new
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
@@ -52,6 +58,7 @@ public class Hero extends Entity {
         firstSkill =
                 new Skill(
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill); //new
     }
 
     private void setupHitboxComponent() {
@@ -60,4 +67,5 @@ public class Hero extends Entity {
                 (you, other, direction) -> System.out.println("heroCollisionEnter"),
                 (you, other, direction) -> System.out.println("heroCollisionLeave"));
     }
+
 }

@@ -1,6 +1,7 @@
 package ecs.entities;
 
 import ecs.components.Component;
+
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -51,4 +52,5 @@ public class Entity {
     public Optional<Component> getComponent(Class klass) {
         return Optional.ofNullable(components.get(klass));
     }
+
 }
