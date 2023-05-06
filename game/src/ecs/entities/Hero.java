@@ -68,4 +68,10 @@ public class Hero extends Entity {
                 (you, other, direction) -> System.out.println("heroCollisionLeave"));
     }
 
+    public float getXSpeed() {
+        return xSpeed;
+    }
+    public float getYSpeed() {
+        return ySpeed;
+    }
 }

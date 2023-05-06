@@ -14,6 +14,7 @@ import controller.AbstractController;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
@@ -217,6 +218,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
+        VelocityComponent vc =
+            (VelocityComponent)
+                hero.getComponent(VelocityComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("VelocityComponent"));
+        vc.setXVelocity(((Hero) hero).getXSpeed());
+        vc.setYVelocity(((Hero) hero).getYSpeed());
     }
 
     /** Toggle between pause and run */
