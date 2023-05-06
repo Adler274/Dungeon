@@ -2,21 +2,16 @@ package ecs.entities;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
-import ecs.components.InteractionComponent;
 import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
-import ecs.entities.monster.OrcBaby;
-import ecs.entities.monster.OrcMasked;
-import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
 import starter.Game;
-import java.util.concurrent.ThreadLocalRandom;
 
 /** A none moving Entity with a method to remove most Entities*/
 public class Tombstone extends Entity {
 
     //private final float defaultInteractionRadius = 1f;
-    private final String DEFALUT_ANIMATION_FRAME = "objects/tombstone/weapon_rusty_sword.png";
+    private final String DEFAULT_ANIMATION_FRAME = "objects/tombstone/weapon_rusty_sword.png";
 
     /** Is here so that the tombstone can check the distance between itself and the ghost*/
     private Ghost ghost;
@@ -27,7 +22,7 @@ public class Tombstone extends Entity {
         this.ghost = ghost;
         new PositionComponent(this);
         //new InteractionComponent(this, defaultInteractionRadius, false, this::spawnRandoMonster);
-        new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFALUT_ANIMATION_FRAME)));
+        new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_ANIMATION_FRAME)));
     }
 
     /*
