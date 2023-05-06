@@ -38,7 +38,7 @@ public class SpawnerTrap extends Trap{
             } else{
                 Game.addEntity(new OrcMasked());
             }
-            armed = false;
+            disarm();
         }
     }
 
