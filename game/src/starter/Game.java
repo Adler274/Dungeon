@@ -160,6 +160,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelCount++;
         spawnMonsters();
         spawnGhost();
+        spawnTraps();
         if (levelCount > 1){
             saving.writeSave();
         }
@@ -371,6 +372,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         } else {
             hasGhost = false;
         }
+    }
+
+    private void spawnTraps(){
+        int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
+        boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();
+        for (int i = 0; i < slowCount; i++){
+            new SlowTrap();
+        }
+        if (spawnerBool) {
+            SpawnerTrap spawner = new SpawnerTrap();
+            new TrapSwitch(spawner);
+        }
+
     }
 
     public int getLevelCount() {

@@ -1,7 +1,6 @@
 package saveLoad;
 
-import ecs.entities.Entity;
-import ecs.entities.Tombstone;
+import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -74,6 +73,11 @@ public class Saving {
                     Ghost ghost = new Ghost(); Game.getEntities().add(ghost);
                     Tombstone tombstone = new Tombstone(ghost); Game.getEntities().add(tombstone);
                     game.setTomb(tombstone);
+                }
+                case "SlowTrap" -> Game.getEntities().add(new SlowTrap());
+                case "SpawnerTrap" -> {
+                    SpawnerTrap spawnerT = new SpawnerTrap(); Game.getEntities().add(spawnerT);
+                    Game.getEntities().add(new TrapSwitch(spawnerT));
                 }
             }
         }
