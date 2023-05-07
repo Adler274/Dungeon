@@ -28,7 +28,7 @@ public class Hero extends Entity {
     private final String pathToGetHit = "knight/hit";
     private Skill firstSkill;
 
-    private SkillComponent skills; //new
+    private SkillComponent skills;
 
     /** Entity with Components */
     public Hero() {
@@ -40,7 +40,7 @@ public class Hero extends Entity {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
-        setupFireballSkill();
+        setupHomingFireballSkill();
         pc.setSkillSlot1(firstSkill);
     }
 
@@ -60,7 +60,14 @@ public class Hero extends Entity {
         firstSkill =
                 new Skill(
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill); //new
+        skills.addSkill(firstSkill);
+    }
+
+    private void setupHomingFireballSkill(){
+        firstSkill =
+            new Skill(
+                new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
     }
 
     private void setupHitboxComponent() {
