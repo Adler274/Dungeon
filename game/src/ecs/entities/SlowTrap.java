@@ -6,7 +6,7 @@ import starter.Game;
 
 public class SlowTrap extends Trap{
 
-    private final String DEFAULT_ANIMATION_FRAME = "objects/traps/slow/button_blue_down.png";
+    private final String DEFAULT_ANIMATION_FRAME = "objects/traps/slow/mud.png";
     private boolean armed = true;
 
     public SlowTrap(){
