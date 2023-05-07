@@ -62,17 +62,16 @@ public class SkillTools {
                 Game.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         return new Point(mousePosition.x, mousePosition.y);
     }
-    public static void applyKnockback(Point hit , Entity entity){
-        PositionComponent test=(PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
-        Point positon= test.getPosition();
-        Point direction= Point.getUnitDirectionalVector(positon,hit);
+
+    public static void applyKnockback(Point hit, Entity entity, float knockback){
+        PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
+        Point position = pc.getPosition();
+        Point direction = Point.getUnitDirectionalVector(position,hit);
         entity.getComponent(VelocityComponent.class).ifPresent(
             vc ->{
-                ((VelocityComponent)vc).setCurrentXVelocity(direction.x*3f);
-                ((VelocityComponent)vc).setCurrentYVelocity(direction.y*3f);
+                ((VelocityComponent)vc).setCurrentXVelocity(direction.x*knockback);
+                ((VelocityComponent)vc).setCurrentYVelocity(direction.y*knockback);
             }
         );
-
-
     }
 }
