@@ -4,10 +4,8 @@ import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
-import ecs.components.ai.fight.MeleeAI;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
-import ecs.components.skill.FireballSkill;
 import ecs.entities.Entity;
 import graphic.Animation;
 
