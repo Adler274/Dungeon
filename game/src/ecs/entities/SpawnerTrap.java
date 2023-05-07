@@ -11,12 +11,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SpawnerTrap extends Trap{
 
-    private final String DEFAULT_ANIMATION_FRAME = "animation/missingTexture.png";
+    private final String DEFAULT_UNUSED_ANIMATION_FRAME = "objects/traps/spawner/button_red_up.png";
+    private final String DEFAULT_USED_ANIMATION_FRAME = "objects/traps/spawner/button_red_down.png";
     private boolean armed = true;
+    private AnimationComponent ac;
 
     public SpawnerTrap(){
         new PositionComponent(this);
-        new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_ANIMATION_FRAME)));
+        ac = new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_UNUSED_ANIMATION_FRAME)));
         new HitboxComponent(
             this,
             (you, other, direction) -> {
@@ -45,5 +47,6 @@ public class SpawnerTrap extends Trap{
     @Override
     public void disarm() {
         this.armed = false;
+        ac.setCurrentAnimation(AnimationBuilder.buildAnimation(DEFAULT_USED_ANIMATION_FRAME));
     }
 }

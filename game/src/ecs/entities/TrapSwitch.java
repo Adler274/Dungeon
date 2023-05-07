@@ -5,8 +5,8 @@ import ecs.components.*;
 
 public class TrapSwitch extends Entity{
     private final float defaultInteractionRadius = 1;
-    private final String DEFAULT_UNUSED_ANIMATION_FRAME = "animation/missingTexture.png";
-    private final String DEFAULT_USED_ANIMATION_FRAME = "animation/missingTexture.png";
+    private final String DEFAULT_UNUSED_ANIMATION_FRAME = "objects/traps/switch/lever_left.png";
+    private final String DEFAULT_USED_ANIMATION_FRAME = "objects/traps/switch/lever_right.png";
     private AnimationComponent ac;
     private final Trap trap;
 
