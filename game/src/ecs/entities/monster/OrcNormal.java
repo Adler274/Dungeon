@@ -4,8 +4,10 @@ import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
+import ecs.components.ai.fight.MeleeAI;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
+import ecs.components.skill.FireballSkill;
 import ecs.entities.Entity;
 import graphic.Animation;
 
@@ -30,7 +32,7 @@ public class OrcNormal extends Entity {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -50,5 +52,17 @@ public class OrcNormal extends Entity {
             this,
             (you, other, direction) -> System.out.println("orcNormalCollisionEnter"),
             (you, other, direction) -> System.out.println("orcNormalCollisionLeave"));
+    }
+
+    private void setupHealthComponent(){
+        new HealthComponent(this,
+            3,
+            this::onDeath,
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"),        //TODO
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"));       //TODO
+    }
+
+    private void onDeath(Entity entity){
+
     }
 }

@@ -25,6 +25,7 @@ public class Hero extends Entity {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
+    private final String pathToGetHit = "knight/hit";
     private Skill firstSkill;
 
     private SkillComponent skills; //new
@@ -37,6 +38,7 @@ public class Hero extends Entity {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
+        setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
         setupFireballSkill();
         pc.setSkillSlot1(firstSkill);
@@ -68,4 +70,13 @@ public class Hero extends Entity {
                 (you, other, direction) -> System.out.println("heroCollisionLeave"));
     }
 
+    private void setupHealthComponent(){
+        new HealthComponent(this,
+            5,
+            this::onDeath,
+            AnimationBuilder.buildAnimation(pathToGetHit),
+            AnimationBuilder.buildAnimation(pathToGetHit));
+    }
+    private void onDeath(Entity entity){
+    }
 }

@@ -26,12 +26,12 @@ public class OrcMasked extends Entity {
     /** Entity with Components */
     public OrcMasked(){
         super();
-        new AIComponent(this, new CollideAI(0f), new AtoBWalk(), new RangeTransition(3));
+        new AIComponent(this, new CollideAI(2f), new AtoBWalk(), new RangeTransition(3));
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -51,5 +51,17 @@ public class OrcMasked extends Entity {
             this,
             (you, other, direction) -> System.out.println("orcMaskedCollisionEnter"),
             (you, other, direction) -> System.out.println("orcMaskedCollisionLeave"));
+    }
+
+    private void setupHealthComponent(){
+        new HealthComponent(this,
+            5,
+            this::onDeath,
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"),        //TODO
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"));       //TODO
+    }
+
+    private void onDeath(Entity entity){
+
     }
 }

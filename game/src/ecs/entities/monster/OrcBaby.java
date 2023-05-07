@@ -30,7 +30,7 @@ public class OrcBaby extends Entity {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -50,5 +50,17 @@ public class OrcBaby extends Entity {
             this,
             (you, other, direction) -> System.out.println("orcBabyCollisionEnter"),
             (you, other, direction) -> System.out.println("orcBabyCollisionLeave"));
+    }
+
+    private void setupHealthComponent(){
+        new HealthComponent(this,
+            1,
+            this::onDeath,
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"),        //TODO
+            AnimationBuilder.buildAnimation("animation/missingTexture.png"));       //TODO
+    }
+
+    private void onDeath(Entity entity){
+
     }
 }
