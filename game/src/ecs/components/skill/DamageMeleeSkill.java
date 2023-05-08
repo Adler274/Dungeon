@@ -7,7 +7,11 @@ import ecs.damage.Damage;
 import ecs.entities.Entity;
 import graphic.Animation;
 import starter.Game;
+import tools.Constants;
 import tools.Point;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public abstract class DamageMeleeSkill implements ISkillFunction {
 
@@ -55,22 +59,27 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
         switch (direction){
             case "up" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackUp);
-                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y-0.5f);
+                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y+0.5f);
             }
             case "down" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackDown);
-                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y + 0.5f);
+                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y-0.75f);
             }
             case "left" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackLeft);
-                targetPoint = new Point(epc.getPosition().x-0.5f, epc.getPosition().y);
+                targetPoint = new Point(epc.getPosition().x-0.75f, epc.getPosition().y);
             }
             case "right" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackRight);
                 targetPoint = new Point(epc.getPosition().x+0.5f, epc.getPosition().y);
             }
         }
-        new AnimationComponent(attack, animation);
+        Animation animation1 = new Animation(List.of(
+            "skills/sword/sword_Up/sword_Up0.png",
+            "skills/sword/sword_Up/sword_Up1.png",
+            "skills/sword/sword_Up/sword_Up2.png"),
+            5, false);
+        AnimationComponent ac = new AnimationComponent(attack, animation1);
         new PositionComponent(attack, targetPoint);
         ICollide collide =
                 (a, b, from) -> {
@@ -79,12 +88,15 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                                 .ifPresent(
                                         hc -> {
                                             ((HealthComponent) hc).receiveHit(attackDamage);
-                                            Game.removeEntity(attack);
                                             SkillTools.applyKnockback(epc.getPosition(),b ,knockback);
                                         });
                     }
                 };
         new HitboxComponent(
                 attack, new Point(0.25f, 0.25f), attackHitboxSize, collide, null);
+
+            if (ac.getCurrentAnimation().isFinished()){
+                Game.removeEntity(attack);
+        }
     }
 }

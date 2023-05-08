@@ -49,9 +49,9 @@ public class SkillTools {
             }
         } else {
             if (xDiff > 0){
-                return "left";
-            } else {
                 return "right";
+            } else {
+                return "left";
             }
         }
     }
