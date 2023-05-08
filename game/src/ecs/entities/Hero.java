@@ -6,6 +6,8 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import graphic.Animation;
 
 import java.util.Set;
@@ -25,10 +27,9 @@ public class Hero extends Entity {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
-    private final String pathToGetHit = "knight/hit";
     private Skill firstSkill;
 
-    private SkillComponent skills; //new
+    private SkillComponent skills;
 
     /** Entity with Components */
     public Hero() {
@@ -60,19 +61,19 @@ public class Hero extends Entity {
         firstSkill =
                 new Skill(
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill); //new
+        skills.addSkill(firstSkill);
     }
 
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
-                (you, other, direction) -> System.out.println("heroCollisionEnter"),
-                (you, other, direction) -> System.out.println("heroCollisionLeave"));
+                (you, other, direction) -> System.out.println("heroCollisionEnter: " + other.getClass().getSimpleName()),
+                (you, other, direction) -> System.out.println("heroCollisionLeave: " + other.getClass().getSimpleName()));
     }
 
     private void setupHealthComponent(){
         HealthComponent hc = new HealthComponent(this);
-        hc.setMaximalHealthpoints(5);
-        hc.setCurrentHealthpoints(5);
+        hc.setMaximalHealthpoints(7);
+        hc.setCurrentHealthpoints(7);
     }
 }

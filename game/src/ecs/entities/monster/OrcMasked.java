@@ -7,6 +7,8 @@ import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.AtoBWalk;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.RangeTransition;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
 
@@ -49,8 +51,17 @@ public class OrcMasked extends Entity {
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
-            (you, other, direction) -> System.out.println("orcMaskedCollisionEnter"),
-            (you, other, direction) -> System.out.println("orcMaskedCollisionLeave"));
+            (you, other, direction) -> {
+                if (other.getComponent(PlayableComponent.class).isPresent()){
+                    other.getComponent(HealthComponent.class)
+                        .ifPresent(
+                            hc -> (
+                                (HealthComponent) hc).receiveHit(
+                                new Damage(3, DamageType.PHYSICAL, this))
+                        );
+                }
+            },
+            null);
     }
 
     private void setupHealthComponent(){

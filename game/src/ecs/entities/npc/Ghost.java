@@ -44,7 +44,7 @@ public class Ghost extends Entity {
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
-            (you, other, direction) -> System.out.println("GhostCollisionEnter"),
-            (you, other, direction) -> System.out.println("GhostCollisionLeave"));
+            null,
+            null);
     }
 }
