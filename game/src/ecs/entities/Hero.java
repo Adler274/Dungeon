@@ -94,4 +94,25 @@ public class Hero extends Entity {
                 new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
         skills.addSkill(secondSkill);
     }
+
+    private void setupFireballSkill() {
+        firstSkill =
+            new Skill(
+                new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
+    }
+
+    private void setupHomingFireballSkill(){
+        firstSkill =
+            new Skill(
+                new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
+    }
+
+    private void setupPiercingArrowSkill(){
+        secondSkill =
+            new Skill(
+                new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
+        skills.addSkill(secondSkill);
+    }
 }
