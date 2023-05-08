@@ -24,10 +24,12 @@ public class OrcNormal extends Entity {
     private final String pathToRunLeft = "monster/orcNormal/runLeft";
     private final String pathToRunRight = "monster/orcNormal/runRight";
 
-    /** Entity with Components */
-    public OrcNormal(){
+    /**
+     * Entity with Components
+     */
+    public OrcNormal() {
         super();
-        new AIComponent(this, new CollideAI(0f), new PatrouilleWalk(20f,4,2000, PatrouilleWalk.MODE.RANDOM), new SelfDefendTransition());
+        new AIComponent(this, new CollideAI(0f), new PatrouilleWalk(20f, 4, 2000, PatrouilleWalk.MODE.RANDOM), new SelfDefendTransition());
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
@@ -54,15 +56,9 @@ public class OrcNormal extends Entity {
             (you, other, direction) -> System.out.println("orcNormalCollisionLeave"));
     }
 
-    private void setupHealthComponent(){
-        new HealthComponent(this,
-            3,
-            this::onDeath,
-            AnimationBuilder.buildAnimation("animation/missingTexture.png"),        //TODO
-            AnimationBuilder.buildAnimation("animation/missingTexture.png"));       //TODO
-    }
-
-    private void onDeath(Entity entity){
-
+    private void setupHealthComponent() {
+        HealthComponent hc = new HealthComponent(this);
+        hc.setMaximalHealthpoints(5);
+        hc.setCurrentHealthpoints(5);
     }
 }

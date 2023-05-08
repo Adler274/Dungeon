@@ -53,14 +53,8 @@ public class OrcBaby extends Entity {
     }
 
     private void setupHealthComponent(){
-        new HealthComponent(this,
-            1,
-            this::onDeath,
-            AnimationBuilder.buildAnimation("animation/missingTexture.png"),        //TODO
-            AnimationBuilder.buildAnimation("animation/missingTexture.png"));       //TODO
-    }
-
-    private void onDeath(Entity entity){
-
+        HealthComponent hc = new HealthComponent(this);
+        hc.setMaximalHealthpoints(5);
+        hc.setCurrentHealthpoints(5);
     }
 }
