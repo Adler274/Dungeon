@@ -9,6 +9,7 @@ import ecs.components.skill.*;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import graphic.Animation;
+import tools.Point;
 
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
  */
 public class Hero extends Entity {
 
-    private final int fireballCoolDown = 5;
+    private final int fireballCoolDown = 1;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -41,7 +42,7 @@ public class Hero extends Entity {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
-        setupFireballSkill();
+        setupSwordSkill();
         pc.setSkillSlot1(firstSkill);
     }
 
@@ -75,5 +76,12 @@ public class Hero extends Entity {
         HealthComponent hc = new HealthComponent(this);
         hc.setMaximalHealthpoints(7);
         hc.setCurrentHealthpoints(7);
+    }
+
+    private void setupSwordSkill(){
+        firstSkill =
+            new Skill(
+                new SwordSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
     }
 }
