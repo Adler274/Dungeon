@@ -54,7 +54,7 @@ public class OrcBaby extends Entity {
 
     private void setupHealthComponent(){
         HealthComponent hc = new HealthComponent(this);
-        hc.setMaximalHealthpoints(5);
-        hc.setCurrentHealthpoints(5);
+        hc.setMaximalHealthpoints(1);
+        hc.setCurrentHealthpoints(1);
     }
 }
