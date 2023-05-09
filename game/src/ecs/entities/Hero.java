@@ -35,7 +35,9 @@ public class Hero extends Entity {
 
     private SkillComponent skills;
 
-    /** Entity with Components */
+    /**
+     * Entity with Components
+     */
     public Hero() {
         super();
         new PositionComponent(this);
@@ -66,18 +68,18 @@ public class Hero extends Entity {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-                this,
-                (you, other, direction) -> System.out.println("heroCollisionEnter: " + other.getClass().getSimpleName()),
-                (you, other, direction) -> System.out.println("heroCollisionLeave: " + other.getClass().getSimpleName()));
+            this,
+            (you, other, direction) -> System.out.println("heroCollisionEnter: " + other.getClass().getSimpleName()),
+            (you, other, direction) -> System.out.println("heroCollisionLeave: " + other.getClass().getSimpleName()));
     }
 
-    private void setupHealthComponent(){
+    private void setupHealthComponent() {
         HealthComponent hc = new HealthComponent(this);
         hc.setMaximalHealthpoints(7);
         hc.setCurrentHealthpoints(7);
     }
 
-    private void setupSwordSkill(){
+    private void setupSwordSkill() {
         firstSkill =
             new Skill(
                 new SwordSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
@@ -91,23 +93,25 @@ public class Hero extends Entity {
         skills.addSkill(firstSkill);
     }
 
-    private void setupHomingFireballSkill(){
+    private void setupHomingFireballSkill() {
         firstSkill =
             new Skill(
                 new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
         skills.addSkill(firstSkill);
     }
 
-    private void setupPiercingArrowSkill(){
+    private void setupPiercingArrowSkill() {
         secondSkill =
             new Skill(
                 new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
         skills.addSkill(secondSkill);
     }
-  
+
     public float getXSpeed() {
         return xSpeed;
     }
+
     public float getYSpeed() {
         return ySpeed;
+    }
 }
