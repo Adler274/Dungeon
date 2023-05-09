@@ -15,6 +15,7 @@ import controller.SystemController;
 import ecs.components.HealthComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
@@ -163,6 +164,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelCount++;
         spawnMonsters();
         spawnGhost();
+        spawnTraps();
         if (levelCount > 1){
             saving.writeSave();
         }
@@ -219,6 +221,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
+        VelocityComponent vc =
+            (VelocityComponent)
+                hero.getComponent(VelocityComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("VelocityComponent"));
+        vc.setXVelocity(((Hero) hero).getXSpeed());
+        vc.setYVelocity(((Hero) hero).getYSpeed());
         HealthComponent hc =
             (HealthComponent)
                 hero.getComponent(HealthComponent.class)
@@ -380,6 +389,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         } else {
             hasGhost = false;
         }
+    }
+
+    private void spawnTraps(){
+        int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
+        boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();
+        for (int i = 0; i < slowCount; i++){
+            new SlowTrap();
+        }
+        if (spawnerBool) {
+            SpawnerTrap spawner = new SpawnerTrap();
+            new TrapSwitch(spawner);
+        }
+
     }
 
     public int getLevelCount() {

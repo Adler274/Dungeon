@@ -104,4 +104,10 @@ public class Hero extends Entity {
                 new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
         skills.addSkill(secondSkill);
     }
+  
+    public float getXSpeed() {
+        return xSpeed;
+    }
+    public float getYSpeed() {
+        return ySpeed;
 }
