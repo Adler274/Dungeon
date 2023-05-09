@@ -1,11 +1,11 @@
-package ecs.entities;
+package ecs.entities.traps;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import starter.Game;
 
 /** A trap slowing the hero on collision */
-public class SlowTrap extends Trap{
+public class SlowTrap extends Trap {
 
     private final String DEFAULT_ANIMATION_FRAME = "objects/traps/slow/mud.png";
     private boolean armed = true;

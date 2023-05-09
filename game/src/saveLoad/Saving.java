@@ -5,6 +5,9 @@ import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
+import ecs.entities.traps.SlowTrap;
+import ecs.entities.traps.SpawnerTrap;
+import ecs.entities.traps.TrapSwitch;
 import starter.Game;
 
 import java.io.FileInputStream;

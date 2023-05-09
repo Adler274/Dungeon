@@ -1,6 +1,8 @@
-package ecs.entities;
+package ecs.entities.traps;
 
-public abstract class Trap extends Entity{
+import ecs.entities.Entity;
+
+public abstract class Trap extends Entity {
     protected boolean armed;
     /** effect of the trap*/
     protected abstract void effect();

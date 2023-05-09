@@ -1,4 +1,4 @@
-package ecs.entities;
+package ecs.entities.traps;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
@@ -10,7 +10,7 @@ import starter.Game;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** A trap spawning a random monster on collision */
-public class SpawnerTrap extends Trap{
+public class SpawnerTrap extends Trap {
 
     private final String DEFAULT_UNUSED_ANIMATION_FRAME = "objects/traps/spawner/button_red_up.png";
     private final String DEFAULT_USED_ANIMATION_FRAME = "objects/traps/spawner/button_red_down.png";

@@ -1,10 +1,11 @@
-package ecs.entities;
+package ecs.entities.traps;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
+import ecs.entities.Entity;
 
 /** switch used to disarm connected trap */
-public class TrapSwitch extends Entity{
+public class TrapSwitch extends Entity {
     private final float defaultInteractionRadius = 1;
     private final String DEFAULT_UNUSED_ANIMATION_FRAME = "objects/traps/switch/lever_left.png";
     private final String DEFAULT_USED_ANIMATION_FRAME = "objects/traps/switch/lever_right.png";
