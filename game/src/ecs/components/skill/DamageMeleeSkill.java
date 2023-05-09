@@ -108,7 +108,6 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                     }
                     animationFrames = 0;
                     isActive = false;
-                    attack = null;
                 }
             }
             animationFrames++;

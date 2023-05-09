@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class Hero extends Entity {
 
-
+    private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
     private final int piercingArrowCoolDown = 5;
     private final float xSpeed = 0.3f;
@@ -82,7 +82,7 @@ public class Hero extends Entity {
     private void setupSwordSkill() {
         firstSkill =
             new Skill(
-                new SwordSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+                new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
         skills.addSkill(firstSkill);
     }
 
