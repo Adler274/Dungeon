@@ -24,6 +24,9 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
     private ITargetSelection selectionFunction;
     private float knockback;
 
+    private static int animationFrames;
+    private static boolean isActive;
+
     private static Entity attack;
 
     public DamageMeleeSkill(
@@ -47,6 +50,7 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
 
     @Override
     public void execute(Entity entity) {
+        isActive = true;
         attack = new Entity();
         PositionComponent epc =
                 (PositionComponent)
@@ -76,12 +80,7 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                 targetPoint = new Point(epc.getPosition().x+0.5f, epc.getPosition().y);
             }
         }
-        Animation animation1 = new Animation(List.of(
-            "skills/sword/sword_Up/sword_Up0.png",
-            "skills/sword/sword_Up/sword_Up1.png",
-            "skills/sword/sword_Up/sword_Up2.png"),
-            5, false);
-        AnimationComponent ac = new AnimationComponent(attack, animation1);
+        new AnimationComponent(attack, animation);
         new PositionComponent(attack, targetPoint);
         ICollide collide =
                 (a, b, from) -> {
@@ -96,21 +95,20 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                 };
         new HitboxComponent(
                 attack, new Point(0.25f, 0.25f), attackHitboxSize, collide, null);
-
-            if (ac.getCurrentAnimation().isFinished()){
-                Game.removeEntity(attack);
-        }
     }
-    public static void updateAttackAnimation() {
-        if (Game.getUpdateSwordAttack() >= 10) {
-            for (Entity a : Game.getEntities()) {
-                System.out.println("hier:" + Game.getUpdateSwordAttack());
-                if (a == attack) {
-                    Game.removeEntity(attack);
-                }
-                Game.setUpdateSwordAttack(0f);
-            }
 
+    public static void update() {
+        if (isActive){
+            if (animationFrames >= 16) {
+                for (Entity a : Game.getEntities()) {
+                    if (a == attack) {
+                        Game.removeEntity(attack);
+                    }
+                    animationFrames = 0;
+                    isActive = false;
+                }
+            }
+            animationFrames++;
         }
     }
 }

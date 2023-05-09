@@ -82,12 +82,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private Logger gameLogger;
 
-
-
-
-
-    private static float updateSwordAttack;
-
     /** Number of current level*/
     private int levelCount;
     /** Used to save and load savedata using files*/
@@ -147,14 +141,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
     protected void frame() {
         setCameraFocus();
+        DamageMeleeSkill.update();
         if(hasGhost){
             tomb.despawnAllMonsters();
         }
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-        DamageMeleeSkill.updateAttackAnimation();
-        updateSwordAttack=updateSwordAttack+1;
     }
 
     @Override
@@ -407,11 +400,5 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public void setTomb(Tombstone tomb) {
         this.tomb = tomb;
-    }
-    public static void setUpdateSwordAttack(float updateSwordAttack) {
-        Game.updateSwordAttack = updateSwordAttack;
-    }
-    public static float getUpdateSwordAttack() {
-        return updateSwordAttack;
     }
 }
