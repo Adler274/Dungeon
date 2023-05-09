@@ -20,6 +20,10 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
 
     private ITargetSelection selectionFunction;
 
+    private float knockback;
+
+    private boolean piercing;
+
     public DamageProjectileSkill(
             String pathToTexturesOfProjectile,
             float projectileSpeed,
@@ -33,7 +37,28 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
         this.projectileRange = projectileRange;
         this.projectileHitboxSize = projectileHitboxSize;
         this.selectionFunction = selectionFunction;
+        this.knockback = 0.8f;
+        this.piercing = false;
     }
+    public DamageProjectileSkill(
+        String pathToTexturesOfProjectile,
+        float projectileSpeed,
+        Damage projectileDamage,
+        Point projectileHitboxSize,
+        ITargetSelection selectionFunction,
+        float projectileRange,
+        float knockback,
+        boolean piercing) {
+        this.pathToTexturesOfProjectile = pathToTexturesOfProjectile;
+        this.projectileDamage = projectileDamage;
+        this.projectileSpeed = projectileSpeed;
+        this.projectileRange = projectileRange;
+        this.projectileHitboxSize = projectileHitboxSize;
+        this.selectionFunction = selectionFunction;
+        this.knockback = knockback;
+        this.piercing = piercing;
+    }
+
 
     @Override
     public void execute(Entity entity) {
@@ -63,9 +88,11 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
                         b.getComponent(HealthComponent.class)
                                 .ifPresent(
                                         hc -> {
-                                            //knockback (b)
                                             ((HealthComponent) hc).receiveHit(projectileDamage);
-                                            Game.removeEntity(projectile);
+                                            if (!piercing){
+                                                Game.removeEntity(projectile);
+                                            }
+                                            SkillTools.applyKnockback(epc.getPosition(),b ,knockback);
                                         });
                     }
                 };

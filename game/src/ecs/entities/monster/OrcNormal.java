@@ -8,6 +8,7 @@ import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
 import ecs.entities.Entity;
 import graphic.Animation;
+import starter.Game;
 
 /**
  * OrcNormal is a hostile character. It's entity in the ECS. This class helps to setup the orcNormal with
@@ -22,15 +23,17 @@ public class OrcNormal extends Entity {
     private final String pathToRunLeft = "monster/orcNormal/runLeft";
     private final String pathToRunRight = "monster/orcNormal/runRight";
 
-    /** Entity with Components */
-    public OrcNormal(){
+    /**
+     * Entity with Components
+     */
+    public OrcNormal() {
         super();
-        new AIComponent(this, new CollideAI(0f), new PatrouilleWalk(20f,4,2000, PatrouilleWalk.MODE.RANDOM), new SelfDefendTransition());
+        new AIComponent(this, new CollideAI(5f), new PatrouilleWalk(20f, 4, 2000, PatrouilleWalk.MODE.RANDOM), new SelfDefendTransition());
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -48,7 +51,22 @@ public class OrcNormal extends Entity {
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
-            (you, other, direction) -> System.out.println("orcNormalCollisionEnter"),
-            (you, other, direction) -> System.out.println("orcNormalCollisionLeave"));
+            (you, other, direction) -> {
+                if (other.getComponent(PlayableComponent.class).isPresent()){
+                    other.getComponent(HealthComponent.class)
+                        .ifPresent(
+                            hc -> (
+                                (HealthComponent) hc).receiveHit(
+                                    new Damage(1, DamageType.PHYSICAL, this))
+                        );
+                }
+            },
+            null);
+    }
+
+    private void setupHealthComponent() {
+        HealthComponent hc = new HealthComponent(this);
+        hc.setMaximalHealthpoints(3);
+        hc.setCurrentHealthpoints(3);
     }
 }

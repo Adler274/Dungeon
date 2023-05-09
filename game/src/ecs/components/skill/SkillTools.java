@@ -3,6 +3,10 @@ package ecs.components.skill;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ecs.components.HealthComponent;
+import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
+import ecs.entities.Entity;
 import starter.Game;
 import tools.Point;
 
@@ -35,6 +39,42 @@ public class SkillTools {
         return new Point(startPoint.x + scv.x, startPoint.y + scv.y);
     }
 
+    public static String calculateMeleeDirection(Point startPoint, Point aimPoint){
+        float xDiff = aimPoint.x - startPoint.x;
+        float yDiff = aimPoint.y - startPoint.y;
+        if (Math.abs(xDiff) < Math.abs(yDiff)){
+            if (yDiff > 0){
+                return "up";
+            } else {
+                return "down";
+            }
+        } else {
+            if (xDiff > 0){
+                return "right";
+            } else {
+                return "left";
+            }
+        }
+    }
+
+    public static Point test(Point startPoint, Point aimPoint){
+        float xDiff = aimPoint.x - startPoint.x;
+        float yDiff = aimPoint.y - startPoint.y;
+        if (Math.abs(xDiff) < Math.abs(yDiff)){
+            if (yDiff > 0){
+                return new Point(startPoint.x, startPoint.y-0.5f);
+            } else {
+                return new Point(startPoint.x, startPoint.y+0.5f);
+            }
+        } else {
+            if (xDiff > 0){
+                return new Point(startPoint.x-0.5f, startPoint.y);
+            } else {
+                return new Point(startPoint.x+0.5f, startPoint.y);
+            }
+        }
+    }
+
     public static Point calculateVelocity(Point start, Point goal, float speed) {
         float x1 = start.x;
         float y1 = start.y;
@@ -58,5 +98,46 @@ public class SkillTools {
         Vector3 mousePosition =
                 Game.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         return new Point(mousePosition.x, mousePosition.y);
+    }
+
+    public static Point getClosestEntityPositionAsPoint(Entity user){
+        PositionComponent userPC =
+            (PositionComponent)
+                user.getComponent(PositionComponent.class).orElseThrow();
+        float maxDistance = -1;
+        Point targetPoint = SkillTools.getCursorPositionAsPoint();
+        for (Entity target : Game.getEntities()) {
+            if (target.getComponent(HealthComponent.class).isPresent()
+                && target.getComponent(PositionComponent.class).isPresent()
+                && target != user){
+                PositionComponent targetPC =
+                    (PositionComponent)
+                        target.getComponent(PositionComponent.class).orElseThrow();
+                Point userEntityPosition = userPC.getPosition();
+                Point targetEntityPosition = targetPC.getPosition();
+                float distance = Point.calculateDistance(userEntityPosition, targetEntityPosition);
+                if (distance < maxDistance && distance >= 0 || maxDistance == -1) {
+                    maxDistance = distance;
+                    targetPoint = targetEntityPosition;
+                }
+            }
+        }
+        return targetPoint;
+    }
+
+    public static Point getClosestEnemyPositionAsPoint(){
+        return getClosestEntityPositionAsPoint(Game.getHero().get());
+    }
+
+    public static void applyKnockback(Point hitDirection, Entity entity, float knockback){
+        PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
+        Point position = pc.getPosition();
+        Point direction = Point.getUnitDirectionalVector(position,hitDirection);
+        entity.getComponent(VelocityComponent.class).ifPresent(
+            vc ->{
+                ((VelocityComponent)vc).setCurrentXVelocity(direction.x*knockback);
+                ((VelocityComponent)vc).setCurrentYVelocity(direction.y*knockback);
+            }
+        );
     }
 }

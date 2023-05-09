@@ -6,6 +6,8 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.RadiusWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
 
@@ -25,12 +27,12 @@ public class OrcBaby extends Entity {
     /** Entity with Components */
     public OrcBaby(){
         super();
-        new AIComponent(this, new CollideAI(0f), new RadiusWalk(20, 1), new SelfDefendTransition());     // FightAI to be changed
+        new AIComponent(this, new CollideAI(0f), new RadiusWalk(20, 1), new SelfDefendTransition());
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -48,7 +50,22 @@ public class OrcBaby extends Entity {
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
-            (you, other, direction) -> System.out.println("orcBabyCollisionEnter"),
-            (you, other, direction) -> System.out.println("orcBabyCollisionLeave"));
+            (you, other, direction) -> {
+                if (other.getComponent(PlayableComponent.class).isPresent()){
+                    other.getComponent(HealthComponent.class)
+                        .ifPresent(
+                            hc -> (
+                                (HealthComponent) hc).receiveHit(
+                                new Damage(2, DamageType.PHYSICAL, this))
+                        );
+                }
+            },
+            null);
+    }
+
+    private void setupHealthComponent(){
+        HealthComponent hc = new HealthComponent(this);
+        hc.setMaximalHealthpoints(1);
+        hc.setCurrentHealthpoints(1);
     }
 }
