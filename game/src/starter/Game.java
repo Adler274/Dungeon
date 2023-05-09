@@ -390,7 +390,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             hasGhost = false;
         }
     }
-
+    
     private void spawnTraps(){
         int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
         boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();

@@ -10,7 +10,6 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
-import starter.Game;
 
 /**
  * OrcNormal is a hostile character. It's entity in the ECS. This class helps to setup the orcNormal with
