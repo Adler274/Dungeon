@@ -99,6 +99,9 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                 attack, new Point(0.25f, 0.25f), attackHitboxSize, collide, null);
     }
 
+    /**
+     * counts frames and removes attack upon completion
+     */
     public static void update() {
         if (isActive){
             if (animationFrames >= 16) {
