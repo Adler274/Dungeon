@@ -3,6 +3,7 @@ package ecs.components.skill;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ecs.components.HealthComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.entities.Entity;
@@ -99,10 +100,39 @@ public class SkillTools {
         return new Point(mousePosition.x, mousePosition.y);
     }
 
-    public static void applyKnockback(Point hit, Entity entity, float knockback){
+    public static Point getClosestEntityPositionAsPoint(Entity user){
+        PositionComponent userPC =
+            (PositionComponent)
+                user.getComponent(PositionComponent.class).orElseThrow();
+        float maxDistance = -1;
+        Point targetPoint = SkillTools.getCursorPositionAsPoint();
+        for (Entity target : Game.getEntities()) {
+            if (target.getComponent(HealthComponent.class).isPresent()
+                && target.getComponent(PositionComponent.class).isPresent()
+                && target != user){
+                PositionComponent targetPC =
+                    (PositionComponent)
+                        target.getComponent(PositionComponent.class).orElseThrow();
+                Point userEntityPosition = userPC.getPosition();
+                Point targetEntityPosition = targetPC.getPosition();
+                float distance = Point.calculateDistance(userEntityPosition, targetEntityPosition);
+                if (distance < maxDistance && distance >= 0 || maxDistance == -1) {
+                    maxDistance = distance;
+                    targetPoint = targetEntityPosition;
+                }
+            }
+        }
+        return targetPoint;
+    }
+
+    public static Point getClosestEnemyPositionAsPoint(){
+        return getClosestEntityPositionAsPoint(Game.getHero().get());
+    }
+
+    public static void applyKnockback(Point hitDirection, Entity entity, float knockback){
         PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
         Point position = pc.getPosition();
-        Point direction = Point.getUnitDirectionalVector(position,hit);
+        Point direction = Point.getUnitDirectionalVector(position,hitDirection);
         entity.getComponent(VelocityComponent.class).ifPresent(
             vc ->{
                 ((VelocityComponent)vc).setCurrentXVelocity(direction.x*knockback);

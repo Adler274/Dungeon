@@ -20,7 +20,9 @@ import java.util.Set;
  */
 public class Hero extends Entity {
 
-    private final int fireballCoolDown = 1;
+
+    private final int fireballCoolDown = 2;
+    private final int piercingArrowCoolDown = 5;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -29,6 +31,7 @@ public class Hero extends Entity {
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
     private Skill firstSkill;
+    private Skill secondSkill;
 
     private SkillComponent skills;
 
@@ -42,8 +45,11 @@ public class Hero extends Entity {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
+        setupHomingFireballSkill();
         setupSwordSkill();
+        setupPiercingArrowSkill();
         pc.setSkillSlot1(firstSkill);
+        pc.setSkillSlot2(secondSkill);
     }
 
     private void setupVelocityComponent() {
@@ -56,13 +62,6 @@ public class Hero extends Entity {
         Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
         Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
         new AnimationComponent(this, idleLeft, idleRight);
-    }
-
-    private void setupFireballSkill() {
-        firstSkill =
-                new Skill(
-                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill);
     }
 
     private void setupHitboxComponent() {
@@ -83,5 +82,26 @@ public class Hero extends Entity {
             new Skill(
                 new SwordSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
         skills.addSkill(firstSkill);
+    }
+
+    private void setupFireballSkill() {
+        firstSkill =
+            new Skill(
+                new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
+    }
+
+    private void setupHomingFireballSkill(){
+        firstSkill =
+            new Skill(
+                new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
+    }
+
+    private void setupPiercingArrowSkill(){
+        secondSkill =
+            new Skill(
+                new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
+        skills.addSkill(secondSkill);
     }
 }
