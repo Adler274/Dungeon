@@ -1,5 +1,7 @@
 package saveLoad;
 
+import ecs.components.HealthComponent;
+import ecs.components.skill.SkillTools;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
@@ -33,6 +35,11 @@ public class Saving {
 
         data.setLevelCount(game.getLevelCount());
         data.setHasGhost(game.isHasGhost());
+        Game.getHero().get().getComponent(HealthComponent.class)
+            .ifPresent(
+                hc -> {
+                    data.setPlayerHealth(((HealthComponent) hc).getCurrentHealthpoints());
+                });
 
         ArrayList<String> entityList = new ArrayList<>();
         for(Entity entity : Game.getEntities()){
@@ -67,6 +74,12 @@ public class Saving {
         }
         game.setLevelCount(data.getLevelCount());
         game.setHasGhost(data.isHasGhost());
+        int playerHealth = data.getPlayerHealth();
+        Game.getHero().get().getComponent(HealthComponent.class)
+            .ifPresent(
+                hc -> {
+                    ((HealthComponent) hc).setCurrentHealthpoints(playerHealth);
+                });
         for(String entity : data.getEntityList()){
             switch (entity) {
                 case "OrcNormal" -> Game.getEntities().add(new OrcNormal());
