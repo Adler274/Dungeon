@@ -9,6 +9,7 @@ import starter.Game;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/** A trap spawning a random monster on collision */
 public class SpawnerTrap extends Trap{
 
     private final String DEFAULT_UNUSED_ANIMATION_FRAME = "objects/traps/spawner/button_red_up.png";
@@ -16,6 +17,9 @@ public class SpawnerTrap extends Trap{
     private boolean armed = true;
     private AnimationComponent ac;
 
+    /**
+     * Entity with Components
+     */
     public SpawnerTrap(){
         new PositionComponent(this);
         ac = new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_UNUSED_ANIMATION_FRAME)));
@@ -29,6 +33,9 @@ public class SpawnerTrap extends Trap{
             }, (you, other, direction) -> System.out.println("SpawnerTrapCollisionLeave"));
     }
 
+    /**
+     * spawns a random monster and disarms the trap after use
+     */
     @Override
     public void effect() {
         if (armed){
@@ -44,6 +51,9 @@ public class SpawnerTrap extends Trap{
         }
     }
 
+    /**
+     * disarms the trap
+     */
     @Override
     public void disarm() {
         this.armed = false;

@@ -24,9 +24,11 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
     private ITargetSelection selectionFunction;
     private float knockback;
 
+    /** counts how long the current animation is running */
     private static int animationFrames;
+    /** shows if an attack is currently happening */
     private static boolean isActive;
-
+    /** current attack */
     private static Entity attack;
 
     public DamageMeleeSkill(
@@ -106,6 +108,7 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                     }
                     animationFrames = 0;
                     isActive = false;
+                    attack = null;
                 }
             }
             animationFrames++;

@@ -39,6 +39,13 @@ public class SkillTools {
         return new Point(startPoint.x + scv.x, startPoint.y + scv.y);
     }
 
+    /**
+     * calculates the direction for a melee attack
+     *
+     * @param startPoint position to start the calculation
+     * @param aimPoint point to aim for
+     * @return rough direction of aimPoint in refernce to startPoint
+     */
     public static String calculateMeleeDirection(Point startPoint, Point aimPoint){
         float xDiff = aimPoint.x - startPoint.x;
         float yDiff = aimPoint.y - startPoint.y;
@@ -53,24 +60,6 @@ public class SkillTools {
                 return "right";
             } else {
                 return "left";
-            }
-        }
-    }
-
-    public static Point test(Point startPoint, Point aimPoint){
-        float xDiff = aimPoint.x - startPoint.x;
-        float yDiff = aimPoint.y - startPoint.y;
-        if (Math.abs(xDiff) < Math.abs(yDiff)){
-            if (yDiff > 0){
-                return new Point(startPoint.x, startPoint.y-0.5f);
-            } else {
-                return new Point(startPoint.x, startPoint.y+0.5f);
-            }
-        } else {
-            if (xDiff > 0){
-                return new Point(startPoint.x-0.5f, startPoint.y);
-            } else {
-                return new Point(startPoint.x+0.5f, startPoint.y);
             }
         }
     }
@@ -100,6 +89,12 @@ public class SkillTools {
         return new Point(mousePosition.x, mousePosition.y);
     }
 
+    /**
+     * gets the position of the closest other entity with HealthComponent
+     *
+     * @param user entity used as reference
+     * @return closest Entity with a HealthComponent
+     */
     public static Point getClosestEntityPositionAsPoint(Entity user){
         PositionComponent userPC =
             (PositionComponent)
@@ -125,10 +120,22 @@ public class SkillTools {
         return targetPoint;
     }
 
+    /**
+     * gets the closest entity with HealthComponent to the hero
+     *
+     * @return entity closest to the hero with HealthComponent
+     */
     public static Point getClosestEnemyPositionAsPoint(){
         return getClosestEntityPositionAsPoint(Game.getHero().get());
     }
 
+    /**
+     * applys a knockback effect to an entity
+     *
+     * @param hitDirection direction from which the hit comes
+     * @param entity to receive knockback
+     * @param knockback how much knockback
+     */
     public static void applyKnockback(Point hitDirection, Entity entity, float knockback){
         PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
         Point position = pc.getPosition();

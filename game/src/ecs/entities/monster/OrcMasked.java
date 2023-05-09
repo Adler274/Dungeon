@@ -20,6 +20,7 @@ public class OrcMasked extends Entity {
 
     private final float xSpeed = 0.1f;
     private final float ySpeed = 0.1f;
+    private final int health = 5;
     private final String pathToIdleLeft = "monster/orcMasked/idleLeft";
     private final String pathToIdleRight = "monster/orcMasked/idleRight";
     private final String pathToRunLeft = "monster/orcMasked/runLeft";
@@ -48,6 +49,9 @@ public class OrcMasked extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    /**
+     * Setting up HitboxComponent to deal damage to player when colliding
+     */
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
@@ -66,7 +70,7 @@ public class OrcMasked extends Entity {
 
     private void setupHealthComponent(){
         HealthComponent hc = new HealthComponent(this);
-        hc.setMaximalHealthpoints(5);
-        hc.setCurrentHealthpoints(5);
+        hc.setMaximalHealthpoints(health);
+        hc.setCurrentHealthpoints(health);
     }
 }

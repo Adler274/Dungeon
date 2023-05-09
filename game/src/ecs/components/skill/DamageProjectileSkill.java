@@ -37,8 +37,8 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
         this.projectileRange = projectileRange;
         this.projectileHitboxSize = projectileHitboxSize;
         this.selectionFunction = selectionFunction;
-        this.knockback = 0.8f;
-        this.piercing = false;
+        this.knockback = 0.8f;  //default value
+        this.piercing = false;  //default value
     }
     public DamageProjectileSkill(
         String pathToTexturesOfProjectile,
@@ -72,15 +72,13 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
 
         Animation animation = AnimationBuilder.buildAnimation(pathToTexturesOfProjectile);
         new AnimationComponent(projectile, animation);
-
         Point aimedOn = selectionFunction.selectTargetPoint();
         Point targetPoint =
                 SkillTools.calculateLastPositionInRange(
                         epc.getPosition(), aimedOn, projectileRange);
         Point velocity =
                 SkillTools.calculateVelocity(epc.getPosition(), targetPoint, projectileSpeed);
-        VelocityComponent vc =
-                new VelocityComponent(projectile, velocity.x, velocity.y, animation, animation);
+        new VelocityComponent(projectile, velocity.x, velocity.y, animation, animation);
         new ProjectileComponent(projectile, epc.getPosition(), targetPoint);
         ICollide collide =
                 (a, b, from) -> {
@@ -96,7 +94,6 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
                                         });
                     }
                 };
-
         new HitboxComponent(
                 projectile, new Point(0.25f, 0.25f), projectileHitboxSize, collide, null);
     }

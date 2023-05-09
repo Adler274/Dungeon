@@ -4,11 +4,15 @@ import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import starter.Game;
 
+/** A trap slowing the hero on collision */
 public class SlowTrap extends Trap{
 
     private final String DEFAULT_ANIMATION_FRAME = "objects/traps/slow/mud.png";
     private boolean armed = true;
 
+    /**
+     * Entity with Components
+     */
     public SlowTrap(){
         new PositionComponent(this);
         new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_ANIMATION_FRAME)));
@@ -22,6 +26,10 @@ public class SlowTrap extends Trap{
             },
             (you, other, direction) -> System.out.println("SlowTrapCollisionLeave"));
     }
+
+    /**
+     * slows the player and disarms the trap after use
+     */
     @Override
     protected void effect() {
         if (armed) {
@@ -33,6 +41,9 @@ public class SlowTrap extends Trap{
         }
     }
 
+    /**
+     * disarms the trap
+     */
     @Override
     protected void disarm() {
         this.armed = false;

@@ -156,7 +156,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-
         if (levelCount == 0  && new File("savefile\\Save.ser").exists()){
             saving.loadSave();
             return;
@@ -221,6 +220,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
+        //reset speed
         VelocityComponent vc =
             (VelocityComponent)
                 hero.getComponent(VelocityComponent.class)
@@ -228,6 +228,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                         () -> new MissingComponentException("VelocityComponent"));
         vc.setXVelocity(((Hero) hero).getXSpeed());
         vc.setYVelocity(((Hero) hero).getYSpeed());
+        //heal 1 health
         HealthComponent hc =
             (HealthComponent)
                 hero.getComponent(HealthComponent.class)
@@ -391,6 +392,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Used to spawn a few traps based on chance*/
     private void spawnTraps(){
         int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
         boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();
