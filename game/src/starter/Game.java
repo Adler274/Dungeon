@@ -12,8 +12,10 @@ import configuration.Configuration;
 import configuration.KeyboardConfig;
 import controller.AbstractController;
 import controller.SystemController;
+import ecs.components.HealthComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
@@ -139,6 +141,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
     protected void frame() {
         setCameraFocus();
+        DamageMeleeSkill.update();
         if(hasGhost){
             tomb.despawnAllMonsters();
         }
@@ -216,6 +219,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
+        HealthComponent hc =
+            (HealthComponent)
+                hero.getComponent(HealthComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("HealthComponent"));
+        hc.setCurrentHealthpoints(hc.getCurrentHealthpoints()+1);
     }
 
     /** Toggle between pause and run */

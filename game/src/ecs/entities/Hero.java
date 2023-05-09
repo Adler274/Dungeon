@@ -6,7 +6,10 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import graphic.Animation;
+import tools.Point;
 
 import java.util.Set;
 
@@ -17,6 +20,7 @@ import java.util.Set;
  */
 public class Hero extends Entity {
 
+
     private final int fireballCoolDown = 2;
     private final int piercingArrowCoolDown = 5;
     private final float xSpeed = 0.3f;
@@ -26,7 +30,6 @@ public class Hero extends Entity {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
-    private final String pathToGetHit = "knight/hit";
     private Skill firstSkill;
     private Skill secondSkill;
 
@@ -43,6 +46,7 @@ public class Hero extends Entity {
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
         setupHomingFireballSkill();
+        setupSwordSkill();
         setupPiercingArrowSkill();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
@@ -60,18 +64,24 @@ public class Hero extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
-                (you, other, direction) -> System.out.println("heroCollisionEnter"),
-                (you, other, direction) -> System.out.println("heroCollisionLeave"));
+                (you, other, direction) -> System.out.println("heroCollisionEnter: " + other.getClass().getSimpleName()),
+                (you, other, direction) -> System.out.println("heroCollisionLeave: " + other.getClass().getSimpleName()));
     }
 
     private void setupHealthComponent(){
         HealthComponent hc = new HealthComponent(this);
-        hc.setMaximalHealthpoints(5);
-        hc.setCurrentHealthpoints(5);
+        hc.setMaximalHealthpoints(7);
+        hc.setCurrentHealthpoints(7);
+    }
+
+    private void setupSwordSkill(){
+        firstSkill =
+            new Skill(
+                new SwordSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+        skills.addSkill(firstSkill);
     }
 
     private void setupFireballSkill() {

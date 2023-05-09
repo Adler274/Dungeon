@@ -39,6 +39,42 @@ public class SkillTools {
         return new Point(startPoint.x + scv.x, startPoint.y + scv.y);
     }
 
+    public static String calculateMeleeDirection(Point startPoint, Point aimPoint){
+        float xDiff = aimPoint.x - startPoint.x;
+        float yDiff = aimPoint.y - startPoint.y;
+        if (Math.abs(xDiff) < Math.abs(yDiff)){
+            if (yDiff > 0){
+                return "up";
+            } else {
+                return "down";
+            }
+        } else {
+            if (xDiff > 0){
+                return "right";
+            } else {
+                return "left";
+            }
+        }
+    }
+
+    public static Point test(Point startPoint, Point aimPoint){
+        float xDiff = aimPoint.x - startPoint.x;
+        float yDiff = aimPoint.y - startPoint.y;
+        if (Math.abs(xDiff) < Math.abs(yDiff)){
+            if (yDiff > 0){
+                return new Point(startPoint.x, startPoint.y-0.5f);
+            } else {
+                return new Point(startPoint.x, startPoint.y+0.5f);
+            }
+        } else {
+            if (xDiff > 0){
+                return new Point(startPoint.x-0.5f, startPoint.y);
+            } else {
+                return new Point(startPoint.x+0.5f, startPoint.y);
+            }
+        }
+    }
+
     public static Point calculateVelocity(Point start, Point goal, float speed) {
         float x1 = start.x;
         float y1 = start.y;
