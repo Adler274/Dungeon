@@ -15,6 +15,7 @@ import controller.SystemController;
 import ecs.components.HealthComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
@@ -81,6 +82,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private Logger gameLogger;
 
+
+
+
+
+    private static float updateSwordAttack;
+
     /** Number of current level*/
     private int levelCount;
     /** Used to save and load savedata using files*/
@@ -146,6 +153,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        DamageMeleeSkill.updateAttackAnimation();
+        updateSwordAttack=updateSwordAttack+1;
     }
 
     @Override
@@ -398,5 +407,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public void setTomb(Tombstone tomb) {
         this.tomb = tomb;
+    }
+    public static void setUpdateSwordAttack(float updateSwordAttack) {
+        Game.updateSwordAttack = updateSwordAttack;
+    }
+    public static float getUpdateSwordAttack() {
+        return updateSwordAttack;
     }
 }

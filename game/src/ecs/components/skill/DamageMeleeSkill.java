@@ -24,6 +24,8 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
     private ITargetSelection selectionFunction;
     private float knockback;
 
+    private static Entity attack;
+
     public DamageMeleeSkill(
             String pathToTexturesOfAttackUp,
             String pathToTexturesOfAttackLeft,
@@ -45,7 +47,7 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
 
     @Override
     public void execute(Entity entity) {
-        Entity attack = new Entity();
+        attack = new Entity();
         PositionComponent epc =
                 (PositionComponent)
                         entity.getComponent(PositionComponent.class)
@@ -97,6 +99,18 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
 
             if (ac.getCurrentAnimation().isFinished()){
                 Game.removeEntity(attack);
+        }
+    }
+    public static void updateAttackAnimation() {
+        if (Game.getUpdateSwordAttack() >= 10) {
+            for (Entity a : Game.getEntities()) {
+                System.out.println("hier:" + Game.getUpdateSwordAttack());
+                if (a == attack) {
+                    Game.removeEntity(attack);
+                }
+                Game.setUpdateSwordAttack(0f);
+            }
+
         }
     }
 }
