@@ -47,9 +47,9 @@ public class Hero extends Entity {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
+        setupPiercingArrowSkill();
         setupHomingFireballSkill();
         setupSwordSkill();
-        setupPiercingArrowSkill();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
     }
@@ -94,10 +94,10 @@ public class Hero extends Entity {
     }
 
     private void setupHomingFireballSkill() {
-        firstSkill =
+        secondSkill =
             new Skill(
                 new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill);
+        skills.addSkill(secondSkill);
     }
 
     private void setupPiercingArrowSkill() {
