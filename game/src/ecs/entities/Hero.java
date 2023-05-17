@@ -6,15 +6,8 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
-import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
-import ecs.damage.Damage;
-import ecs.damage.DamageType;
 import graphic.Animation;
-import starter.Game;
-import level.LevelAPI;
-import tools.Point;
-import java.util.Set;
 
 
 /**
