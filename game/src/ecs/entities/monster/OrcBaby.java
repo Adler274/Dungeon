@@ -23,7 +23,7 @@ public class OrcBaby extends Entity {
     private final float xSpeed = 0.4f;
     private final float ySpeed = 0.4f;
     private final int health = 1;
-    private final int lootXP=15;
+    private final int lootXP = 15;
     private final String pathToIdleLeft = "monster/orcBaby/idleLeft";
     private final String pathToIdleRight = "monster/orcBaby/idleRight";
     private final String pathToRunLeft = "monster/orcBaby/runLeft";
@@ -78,8 +78,8 @@ public class OrcBaby extends Entity {
         HealthComponent hc = new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
-
     }
+
     private void setupXpComponent(){
         XPComponent xc = new XPComponent(this);
         xc.setLootXP(lootXP);

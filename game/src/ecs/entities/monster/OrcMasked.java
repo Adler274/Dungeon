@@ -84,6 +84,7 @@ public class OrcMasked extends Entity {
         HealthComponent hc = new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
+
     }
 
     private void onDeath(Entity entity){

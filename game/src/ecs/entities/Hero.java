@@ -32,7 +32,6 @@ public class Hero extends Entity  {
     private final int health = 7;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
-
     private final String pathToIdleLeft = "knight/idleLeft";
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
@@ -57,7 +56,6 @@ public class Hero extends Entity  {
         setupSwordSkill();
         setupXpComponent();
         pc.setSkillSlot1(firstSkill);
-        pc.setSkillSlot2(secondSkill);
     }
 
     private void setupVelocityComponent() {

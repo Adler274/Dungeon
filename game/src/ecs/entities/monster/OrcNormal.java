@@ -28,6 +28,7 @@ public class OrcNormal extends Entity {
     private final String pathToRunLeft = "monster/orcNormal/runLeft";
     private final String pathToRunRight = "monster/orcNormal/runRight";
     private final int lootXP = 10;
+
     /**
      * Entity with Components
      */
