@@ -153,12 +153,5 @@ public class SkillTools {
             }
         );
     }
-  /*  public static void applyPhysicalWeakness(Entity entity,float damage){
-        entity.getComponent(StatsComponent.class).ifPresent(
-            vc ->{
-                ((StatsComponent)vc).getDamageModifiers().setMultiplier(DamageType.PHYSICAL,3);
-            }
-        );
 
-    }*/
 }
