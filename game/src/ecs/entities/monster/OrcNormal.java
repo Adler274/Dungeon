@@ -6,6 +6,7 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
+import ecs.components.stats.StatsComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
@@ -36,6 +37,7 @@ public class OrcNormal extends Entity {
         setupAnimationComponent();
         setupHitboxComponent();
         setupHealthComponent();
+        setupStatsComponent();
     }
 
     private void setupVelocityComponent() {
@@ -73,5 +75,8 @@ public class OrcNormal extends Entity {
         HealthComponent hc = new HealthComponent(this);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
+    }
+    private void setupStatsComponent(){
+        StatsComponent sc = new StatsComponent(this);
     }
 }

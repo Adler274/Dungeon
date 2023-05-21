@@ -6,9 +6,15 @@ import com.badlogic.gdx.math.Vector3;
 import ecs.components.HealthComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
+import ecs.components.stats.DamageModifier;
+import ecs.components.stats.StatsComponent;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import starter.Game;
 import tools.Point;
+
+
 
 public class SkillTools {
 
@@ -147,4 +153,12 @@ public class SkillTools {
             }
         );
     }
+  /*  public static void applyPhysicalWeakness(Entity entity,float damage){
+        entity.getComponent(StatsComponent.class).ifPresent(
+            vc ->{
+                ((StatsComponent)vc).getDamageModifiers().setMultiplier(DamageType.PHYSICAL,3);
+            }
+        );
+
+    }*/
 }

@@ -18,7 +18,7 @@ import java.util.Set;
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity {
+public class Hero extends Entity  {
 
     private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
@@ -50,6 +50,7 @@ public class Hero extends Entity {
         setupHomingFireballSkill();
         setupSwordSkill();
         setupPiercingArrowSkill();
+        setupPhysicalWeaknessSpell();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
     }
@@ -107,6 +108,12 @@ public class Hero extends Entity {
         skills.addSkill(secondSkill);
     }
 
+    private void setupPhysicalWeaknessSpell(){
+       secondSkill =
+            new Skill(
+                new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),1);
+        skills.addSkill(secondSkill);
+    }
     public float getXSpeed() {
         return xSpeed;
     }
