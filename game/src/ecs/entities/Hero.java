@@ -6,7 +6,15 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.components.xp.ILevelUp;
+import ecs.components.xp.XPComponent;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import graphic.Animation;
+import level.LevelAPI;
+import tools.Point;
+
+import java.util.Set;
 
 
 /**
@@ -46,11 +54,8 @@ public class Hero extends Entity  {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
-        //setupHomingFireballSkill();
         setupSwordSkill();
-        //setupPiercingArrowSkill();
-        setupPhysicalWeaknessSpell();
-        setupBasicHealingSpell();
+        setupXpComponent();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
     }
@@ -78,6 +83,10 @@ public class Hero extends Entity  {
         HealthComponent hc = new HealthComponent(this);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
+    }
+
+    private void setupXpComponent(){
+        XPComponent xc = new XPComponent(this,this::onLevelUp);
     }
 
     private void setupSwordSkill() {
@@ -114,6 +123,16 @@ public class Hero extends Entity  {
                 new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),physicalWeaknessCoolDown);
         skills.addSkill(secondSkill);
     }
+
+    public void onLevelUp(long nexLevel){
+        System.out.println(nexLevel);
+        this.getComponent(XPComponent.class).ifPresent(
+            xc -> {
+                System.out.println(((XPComponent) xc).getCurrentLevel());
+            }
+        );
+    }
+
     private void setupBasicHealingSpell(){
         secondSkill =
             new Skill(

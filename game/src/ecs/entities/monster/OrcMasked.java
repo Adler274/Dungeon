@@ -8,10 +8,12 @@ import ecs.components.ai.idle.AtoBWalk;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.RangeTransition;
 import ecs.components.stats.StatsComponent;
+import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
+import starter.Game;
 
 /**
  * OrcMasked is a hostile character. It's entity in the ECS. This class helps to setup the orcMasked with
@@ -22,6 +24,7 @@ public class OrcMasked extends Entity {
     private final float xSpeed = 0.1f;
     private final float ySpeed = 0.1f;
     private final int health = 5;
+    private final int lootXP=25;
     private final String pathToIdleLeft = "monster/orcMasked/idleLeft";
     private final String pathToIdleRight = "monster/orcMasked/idleRight";
     private final String pathToRunLeft = "monster/orcMasked/runLeft";
@@ -36,6 +39,7 @@ public class OrcMasked extends Entity {
         setupAnimationComponent();
         setupHitboxComponent();
         setupHealthComponent();
+        setupXpComponent();
         new StatsComponent(this);
     }
 
@@ -49,6 +53,11 @@ public class OrcMasked extends Entity {
         Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
         Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
         new AnimationComponent(this, idleLeft, idleRight);
+    }
+
+    private void setupXpComponent(){
+        XPComponent xc = new XPComponent(this);
+        xc.setLootXP(lootXP);
     }
 
     /**
@@ -70,9 +79,18 @@ public class OrcMasked extends Entity {
             null);
     }
 
-    private void setupHealthComponent(){
-        HealthComponent hc = new HealthComponent(this);
+    private void setupHealthComponent() {
+        Animation die=AnimationBuilder.buildAnimation("monster/orcMasked/idleLeft");
+        HealthComponent hc = new HealthComponent(this,health,this::onDeath,die,die);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
+    }
+
+    private void onDeath(Entity entity){
+        Game.getHero().get().getComponent(XPComponent.class).ifPresent(
+            xc -> {
+                ((XPComponent) xc).addXP(lootXP);
+            }
+        );
     }
 }

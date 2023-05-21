@@ -7,10 +7,12 @@ import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.RadiusWalk;
 import ecs.components.ai.transition.SelfDefendTransition;
 import ecs.components.stats.StatsComponent;
+import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
+import starter.Game;
 
 /**
  * OrcBaby is a hostile character. It's entity in the ECS. This class helps to setup the orcBaby with
@@ -21,6 +23,7 @@ public class OrcBaby extends Entity {
     private final float xSpeed = 0.4f;
     private final float ySpeed = 0.4f;
     private final int health = 1;
+    private final int lootXP=15;
     private final String pathToIdleLeft = "monster/orcBaby/idleLeft";
     private final String pathToIdleRight = "monster/orcBaby/idleRight";
     private final String pathToRunLeft = "monster/orcBaby/runLeft";
@@ -35,6 +38,7 @@ public class OrcBaby extends Entity {
         setupAnimationComponent();
         setupHitboxComponent();
         setupHealthComponent();
+        setupXpComponent();
         new StatsComponent(this);
     }
 
@@ -69,9 +73,22 @@ public class OrcBaby extends Entity {
             null);
     }
 
-    private void setupHealthComponent(){
-        HealthComponent hc = new HealthComponent(this);
+    private void setupHealthComponent() {
+        Animation die=AnimationBuilder.buildAnimation("monster/orcBaby/idleLeft");
+        HealthComponent hc = new HealthComponent(this,health,this::onDeath,die,die);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
+
+    }
+    private void setupXpComponent(){
+        XPComponent xc = new XPComponent(this);
+        xc.setLootXP(lootXP);
+    }
+    private void onDeath(Entity entity){
+        Game.getHero().get().getComponent(XPComponent.class).ifPresent(
+            xc -> {
+                ((XPComponent) xc).addXP(lootXP);
+            }
+        );
     }
 }
