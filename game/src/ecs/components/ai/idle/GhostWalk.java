@@ -5,16 +5,15 @@ import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
 import ecs.entities.Entity;
+import java.util.concurrent.ThreadLocalRandom;
 import level.elements.tile.Tile;
 import starter.Game;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-/** Specifies how Ghosts should move*/
-public class GhostWalk implements IIdleAI{
+/** Specifies how Ghosts should move */
+public class GhostWalk implements IIdleAI {
 
     private GraphPath<Tile> path;
-    /** Tells you if the current movement is towards a random spot*/
+    /** Tells you if the current movement is towards a random spot */
     private boolean randomPath = false;
 
     /**
@@ -29,20 +28,24 @@ public class GhostWalk implements IIdleAI{
         if (!randomPath) {
             if (rando < 950) {
                 path = AITools.calculatePathToHero(entity);
-            } else{
+            } else {
                 randomPath = true;
                 PositionComponent position =
-                    (PositionComponent)
-                        entity.getComponent(PositionComponent.class)
-                            .orElseThrow(
-                                () -> new MissingComponentException("PositionComponent"));
-                path = AITools.calculatePathToRandomTileInRange(position.getPosition().toCoordinate().toPoint(), 50f);
+                        (PositionComponent)
+                                entity.getComponent(PositionComponent.class)
+                                        .orElseThrow(
+                                                () ->
+                                                        new MissingComponentException(
+                                                                "PositionComponent"));
+                path =
+                        AITools.calculatePathToRandomTileInRange(
+                                position.getPosition().toCoordinate().toPoint(), 50f);
             }
         }
-        if (rando > 997){
+        if (rando > 997) {
             Game.removeEntity(entity);
         }
-        if (AITools.pathFinished(entity, path)){
+        if (AITools.pathFinished(entity, path)) {
             randomPath = false;
         }
         AITools.move(entity, path);
