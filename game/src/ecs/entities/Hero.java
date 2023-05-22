@@ -114,6 +114,13 @@ public class Hero extends Entity  {
         skills.addSkill(secondSkill);
     }
 
+    private void setupBasicHealingSpell(){
+        secondSkill =
+            new Skill(
+                new BasicHealingSpell(basicHealingPotency),basicHealingCoolDown);
+        skills.addSkill(secondSkill);
+    }
+
     public void onLevelUp(long nexLevel){
         this.getComponent(HealthComponent.class)
             .ifPresent(
@@ -124,18 +131,11 @@ public class Hero extends Entity  {
             );
         switch ((int) nexLevel) {
             case 2 -> this.setupFireballSkill();
-            //TODO case 3 -> this.setupBasicHealingSpell();
+            case 3 -> this.setupBasicHealingSpell();
             case 4 -> this.setupPhysicalWeaknessSpell();
             case 5 -> this.setupHomingFireballSkill();
             case 6 -> this.setupPiercingArrowSkill();
         }
-    }
-
-    private void setupBasicHealingSpell(){
-        secondSkill =
-            new Skill(
-                new BasicHealingSpell(basicHealingPotency),basicHealingCoolDown);
-        skills.addSkill(secondSkill);
     }
 
     public float getXSpeed() {
