@@ -6,12 +6,7 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
-import ecs.damage.Damage;
-import ecs.damage.DamageType;
 import graphic.Animation;
-import tools.Point;
-
-import java.util.Set;
 
 
 /**
@@ -23,6 +18,8 @@ public class Hero extends Entity  {
     private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
     private final int piercingArrowCoolDown = 5;
+    private final int physicalWeaknessCoolDown = 1;
+    private final int health = 7;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -76,8 +73,8 @@ public class Hero extends Entity  {
 
     private void setupHealthComponent() {
         HealthComponent hc = new HealthComponent(this);
-        hc.setMaximalHealthpoints(7);
-        hc.setCurrentHealthpoints(7);
+        hc.setMaximalHealthpoints(health);
+        hc.setCurrentHealthpoints(health);
     }
 
     private void setupSwordSkill() {
@@ -111,7 +108,7 @@ public class Hero extends Entity  {
     private void setupPhysicalWeaknessSpell(){
        secondSkill =
             new Skill(
-                new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),1);
+                new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),physicalWeaknessCoolDown);
         skills.addSkill(secondSkill);
     }
     public float getXSpeed() {
