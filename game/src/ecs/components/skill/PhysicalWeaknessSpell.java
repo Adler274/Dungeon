@@ -1,13 +1,10 @@
 package ecs.components.skill;
 
-import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.components.collision.ICollide;
 import ecs.components.stats.StatsComponent;
-import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
-import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
@@ -36,16 +33,6 @@ public class PhysicalWeaknessSpell extends NonDamagingProjectilleSpells {
                                 Game.removeEntity(projectile);
                             }
                         );
-                    // Leben werden nur abgezogen wenn, eine Entitiy mit StatsComponent getroffen wird.
-                    Game.getHero().get().getComponent(HealthComponent.class).ifPresent(
-                        hc -> {
-                            if (((HealthComponent) hc).getCurrentHealthpoints() > 1) {
-                                ((HealthComponent) hc).setCurrentHealthpoints(((HealthComponent) hc).getCurrentHealthpoints() - healthCost);
-                            } else {
-                                selfDamage = false;
-                            }
-                        }
-                    );
                 }
             };
         new HitboxComponent(
