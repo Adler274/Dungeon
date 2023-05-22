@@ -7,6 +7,8 @@ import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.AtoBWalk;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.transition.RangeTransition;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import graphic.Animation;
 
@@ -18,6 +20,7 @@ public class OrcMasked extends Entity {
 
     private final float xSpeed = 0.1f;
     private final float ySpeed = 0.1f;
+    private final int health = 5;
     private final String pathToIdleLeft = "monster/orcMasked/idleLeft";
     private final String pathToIdleRight = "monster/orcMasked/idleRight";
     private final String pathToRunLeft = "monster/orcMasked/runLeft";
@@ -26,12 +29,12 @@ public class OrcMasked extends Entity {
     /** Entity with Components */
     public OrcMasked(){
         super();
-        new AIComponent(this, new CollideAI(0f), new AtoBWalk(), new RangeTransition(3));
+        new AIComponent(this, new CollideAI(2f), new AtoBWalk(), new RangeTransition(3));
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        new HealthComponent(this);      // needed for AIComponent
+        setupHealthComponent();
     }
 
     private void setupVelocityComponent() {
@@ -46,10 +49,28 @@ public class OrcMasked extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    /**
+     * Setting up HitboxComponent to deal damage to player when colliding
+     */
     private void setupHitboxComponent() {
         new HitboxComponent(
             this,
-            (you, other, direction) -> System.out.println("orcMaskedCollisionEnter"),
-            (you, other, direction) -> System.out.println("orcMaskedCollisionLeave"));
+            (you, other, direction) -> {
+                if (other.getComponent(PlayableComponent.class).isPresent()){
+                    other.getComponent(HealthComponent.class)
+                        .ifPresent(
+                            hc -> (
+                                (HealthComponent) hc).receiveHit(
+                                new Damage(3, DamageType.PHYSICAL, this))
+                        );
+                }
+            },
+            null);
+    }
+
+    private void setupHealthComponent(){
+        HealthComponent hc = new HealthComponent(this);
+        hc.setMaximalHealthpoints(health);
+        hc.setCurrentHealthpoints(health);
     }
 }

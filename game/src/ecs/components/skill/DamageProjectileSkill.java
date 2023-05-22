@@ -20,6 +20,10 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
 
     private ITargetSelection selectionFunction;
 
+    private float knockback;
+
+    private boolean piercing;
+
     public DamageProjectileSkill(
             String pathToTexturesOfProjectile,
             float projectileSpeed,
@@ -33,7 +37,28 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
         this.projectileRange = projectileRange;
         this.projectileHitboxSize = projectileHitboxSize;
         this.selectionFunction = selectionFunction;
+        this.knockback = 0.8f;  //default value
+        this.piercing = false;  //default value
     }
+    public DamageProjectileSkill(
+        String pathToTexturesOfProjectile,
+        float projectileSpeed,
+        Damage projectileDamage,
+        Point projectileHitboxSize,
+        ITargetSelection selectionFunction,
+        float projectileRange,
+        float knockback,
+        boolean piercing) {
+        this.pathToTexturesOfProjectile = pathToTexturesOfProjectile;
+        this.projectileDamage = projectileDamage;
+        this.projectileSpeed = projectileSpeed;
+        this.projectileRange = projectileRange;
+        this.projectileHitboxSize = projectileHitboxSize;
+        this.selectionFunction = selectionFunction;
+        this.knockback = knockback;
+        this.piercing = piercing;
+    }
+
 
     @Override
     public void execute(Entity entity) {
@@ -47,15 +72,13 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
 
         Animation animation = AnimationBuilder.buildAnimation(pathToTexturesOfProjectile);
         new AnimationComponent(projectile, animation);
-
         Point aimedOn = selectionFunction.selectTargetPoint();
         Point targetPoint =
                 SkillTools.calculateLastPositionInRange(
                         epc.getPosition(), aimedOn, projectileRange);
         Point velocity =
                 SkillTools.calculateVelocity(epc.getPosition(), targetPoint, projectileSpeed);
-        VelocityComponent vc =
-                new VelocityComponent(projectile, velocity.x, velocity.y, animation, animation);
+        new VelocityComponent(projectile, velocity.x, velocity.y, animation, animation);
         new ProjectileComponent(projectile, epc.getPosition(), targetPoint);
         ICollide collide =
                 (a, b, from) -> {
@@ -63,13 +86,14 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
                         b.getComponent(HealthComponent.class)
                                 .ifPresent(
                                         hc -> {
-                                            //knockback (b)
                                             ((HealthComponent) hc).receiveHit(projectileDamage);
-                                            Game.removeEntity(projectile);
+                                            if (!piercing){
+                                                Game.removeEntity(projectile);
+                                            }
+                                            SkillTools.applyKnockback(epc.getPosition(),b ,knockback);
                                         });
                     }
                 };
-
         new HitboxComponent(
                 projectile, new Point(0.25f, 0.25f), projectileHitboxSize, collide, null);
     }

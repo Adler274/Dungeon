@@ -12,13 +12,19 @@ import configuration.Configuration;
 import configuration.KeyboardConfig;
 import controller.AbstractController;
 import controller.SystemController;
+import ecs.components.HealthComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
+import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
+import ecs.entities.traps.SlowTrap;
+import ecs.entities.traps.SpawnerTrap;
+import ecs.entities.traps.TrapSwitch;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
@@ -139,6 +145,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
     protected void frame() {
         setCameraFocus();
+        DamageMeleeSkill.update();
         if(hasGhost){
             tomb.despawnAllMonsters();
         }
@@ -152,7 +159,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-
         if (levelCount == 0  && new File("savefile\\Save.ser").exists()){
             saving.loadSave();
             return;
@@ -160,6 +166,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelCount++;
         spawnMonsters();
         spawnGhost();
+        spawnTraps();
         if (levelCount > 1){
             saving.writeSave();
         }
@@ -216,6 +223,21 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
+        //reset speed
+        VelocityComponent vc =
+            (VelocityComponent)
+                hero.getComponent(VelocityComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("VelocityComponent"));
+        vc.setXVelocity(((Hero) hero).getXSpeed());
+        vc.setYVelocity(((Hero) hero).getYSpeed());
+        //heal 1 health
+        HealthComponent hc =
+            (HealthComponent)
+                hero.getComponent(HealthComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("HealthComponent"));
+        hc.setCurrentHealthpoints(hc.getCurrentHealthpoints()+1);
     }
 
     /** Toggle between pause and run */
@@ -370,6 +392,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             hasGhost = true;
         } else {
             hasGhost = false;
+        }
+    }
+
+    /** Used to spawn a few traps based on chance*/
+    private void spawnTraps(){
+        int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
+        boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();
+        for (int i = 0; i < slowCount; i++){
+            new SlowTrap();
+        }
+        if (spawnerBool) {
+            SpawnerTrap spawner = new SpawnerTrap();
+            new TrapSwitch(spawner);
         }
     }
 

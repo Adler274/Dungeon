@@ -4,12 +4,12 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import tools.Point;
 
-public class FireballSkill extends DamageProjectileSkill {
+public class HomingFireballSkill extends DamageProjectileSkill {
 
-    public FireballSkill(ITargetSelection targetSelection) {
+    public HomingFireballSkill(ITargetSelection targetSelection) {
         super(
                 "skills/fireball/fireBall_Down/",
-                0.5f,
+                1f,
                 new Damage(1, DamageType.FIRE, null),
                 new Point(10, 10),
                 targetSelection,

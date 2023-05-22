@@ -8,6 +8,7 @@ public class DataStorage implements Serializable {
     /** Stores the name of entities as Strings */
     private ArrayList<String> entityList;
     private int levelCount;
+    private int playerHealth;
     private boolean hasGhost;
 
     public ArrayList<String> getEntityList() {
@@ -32,5 +33,13 @@ public class DataStorage implements Serializable {
 
     public void setHasGhost(boolean hasGhost) {
         this.hasGhost = hasGhost;
+    }
+
+    public int getPlayerHealth() {
+        return playerHealth;
+    }
+
+    public void setPlayerHealth(int playerHealth) {
+        this.playerHealth = playerHealth;
     }
 }

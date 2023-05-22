@@ -2,6 +2,7 @@ package ecs.entities;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
+import ecs.components.HealthComponent;
 import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
 import ecs.entities.npc.Ghost;
@@ -9,6 +10,7 @@ import starter.Game;
 
 /** A none moving Entity with a method to remove most Entities*/
 public class Tombstone extends Entity {
+//TODO needs update for use of HitboxComponent
 
     //private final float defaultInteractionRadius = 1f;
     private final String DEFAULT_ANIMATION_FRAME = "objects/tombstone/weapon_rusty_sword.png";
@@ -47,7 +49,9 @@ public class Tombstone extends Entity {
             && AITools.entityInRange(this, ghost, 2f)) {
             for (Entity entity : Game.getEntities()) {
                 if (!(entity == Game.getHero().get() || entity == this)) {
-                    Game.removeEntity(entity);
+                    if (entity.getComponent(HealthComponent.class).isPresent()){
+                        Game.removeEntity(entity);
+                    }
                 }
             }
         }
