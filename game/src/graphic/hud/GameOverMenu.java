@@ -21,7 +21,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
     public GameOverMenu(SpriteBatch batch) {
         super(batch);
 
-        // Überschrieft
+        // headline
         ScreenText screenText =
                 new ScreenText(
                         "Game Over",
@@ -37,7 +37,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
         add((T) screenText);
 
-        // Der Restart Button
+        // restart nutton
         ScreenButton restart =
                 new ScreenButton(
                         "Restart Game",
@@ -58,8 +58,8 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_HEIGHT) / 2f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
-        // Beenden des Games
-        ScreenButton quiet =
+        // end the game
+        ScreenButton quit =
                 new ScreenButton(
                         "Quit Game",
                         new Point(0, 0),
@@ -74,13 +74,13 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                                 .setOverFontColor(Color.RED)
                                 .build());
 
-        quiet.setPosition(
+        quit.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 3f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
         add((T) restart);
-        add((T) quiet);
+        add((T) quit);
         hideMenu();
     }
 
