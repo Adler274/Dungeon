@@ -30,7 +30,13 @@ public class PlayableComponent extends Component {
      * @param skillSlot3 skill that will be on the third skillslot
      * @param skillSlot4 skill that will be on the fourth skillslot
      */
-    public PlayableComponent(Entity entity, Skill skillSlotMelee, Skill skillSlot1, Skill skillSlot2, Skill skillSlot3, Skill skillSlot4) {
+    public PlayableComponent(
+            Entity entity,
+            Skill skillSlotMelee,
+            Skill skillSlot1,
+            Skill skillSlot2,
+            Skill skillSlot3,
+            Skill skillSlot4) {
         super(entity);
         playable = true;
         this.skillSlotMelee = skillSlotMelee;

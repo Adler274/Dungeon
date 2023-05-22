@@ -23,7 +23,7 @@ public class OrcMasked extends Entity {
     private final float xSpeed = 0.1f;
     private final float ySpeed = 0.1f;
     private final int health = 5;
-    private final int lootXP = 25;
+    private final int lootXP = 100;
     private final String pathToIdleLeft = "monster/orcMasked/idleLeft";
     private final String pathToIdleRight = "monster/orcMasked/idleRight";
     private final String pathToRunLeft = "monster/orcMasked/runLeft";
