@@ -51,6 +51,7 @@ public class Hero extends Entity  {
         setupSwordSkill();
         setupPiercingArrowSkill();
         setupPhysicalWeaknessSpell();
+        setupBasicHealingSpell();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
     }
@@ -114,6 +115,13 @@ public class Hero extends Entity  {
                 new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),1);
         skills.addSkill(secondSkill);
     }
+    private void setupBasicHealingSpell(){
+        secondSkill =
+            new Skill(
+                new BasicHealingSpell(1),1);
+        skills.addSkill(secondSkill);
+    }
+
     public float getXSpeed() {
         return xSpeed;
     }
