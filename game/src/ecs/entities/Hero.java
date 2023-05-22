@@ -11,9 +11,9 @@ import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import graphic.Animation;
+import starter.Game;
 import level.LevelAPI;
 import tools.Point;
-
 import java.util.Set;
 
 
@@ -51,9 +51,9 @@ public class Hero extends Entity  {
         setupAnimationComponent();
         setupHitboxComponent();
         setupHealthComponent();
+        setupXpComponent();
         PlayableComponent pc = new PlayableComponent(this);
         setupSwordSkill();
-        setupXpComponent();
         pc.setSkillSlot1(firstSkill);
     }
 
@@ -94,17 +94,17 @@ public class Hero extends Entity  {
     }
 
     private void setupFireballSkill() {
-        firstSkill =
+        secondSkill =
             new Skill(
                 new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill);
+        skills.addSkill(secondSkill);
     }
 
     private void setupHomingFireballSkill() {
-        firstSkill =
+        secondSkill =
             new Skill(
                 new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
-        skills.addSkill(firstSkill);
+        skills.addSkill(secondSkill);
     }
 
     private void setupPiercingArrowSkill() {
@@ -122,12 +122,20 @@ public class Hero extends Entity  {
     }
 
     public void onLevelUp(long nexLevel){
-        System.out.println(nexLevel);
-        this.getComponent(XPComponent.class).ifPresent(
-            xc -> {
-                System.out.println(((XPComponent) xc).getCurrentLevel());
-            }
-        );
+        this.getComponent(HealthComponent.class)
+            .ifPresent(
+                hc -> {
+                    ((HealthComponent) hc).setMaximalHealthpoints(((HealthComponent) hc).getMaximalHealthpoints() + 1);
+                    ((HealthComponent) hc).setCurrentHealthpoints(((HealthComponent) hc).getCurrentHealthpoints() + 1);
+                }
+            );
+        switch ((int) nexLevel) {
+            case 2 -> this.setupFireballSkill();
+            //TODO case 3 -> this.setupBasicHealingSpell();
+            case 4 -> this.setupPhysicalWeaknessSpell();
+            case 5 -> this.setupHomingFireballSkill();
+            case 6 -> this.setupPiercingArrowSkill();
+        }
     }
 
     private void setupBasicHealingSpell(){
