@@ -47,9 +47,9 @@ public class Hero extends Entity  {
         setupHitboxComponent();
         setupHealthComponent();
         PlayableComponent pc = new PlayableComponent(this);
-        setupHomingFireballSkill();
+        //setupHomingFireballSkill();
         setupSwordSkill();
-        setupPiercingArrowSkill();
+        //setupPiercingArrowSkill();
         setupPhysicalWeaknessSpell();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);

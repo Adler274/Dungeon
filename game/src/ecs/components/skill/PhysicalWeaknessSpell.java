@@ -5,9 +5,8 @@ import ecs.damage.DamageType;
 import tools.Point;
 
 public class PhysicalWeaknessSpell extends NonDamagingProjectilleSpells {
-/* to do Eigene Animation fuer den PhysicalWeaknessSpell (zurzeit noch Feuerball)
+//TODO Eigene Animation fuer den PhysicalWeaknessSpell (zurzeit noch Feuerball)
 
- */
     public PhysicalWeaknessSpell(ITargetSelection targetSelection) {
         super(
             "skills/fireball/fireBall_Down/",

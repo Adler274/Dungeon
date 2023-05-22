@@ -336,7 +336,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new SkillSystem();
         new ProjectileSystem();
     }
-    
+
     /** Used to spawn monsters randomly based on the current level*/
     private void spawnMonsters(){
         if (levelCount < 4){
