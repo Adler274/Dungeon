@@ -179,7 +179,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     public static void restart() {
-        levelCount = 1;
+        levelCount = 0;
         game.setup();
     }
 
