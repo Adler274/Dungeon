@@ -178,11 +178,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Restarts the game on level 1 */
     public static void restart() {
         levelCount = 0;
         game.setup();
     }
 
+    /** Closes the game safely */
     public static void end() {
         Gdx.app.exit();
         System.exit(0);
@@ -424,16 +426,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    public static GameOverMenu<Actor> getGameOverMenu() {
-        return gameOverMenu;
-    }
-
+    /** Deletes the savefile if possible */
     public static void deleteSave() {
         try {
             Files.deleteIfExists(Paths.get("savefile\\Save.ser"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static GameOverMenu<Actor> getGameOverMenu() {
+        return gameOverMenu;
     }
 
     public int getLevelCount() {
