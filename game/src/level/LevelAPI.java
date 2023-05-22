@@ -12,6 +12,7 @@ import level.generator.IGenerator;
 import level.tools.DesignLabel;
 import level.tools.LevelElement;
 import level.tools.LevelSize;
+import starter.Game;
 
 /** Manages the level. */
 public class LevelAPI {
@@ -48,7 +49,7 @@ public class LevelAPI {
     public void loadLevel(LevelSize size, DesignLabel label) {
         currentLevel = gen.getLevel(label, size);
         onLevelLoader.onLevelLoad();
-        levelAPI_logger.info("A new level was loaded.");
+        levelAPI_logger.info("A new level was loaded: " + Game.getLevelCount());
     }
 
     /**

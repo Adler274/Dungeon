@@ -44,6 +44,7 @@ import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
 import level.tools.LevelSize;
+import logging.CustomLogLevel;
 import saveLoad.Saving;
 import tools.Constants;
 import tools.Point;
@@ -194,10 +195,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.removeAll(entitiesToRemove);
         entities.addAll(entitiesToAdd);
         for (Entity entity : entitiesToRemove) {
-            gameLogger.info("Entity '" + entity.getClass().getSimpleName() + "' was deleted.");
+            gameLogger.log(
+                    CustomLogLevel.DEBUG,
+                    "Entity '" + entity.getClass().getSimpleName() + "' was deleted.");
         }
         for (Entity entity : entitiesToAdd) {
-            gameLogger.info("Entity '" + entity.getClass().getSimpleName() + "' was added.");
+            gameLogger.log(
+                    CustomLogLevel.DEBUG,
+                    "Entity '" + entity.getClass().getSimpleName() + "' was added.");
         }
         entitiesToRemove.clear();
         entitiesToAdd.clear();
@@ -439,12 +444,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return gameOverMenu;
     }
 
-    public int getLevelCount() {
+    public static int getLevelCount() {
         return levelCount;
     }
 
-    public void setLevelCount(int levelCount) {
-        this.levelCount = levelCount;
+    public static void setLevelCount(int levelCount) {
+        Game.levelCount = levelCount;
     }
 
     public boolean isHasGhost() {

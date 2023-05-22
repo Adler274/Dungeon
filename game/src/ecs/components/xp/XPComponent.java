@@ -2,6 +2,8 @@ package ecs.components.xp;
 
 import ecs.components.Component;
 import ecs.entities.Entity;
+import java.util.logging.Logger;
+import logging.CustomLogLevel;
 
 public class XPComponent extends Component {
 
@@ -11,6 +13,8 @@ public class XPComponent extends Component {
     private long currentXP;
     private long lootXP = -1;
     private ILevelUp callbackLevelUp;
+
+    private final Logger xpLogger = Logger.getLogger(this.getClass().getName());
 
     /**
      * Create a new XP-Component and add it to the associated entity
@@ -64,6 +68,10 @@ public class XPComponent extends Component {
      */
     public void addXP(long xp) {
         this.currentXP = Math.max(0, currentXP + xp);
+
+        xpLogger.log(
+                CustomLogLevel.INFO,
+                "Entity '" + entity.getClass().getSimpleName() + "' has earned XP: " + xp);
     }
 
     /**
@@ -91,6 +99,10 @@ public class XPComponent extends Component {
      */
     public void levelUp(long level) {
         if (this.callbackLevelUp != null) this.callbackLevelUp.onLevelUp(level);
+
+        xpLogger.log(
+                CustomLogLevel.INFO,
+                "Entity '" + entity.getClass().getSimpleName() + "' leveled up to: " + level);
     }
 
     /**

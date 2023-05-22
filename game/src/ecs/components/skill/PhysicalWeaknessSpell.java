@@ -5,6 +5,7 @@ import ecs.components.collision.ICollide;
 import ecs.components.stats.StatsComponent;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import logging.CustomLogLevel;
 import starter.Game;
 import tools.Point;
 
@@ -28,6 +29,15 @@ public class PhysicalWeaknessSpell extends NonDamagingProjectilleSpells {
                                                     .getDamageModifiers()
                                                     .setMultiplier(DamageType.PHYSICAL, 3);
                                             Game.removeEntity(projectile);
+
+                                            spellLogger.log(
+                                                    CustomLogLevel.INFO,
+                                                    sc.getEntity().getClass().getSimpleName()
+                                                            + " was hit by '"
+                                                            + this.getClass().getSimpleName()
+                                                            + "' from '"
+                                                            + entity.getClass().getSimpleName()
+                                                            + "'");
                                         });
                     }
                 };

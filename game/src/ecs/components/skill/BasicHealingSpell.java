@@ -3,9 +3,12 @@ package ecs.components.skill;
 import ecs.components.HealthComponent;
 import ecs.components.MissingComponentException;
 import ecs.entities.Entity;
+import java.util.logging.Logger;
+import logging.CustomLogLevel;
 
 public class BasicHealingSpell implements ISkillFunction {
     private int healingPotency;
+    private final Logger spellLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     public BasicHealingSpell(int healingPotency) {
         this.healingPotency = healingPotency;
@@ -19,5 +22,13 @@ public class BasicHealingSpell implements ISkillFunction {
                                 .orElseThrow(
                                         () -> new MissingComponentException("HealthComponent"));
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + healingPotency);
+
+        spellLogger.log(
+                CustomLogLevel.INFO,
+                this.getClass().getSimpleName()
+                        + " was used by '"
+                        + entity.getClass().getSimpleName()
+                        + "', new HP: "
+                        + hc.getCurrentHealthpoints());
     }
 }
