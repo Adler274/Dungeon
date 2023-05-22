@@ -175,6 +175,13 @@ public class Hero extends Entity {
             case 4 -> this.setupHomingFireballSkill();
             case 5 -> this.setupPiercingArrowSkill();
         }
+        this.getComponent(XPComponent.class)
+            .ifPresent(
+                xc -> {
+                    ((XPComponent) xc)
+                        .setCurrentLevel(((XPComponent) xc).getCurrentLevel() + 1);
+                }
+            );
     }
 
     public float getXSpeed() {
