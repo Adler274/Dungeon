@@ -80,8 +80,8 @@ public class OrcMasked extends Entity {
     }
 
     private void setupHealthComponent() {
-        Animation die=AnimationBuilder.buildAnimation("monster/orcMasked/idleLeft");
-        HealthComponent hc = new HealthComponent(this,health,this::onDeath,die,die);
+        Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+        HealthComponent hc = new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
     }
