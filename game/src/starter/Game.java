@@ -30,8 +30,9 @@ import graphic.DungeonCamera;
 import graphic.Painter;
 import graphic.hud.GameOverMenu;
 import graphic.hud.PauseMenu;
-
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
@@ -51,7 +52,6 @@ import tools.Point;
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private final LevelSize LEVELSIZE = LevelSize.SMALL;
-
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -90,13 +90,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private Logger gameLogger;
 
-    /** Number of current level*/
+    /** Number of current level */
     private static int levelCount;
-    /** Used to save and load savedata using files*/
+    /** Used to save and load savedata using files */
     private final Saving saving = new Saving(this);
-    /** Used to check if you have to check if a ghost is near a tombstone*/
+    /** Used to check if you have to check if a ghost is near a tombstone */
     private boolean hasGhost;
-    /** Needed so the object can be used to trigger its effect (in frame())*/
+    /** Needed so the object can be used to trigger its effect (in frame()) */
     private Tombstone tomb;
 
     public static void main(String[] args) {
@@ -152,7 +152,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected void frame() {
         setCameraFocus();
         DamageMeleeSkill.update();
-        if(hasGhost){
+        if (hasGhost) {
             tomb.despawnAllMonsters();
         }
         manageEntitiesSets();
@@ -165,7 +165,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        if (levelCount == 0  && new File("savefile\\Save.ser").exists()){
+        if (levelCount == 0 && new File("savefile\\Save.ser").exists()) {
             saving.loadSave();
             return;
         }
@@ -173,7 +173,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnMonsters();
         spawnGhost();
         spawnTraps();
-        if (levelCount > 1){
+        if (levelCount > 1) {
             saving.writeSave();
         }
     }
@@ -183,7 +183,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         game.setup();
     }
 
-    public static void end (){
+    public static void end() {
         Gdx.app.exit();
         System.exit(0);
     }
@@ -239,21 +239,21 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
-        //reset speed
+        // reset speed
         VelocityComponent vc =
-            (VelocityComponent)
-                hero.getComponent(VelocityComponent.class)
-                    .orElseThrow(
-                        () -> new MissingComponentException("VelocityComponent"));
+                (VelocityComponent)
+                        hero.getComponent(VelocityComponent.class)
+                                .orElseThrow(
+                                        () -> new MissingComponentException("VelocityComponent"));
         vc.setXVelocity(((Hero) hero).getXSpeed());
         vc.setYVelocity(((Hero) hero).getYSpeed());
-        //heal 1 health
+        // heal 1 health
         HealthComponent hc =
-            (HealthComponent)
-                hero.getComponent(HealthComponent.class)
-                    .orElseThrow(
-                        () -> new MissingComponentException("HealthComponent"));
-        hc.setCurrentHealthpoints(hc.getCurrentHealthpoints()+1);
+                (HealthComponent)
+                        hero.getComponent(HealthComponent.class)
+                                .orElseThrow(
+                                        () -> new MissingComponentException("HealthComponent"));
+        hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 1);
     }
 
     /** Toggle between pause and run */
@@ -353,55 +353,55 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new ProjectileSystem();
     }
 
-    /** Used to spawn monsters randomly based on the current level*/
-    private void spawnMonsters(){
-        if (levelCount < 4){
+    /** Used to spawn monsters randomly based on the current level */
+    private void spawnMonsters() {
+        if (levelCount < 4) {
             int normalCount = ThreadLocalRandom.current().nextInt(1, 4);
-            for(int i = 0; i < normalCount;i++){
+            for (int i = 0; i < normalCount; i++) {
                 entities.add(new OrcNormal());
             }
         } else if (levelCount < 7) {
             int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
             int babyCount = ThreadLocalRandom.current().nextInt(0, 3);
-            for(int i = 0; i < normalCount;i++){
+            for (int i = 0; i < normalCount; i++) {
                 entities.add(new OrcNormal());
             }
-            for (int i = 0; i < babyCount;i++){
+            for (int i = 0; i < babyCount; i++) {
                 entities.add(new OrcBaby());
             }
-        } else if (levelCount < 10){
+        } else if (levelCount < 10) {
             int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
             int babyCount = ThreadLocalRandom.current().nextInt(0, 2);
             int maskedCount = ThreadLocalRandom.current().nextInt(0, 2);
-            for(int i = 0; i < normalCount;i++){
+            for (int i = 0; i < normalCount; i++) {
                 entities.add(new OrcNormal());
             }
-            for (int i = 0; i < babyCount;i++){
+            for (int i = 0; i < babyCount; i++) {
                 entities.add(new OrcBaby());
             }
-            for (int i = 0; i < maskedCount;i++){
+            for (int i = 0; i < maskedCount; i++) {
                 entities.add(new OrcMasked());
             }
         } else {
             int normalCount = ThreadLocalRandom.current().nextInt(2, 4);
             int babyCount = ThreadLocalRandom.current().nextInt(1, 4);
             int maskedCount = ThreadLocalRandom.current().nextInt(1, 3);
-            for(int i = 0; i < normalCount;i++){
+            for (int i = 0; i < normalCount; i++) {
                 entities.add(new OrcNormal());
             }
-            for (int i = 0; i < babyCount;i++){
+            for (int i = 0; i < babyCount; i++) {
                 entities.add(new OrcBaby());
             }
-            for (int i = 0; i < maskedCount;i++){
+            for (int i = 0; i < maskedCount; i++) {
                 entities.add(new OrcMasked());
             }
         }
     }
 
-    /** Used to spawn a ghost and the corresponding tombstone based on chance*/
-    private void spawnGhost(){
+    /** Used to spawn a ghost and the corresponding tombstone based on chance */
+    private void spawnGhost() {
         int rando = ThreadLocalRandom.current().nextInt(0, 5);
-        if (rando == 4){
+        if (rando == 4) {
             Ghost ghost = new Ghost();
             entities.add(ghost);
             entities.add(tomb = new Tombstone(ghost));
@@ -411,11 +411,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Used to spawn a few traps based on chance*/
-    private void spawnTraps(){
+    /** Used to spawn a few traps based on chance */
+    private void spawnTraps() {
         int slowCount = ThreadLocalRandom.current().nextInt(0, 3);
         boolean spawnerBool = ThreadLocalRandom.current().nextBoolean();
-        for (int i = 0; i < slowCount; i++){
+        for (int i = 0; i < slowCount; i++) {
             new SlowTrap();
         }
         if (spawnerBool) {
@@ -426,6 +426,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public static GameOverMenu<Actor> getGameOverMenu() {
         return gameOverMenu;
+    }
+
+    public static void deleteSave() {
+        try {
+            Files.deleteIfExists(Paths.get("savefile\\Save.ser"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getLevelCount() {

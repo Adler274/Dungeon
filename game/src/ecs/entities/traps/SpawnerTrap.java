@@ -5,9 +5,8 @@ import ecs.components.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
-import starter.Game;
-
 import java.util.concurrent.ThreadLocalRandom;
+import starter.Game;
 
 /** A trap spawning a random monster on collision */
 public class SpawnerTrap extends Trap {
@@ -17,43 +16,40 @@ public class SpawnerTrap extends Trap {
     private boolean armed = true;
     private AnimationComponent ac;
 
-    /**
-     * Entity with Components
-     */
-    public SpawnerTrap(){
+    /** Entity with Components */
+    public SpawnerTrap() {
         new PositionComponent(this);
-        ac = new AnimationComponent(this, AnimationBuilder.buildAnimation((DEFAULT_UNUSED_ANIMATION_FRAME)));
+        ac =
+                new AnimationComponent(
+                        this, AnimationBuilder.buildAnimation((DEFAULT_UNUSED_ANIMATION_FRAME)));
         new HitboxComponent(
-            this,
-            (you, other, direction) -> {
-                System.out.println("SpawnerTrapCollisionEnter");
-                if (other.getComponent(PlayableComponent.class).isPresent()){
-                    effect();
-                }
-            }, (you, other, direction) -> System.out.println("SpawnerTrapCollisionLeave"));
+                this,
+                (you, other, direction) -> {
+                    System.out.println("SpawnerTrapCollisionEnter");
+                    if (other.getComponent(PlayableComponent.class).isPresent()) {
+                        effect();
+                    }
+                },
+                (you, other, direction) -> System.out.println("SpawnerTrapCollisionLeave"));
     }
 
-    /**
-     * spawns a random monster and disarms the trap after use
-     */
+    /** spawns a random monster and disarms the trap after use */
     @Override
     public void effect() {
-        if (armed){
+        if (armed) {
             int rando = ThreadLocalRandom.current().nextInt(0, 3);
-            if (rando == 0){
+            if (rando == 0) {
                 Game.addEntity(new OrcNormal());
-            } else if (rando == 1){
+            } else if (rando == 1) {
                 Game.addEntity(new OrcBaby());
-            } else{
+            } else {
                 Game.addEntity(new OrcMasked());
             }
             disarm();
         }
     }
 
-    /**
-     * disarms the trap
-     */
+    /** disarms the trap */
     @Override
     public void disarm() {
         this.armed = false;

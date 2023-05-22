@@ -6,16 +6,8 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
-import ecs.damage.Damage;
-import ecs.damage.DamageType;
-import ecs.systems.ECS_System;
 import graphic.Animation;
-import graphic.hud.GameOverMenu;
 import starter.Game;
-import tools.Point;
-
-import java.util.Set;
-
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
@@ -39,13 +31,11 @@ public class Hero extends Entity implements IOnDeathFunction {
 
     private SkillComponent skills;
 
-    /**
-     * Entity with Components
-     */
+    /** Entity with Components */
     public Hero() {
         super();
         new PositionComponent(this);
-        this.skills = new SkillComponent(this); //new
+        this.skills = new SkillComponent(this); // new
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
@@ -56,7 +46,6 @@ public class Hero extends Entity implements IOnDeathFunction {
         setupSwordSkill();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
-
     }
 
     private void setupVelocityComponent() {
@@ -73,9 +62,13 @@ public class Hero extends Entity implements IOnDeathFunction {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-            this,
-            (you, other, direction) -> System.out.println("heroCollisionEnter: " + other.getClass().getSimpleName()),
-            (you, other, direction) -> System.out.println("heroCollisionLeave: " + other.getClass().getSimpleName()));
+                this,
+                (you, other, direction) ->
+                        System.out.println(
+                                "heroCollisionEnter: " + other.getClass().getSimpleName()),
+                (you, other, direction) ->
+                        System.out.println(
+                                "heroCollisionLeave: " + other.getClass().getSimpleName()));
     }
 
     private void setupHealthComponent() {
@@ -86,30 +79,30 @@ public class Hero extends Entity implements IOnDeathFunction {
     }
 
     private void setupSwordSkill() {
-        firstSkill =
-            new Skill(
-                new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
+        firstSkill = new Skill(new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
         skills.addSkill(firstSkill);
     }
 
     private void setupFireballSkill() {
         firstSkill =
-            new Skill(
-                new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+                new Skill(
+                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
         skills.addSkill(firstSkill);
     }
 
     private void setupHomingFireballSkill() {
         secondSkill =
-            new Skill(
-                new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint), fireballCoolDown);
+                new Skill(
+                        new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint),
+                        fireballCoolDown);
         skills.addSkill(secondSkill);
     }
 
     private void setupPiercingArrowSkill() {
         secondSkill =
-            new Skill(
-                new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint), piercingArrowCoolDown);
+                new Skill(
+                        new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint),
+                        piercingArrowCoolDown);
         skills.addSkill(secondSkill);
     }
 
@@ -123,6 +116,7 @@ public class Hero extends Entity implements IOnDeathFunction {
 
     @Override
     public void onDeath(Entity entity) {
+        Game.deleteSave();
         Game.getGameOverMenu().showMenu();
     }
 }
