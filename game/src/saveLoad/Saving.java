@@ -2,6 +2,7 @@ package saveLoad;
 
 import ecs.components.HealthComponent;
 import ecs.components.skill.SkillTools;
+import ecs.components.xp.XPComponent;
 import ecs.entities.*;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
@@ -40,6 +41,16 @@ public class Saving {
                 hc -> {
                     data.setPlayerHealth(((HealthComponent) hc).getCurrentHealthpoints());
                 });
+        Game.getHero().get().getComponent(XPComponent.class)
+            .ifPresent(
+                xc -> {
+                    data.setPlayerLevel(((XPComponent) xc).getCurrentLevel());
+                });
+        Game.getHero().get().getComponent(XPComponent.class)
+            .ifPresent(
+                xc -> {
+                    data.setPlayerXP(((XPComponent) xc).getCurrentXP());
+                });
 
         ArrayList<String> entityList = new ArrayList<>();
         for(Entity entity : Game.getEntities()){
@@ -75,10 +86,20 @@ public class Saving {
         game.setLevelCount(data.getLevelCount());
         game.setHasGhost(data.isHasGhost());
         int playerHealth = data.getPlayerHealth();
+        long playerLevel = data.getPlayerLevel();
+        long playerXP = data.getPlayerXP();
         Game.getHero().get().getComponent(HealthComponent.class)
             .ifPresent(
                 hc -> {
                     ((HealthComponent) hc).setCurrentHealthpoints(playerHealth);
+                });
+        Game.getHero().get().getComponent(XPComponent.class)
+            .ifPresent(
+                xc -> {
+                    for(long current = 2; current <= playerLevel; current++){
+                        ((XPComponent) xc).levelUp(current);
+                    }
+                    ((XPComponent) xc).setCurrentXP(playerXP);
                 });
         for(String entity : data.getEntityList()){
             switch (entity) {

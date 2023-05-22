@@ -9,6 +9,8 @@ public class DataStorage implements Serializable {
     private ArrayList<String> entityList;
     private int levelCount;
     private int playerHealth;
+    private long playerLevel;
+    private long playerXP;
     private boolean hasGhost;
 
     public ArrayList<String> getEntityList() {
@@ -41,5 +43,21 @@ public class DataStorage implements Serializable {
 
     public void setPlayerHealth(int playerHealth) {
         this.playerHealth = playerHealth;
+    }
+
+    public long getPlayerLevel() {
+        return playerLevel;
+    }
+
+    public void setPlayerLevel(long playerLevel) {
+        this.playerLevel = playerLevel;
+    }
+
+    public long getPlayerXP() {
+        return playerXP;
+    }
+
+    public void setPlayerXP(long playerXP) {
+        this.playerXP = playerXP;
     }
 }
