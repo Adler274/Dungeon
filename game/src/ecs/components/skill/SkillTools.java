@@ -6,10 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import ecs.components.HealthComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
-import ecs.components.stats.DamageModifier;
-import ecs.components.stats.StatsComponent;
-import ecs.damage.Damage;
-import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import starter.Game;
 import tools.Point;
@@ -50,17 +46,17 @@ public class SkillTools {
      * @param aimPoint point to aim for
      * @return rough direction of aimPoint in refernce to startPoint
      */
-    public static String calculateMeleeDirection(Point startPoint, Point aimPoint){
+    public static String calculateMeleeDirection(Point startPoint, Point aimPoint) {
         float xDiff = aimPoint.x - startPoint.x;
         float yDiff = aimPoint.y - startPoint.y;
-        if (Math.abs(xDiff) < Math.abs(yDiff)){
-            if (yDiff > 0){
+        if (Math.abs(xDiff) < Math.abs(yDiff)) {
+            if (yDiff > 0) {
                 return "up";
             } else {
                 return "down";
             }
         } else {
-            if (xDiff > 0){
+            if (xDiff > 0) {
                 return "right";
             } else {
                 return "left";
@@ -99,19 +95,18 @@ public class SkillTools {
      * @param user entity used as reference
      * @return closest Entity with a HealthComponent
      */
-    public static Point getClosestEntityPositionAsPoint(Entity user){
+    public static Point getClosestEntityPositionAsPoint(Entity user) {
         PositionComponent userPC =
-            (PositionComponent)
-                user.getComponent(PositionComponent.class).orElseThrow();
+                (PositionComponent) user.getComponent(PositionComponent.class).orElseThrow();
         float maxDistance = -1;
         Point targetPoint = SkillTools.getCursorPositionAsPoint();
         for (Entity target : Game.getEntities()) {
             if (target.getComponent(HealthComponent.class).isPresent()
-                && target.getComponent(PositionComponent.class).isPresent()
-                && target != user){
+                    && target.getComponent(PositionComponent.class).isPresent()
+                    && target != user) {
                 PositionComponent targetPC =
-                    (PositionComponent)
-                        target.getComponent(PositionComponent.class).orElseThrow();
+                        (PositionComponent)
+                                target.getComponent(PositionComponent.class).orElseThrow();
                 Point userEntityPosition = userPC.getPosition();
                 Point targetEntityPosition = targetPC.getPosition();
                 float distance = Point.calculateDistance(userEntityPosition, targetEntityPosition);
@@ -129,7 +124,7 @@ public class SkillTools {
      *
      * @return entity closest to the hero with HealthComponent
      */
-    public static Point getClosestEnemyPositionAsPoint(){
+    public static Point getClosestEnemyPositionAsPoint() {
         return getClosestEntityPositionAsPoint(Game.getHero().get());
     }
 
@@ -140,15 +135,16 @@ public class SkillTools {
      * @param entity to receive knockback
      * @param knockback how much knockback
      */
-    public static void applyKnockback(Point hitDirection, Entity entity, float knockback){
-        PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
+    public static void applyKnockback(Point hitDirection, Entity entity, float knockback) {
+        PositionComponent pc =
+                (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
         Point position = pc.getPosition();
-        Point direction = Point.getUnitDirectionalVector(position,hitDirection);
-        entity.getComponent(VelocityComponent.class).ifPresent(
-            vc ->{
-                ((VelocityComponent)vc).setCurrentXVelocity(direction.x*knockback);
-                ((VelocityComponent)vc).setCurrentYVelocity(direction.y*knockback);
-            }
-        );
+        Point direction = Point.getUnitDirectionalVector(position, hitDirection);
+        entity.getComponent(VelocityComponent.class)
+                .ifPresent(
+                        vc -> {
+                            ((VelocityComponent) vc).setCurrentXVelocity(direction.x * knockback);
+                            ((VelocityComponent) vc).setCurrentYVelocity(direction.y * knockback);
+                        });
     }
 }

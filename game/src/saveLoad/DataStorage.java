@@ -3,10 +3,11 @@ package saveLoad;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/** DataStorage objects are used to store the savedata in a savefile*/
+/** DataStorage objects are used to store the savedata in a savefile */
 public class DataStorage implements Serializable {
     /** Stores the name of entities as Strings */
     private ArrayList<String> entityList;
+
     private int levelCount;
     private int playerHealth;
     private long playerLevel;
