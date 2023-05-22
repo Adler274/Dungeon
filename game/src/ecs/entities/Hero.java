@@ -19,6 +19,8 @@ public class Hero extends Entity  {
     private final int fireballCoolDown = 2;
     private final int piercingArrowCoolDown = 5;
     private final int physicalWeaknessCoolDown = 1;
+    private final int basicHealingCoolDown = 10;
+    private final int basicHealingPotency = 2;
     private final int health = 7;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
@@ -115,7 +117,7 @@ public class Hero extends Entity  {
     private void setupBasicHealingSpell(){
         secondSkill =
             new Skill(
-                new BasicHealingSpell(1),1);
+                new BasicHealingSpell(basicHealingPotency),basicHealingCoolDown);
         skills.addSkill(secondSkill);
     }
 
