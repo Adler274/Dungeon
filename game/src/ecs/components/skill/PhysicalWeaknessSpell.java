@@ -16,6 +16,7 @@ public class PhysicalWeaknessSpell extends NonDamagingProjectilleSpells {
     }
 
     @Override
+    /** sets physical damage multiplier to x3 upon collision */
     protected void effect(Entity entity, Entity projectile) {
         ICollide collide =
                 (a, b, from) -> {

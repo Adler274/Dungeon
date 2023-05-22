@@ -68,5 +68,6 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
                         });
     }
 
+    /** actual effect of the spell implementing Collide and Hitbox */
     protected abstract void effect(Entity entity, Entity projectile);
 }

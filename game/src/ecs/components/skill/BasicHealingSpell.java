@@ -11,6 +11,7 @@ public class BasicHealingSpell implements ISkillFunction {
         this.healingPotency = healingPotency;
     }
 
+    /** Increases the users current health by healingPotency */
     public void execute(Entity entity) {
         HealthComponent hc =
                 (HealthComponent)
