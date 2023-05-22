@@ -76,7 +76,7 @@ public class Hero extends Entity {
     private void setupHealthComponent() {
         Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
         HealthComponent hc =
-            new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
+                new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
     }

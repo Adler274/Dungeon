@@ -17,12 +17,11 @@ public class SlowTrap extends Trap {
         new HitboxComponent(
                 this,
                 (you, other, direction) -> {
-                    System.out.println("SlowTrapCollisionEnter");
                     if (other.getComponent(PlayableComponent.class).isPresent()) {
                         effect();
                     }
                 },
-                (you, other, direction) -> System.out.println("SlowTrapCollisionLeave"));
+                null);
     }
 
     /** slows the player and disarms the trap after use */

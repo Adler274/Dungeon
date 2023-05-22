@@ -25,12 +25,11 @@ public class SpawnerTrap extends Trap {
         new HitboxComponent(
                 this,
                 (you, other, direction) -> {
-                    System.out.println("SpawnerTrapCollisionEnter");
                     if (other.getComponent(PlayableComponent.class).isPresent()) {
                         effect();
                     }
                 },
-                (you, other, direction) -> System.out.println("SpawnerTrapCollisionLeave"));
+                null);
     }
 
     /** spawns a random monster and disarms the trap after use */
