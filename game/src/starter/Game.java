@@ -406,7 +406,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             SpawnerTrap spawner = new SpawnerTrap();
             new TrapSwitch(spawner);
         }
-
     }
 
     public int getLevelCount() {
