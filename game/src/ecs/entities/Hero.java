@@ -28,8 +28,11 @@ public class Hero extends Entity {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
+    private Skill meleeSkill;
     private Skill firstSkill;
     private Skill secondSkill;
+    private Skill thirdSkill;
+    private Skill fourthSkill;
     private SkillComponent skills;
 
     /** Entity with Components */
@@ -42,11 +45,8 @@ public class Hero extends Entity {
         setupHitboxComponent();
         setupHealthComponent();
         setupXpComponent();
-        PlayableComponent pc = new PlayableComponent(this);
-        setupPiercingArrowSkill();
-        setupHomingFireballSkill();
+        new PlayableComponent(this);
         setupSwordSkill();
-        pc.setSkillSlot1(firstSkill);
     }
 
     private void setupVelocityComponent() {
@@ -83,23 +83,38 @@ public class Hero extends Entity {
     }
 
     private void setupSwordSkill() {
-        firstSkill = new Skill(new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
-        skills.addSkill(firstSkill);
+        meleeSkill = new Skill(new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
+        skills.addSkill(meleeSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill);
+            }
+        );
     }
 
     private void setupFireballSkill() {
-        secondSkill =
+        firstSkill =
                 new Skill(
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-        skills.addSkill(secondSkill);
+        skills.addSkill(firstSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlot1(firstSkill);
+            }
+        );
     }
 
     private void setupHomingFireballSkill() {
-        secondSkill =
+        firstSkill =
                 new Skill(
                         new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint),
                         fireballCoolDown);
-        skills.addSkill(secondSkill);
+        skills.addSkill(firstSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlot1(firstSkill);
+            }
+        );
     }
 
     private void setupPiercingArrowSkill() {
@@ -108,19 +123,34 @@ public class Hero extends Entity {
                         new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint),
                         piercingArrowCoolDown);
         skills.addSkill(secondSkill);
-    }
-
-    private void setupPhysicalWeaknessSpell() {
-        secondSkill =
-                new Skill(
-                        new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),
-                        physicalWeaknessCoolDown);
-        skills.addSkill(secondSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlot2(secondSkill);
+            }
+        );
     }
 
     private void setupBasicHealingSpell() {
-        secondSkill = new Skill(new BasicHealingSpell(basicHealingPotency), basicHealingCoolDown);
-        skills.addSkill(secondSkill);
+        thirdSkill = new Skill(new BasicHealingSpell(basicHealingPotency), basicHealingCoolDown);
+        skills.addSkill(thirdSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlot3(thirdSkill);
+            }
+        );
+    }
+
+    private void setupPhysicalWeaknessSpell() {
+        fourthSkill =
+                new Skill(
+                        new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),
+                        physicalWeaknessCoolDown);
+        skills.addSkill(fourthSkill);
+        this.getComponent(PlayableComponent.class).ifPresent(
+            pc -> {
+                ((PlayableComponent) pc).setSkillSlot4(fourthSkill);
+            }
+        );
     }
 
     public void onLevelUp(long nexLevel) {
