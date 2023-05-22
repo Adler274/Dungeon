@@ -183,7 +183,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
         entitiesToRemove.clear();
         entitiesToAdd.clear();
-
     }
 
     private void setCameraFocus() {
@@ -336,10 +335,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
-
     }
-
-
+    
     /** Used to spawn monsters randomly based on the current level*/
     private void spawnMonsters(){
         if (levelCount < 4){

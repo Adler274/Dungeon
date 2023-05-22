@@ -14,8 +14,6 @@ import ecs.entities.Entity;
 import starter.Game;
 import tools.Point;
 
-
-
 public class SkillTools {
 
     /**
@@ -153,5 +151,4 @@ public class SkillTools {
             }
         );
     }
-
 }
