@@ -168,11 +168,11 @@ public class Hero extends Entity {
                                             ((HealthComponent) hc).getCurrentHealthpoints() + 1);
                         });
         switch ((int) nexLevel) {
-            case 2 -> this.setupFireballSkill();
-            case 3 -> this.setupBasicHealingSpell();
-            case 4 -> this.setupPhysicalWeaknessSpell();
-            case 5 -> this.setupHomingFireballSkill();
-            case 6 -> this.setupPiercingArrowSkill();
+            case 1 -> this.setupFireballSkill();
+            case 2 -> this.setupBasicHealingSpell();
+            case 3 -> this.setupPhysicalWeaknessSpell();
+            case 4 -> this.setupHomingFireballSkill();
+            case 5 -> this.setupPiercingArrowSkill();
         }
     }
 
