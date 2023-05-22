@@ -87,6 +87,7 @@ public class OrcBaby extends Entity {
         xc.setLootXP(lootXP);
     }
 
+    /** player earns xp upon death */
     private void onDeath(Entity entity) {
         Game.getHero()
                 .get()

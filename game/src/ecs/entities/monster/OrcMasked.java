@@ -87,6 +87,7 @@ public class OrcMasked extends Entity {
         hc.setCurrentHealthpoints(health);
     }
 
+    /** player earns xp upon death */
     private void onDeath(Entity entity) {
         Game.getHero()
                 .get()

@@ -156,6 +156,7 @@ public class Hero extends Entity {
                         });
     }
 
+    /** Increases players health upon levelUp and learns new skills */
     public void onLevelUp(long nexLevel) {
         this.getComponent(HealthComponent.class)
                 .ifPresent(
@@ -184,6 +185,7 @@ public class Hero extends Entity {
         return ySpeed;
     }
 
+    /** Deletes the current savefile and opens the GameOverMenu upon player death */
     public void onDeath(Entity entity) {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();
