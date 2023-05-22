@@ -8,7 +8,10 @@ import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import ecs.systems.ECS_System;
 import graphic.Animation;
+import graphic.hud.GameOverMenu;
+import starter.Game;
 import tools.Point;
 
 import java.util.Set;
@@ -18,7 +21,7 @@ import java.util.Set;
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity {
+public class Hero extends Entity implements IOnDeathFunction {
 
     private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
@@ -32,6 +35,7 @@ public class Hero extends Entity {
     private final String pathToRunRight = "knight/runRight";
     private Skill firstSkill;
     private Skill secondSkill;
+    private Game game;
 
     private SkillComponent skills;
 
@@ -52,6 +56,7 @@ public class Hero extends Entity {
         setupSwordSkill();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
+
     }
 
     private void setupVelocityComponent() {
@@ -74,7 +79,8 @@ public class Hero extends Entity {
     }
 
     private void setupHealthComponent() {
-        HealthComponent hc = new HealthComponent(this);
+        Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+        HealthComponent hc = new HealthComponent(this, 7, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(7);
         hc.setCurrentHealthpoints(7);
     }
@@ -113,5 +119,10 @@ public class Hero extends Entity {
 
     public float getYSpeed() {
         return ySpeed;
+    }
+
+    @Override
+    public void onDeath(Entity entity) {
+        Game.getGameOverMenu().showMenu();
     }
 }
