@@ -16,15 +16,11 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
 
     private String pathToTexturesOfProjectile;
     private float projectileSpeed;
-
     private float projectileRange;
-
     private Point projectileHitboxSize;
-
     private ITargetSelection selectionFunction;
-
     private int healthCost;
-    private boolean selfDamage=true;
+    private boolean selfDamage = true;
 
 
     public NonDamagingProjectilleSpells(
@@ -72,9 +68,7 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
                                 sc -> {
                                     ((StatsComponent) sc).getDamageModifiers().setMultiplier(DamageType.PHYSICAL, 3);
                                     Game.removeEntity(projectile);
-
                                 }
-
                             );
                         // Leben werden nur abgezogen wenn, eine Entitiy mit StatsComponent getroffen wird.
                         Game.getHero().get().getComponent(HealthComponent.class).ifPresent(
@@ -84,12 +78,8 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
                                 } else {
                                     selfDamage = false;
                                 }
-
                             }
-
                         );
-
-
                     }
                 };
             new HitboxComponent(
