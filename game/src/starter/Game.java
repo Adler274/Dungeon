@@ -28,8 +28,11 @@ import ecs.entities.traps.TrapSwitch;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
+import graphic.hud.GameOverMenu;
 import graphic.hud.PauseMenu;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
@@ -67,6 +70,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Generates the level */
     protected IGenerator generator;
 
+    private static Game game;
     private boolean doSetup = true;
     private static boolean paused = false;
 
@@ -81,12 +85,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static SystemController systems;
 
     public static ILevel currentLevel;
+    private static GameOverMenu<Actor> gameOverMenu;
     private static PauseMenu<Actor> pauseMenu;
     private static Entity hero;
     private Logger gameLogger;
 
     /** Number of current level */
-    private int levelCount;
+    private static int levelCount;
     /** Used to save and load savedata using files */
     private final Saving saving = new Saving(this);
     /** Used to check if you have to check if a ghost is near a tombstone */
@@ -101,7 +106,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        DesktopLauncher.run(new Game());
+        DesktopLauncher.run(game = new Game());
     }
 
     /**
@@ -135,6 +140,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(systems);
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
+        gameOverMenu = new GameOverMenu<>();
+        controller.add(gameOverMenu);
         hero = new Hero();
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -169,6 +176,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (levelCount > 1) {
             saving.writeSave();
         }
+    }
+
+    public static void restart() {
+        levelCount = 0;
+        game.setup();
+    }
+
+    public static void end() {
+        Gdx.app.exit();
+        System.exit(0);
     }
 
     private void manageEntitiesSets() {
@@ -404,6 +421,18 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (spawnerBool) {
             SpawnerTrap spawner = new SpawnerTrap();
             new TrapSwitch(spawner);
+        }
+    }
+
+    public static GameOverMenu<Actor> getGameOverMenu() {
+        return gameOverMenu;
+    }
+
+    public static void deleteSave() {
+        try {
+            Files.deleteIfExists(Paths.get("savefile\\Save.ser"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -46,12 +46,6 @@ public class Saving {
                 .ifPresent(
                         xc -> {
                             data.setPlayerLevel(((XPComponent) xc).getCurrentLevel());
-                        });
-        Game.getHero()
-                .get()
-                .getComponent(XPComponent.class)
-                .ifPresent(
-                        xc -> {
                             data.setPlayerXP(((XPComponent) xc).getCurrentXP());
                         });
 

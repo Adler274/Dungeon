@@ -8,12 +8,13 @@ import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
 import ecs.components.xp.XPComponent;
 import graphic.Animation;
+import starter.Game;
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity {
+public class Hero extends Entity implements IOnDeathFunction {
 
     private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
@@ -179,5 +180,11 @@ public class Hero extends Entity {
 
     public float getYSpeed() {
         return ySpeed;
+    }
+
+    @Override
+    public void onDeath(Entity entity) {
+        Game.deleteSave();
+        Game.getGameOverMenu().showMenu();
     }
 }
