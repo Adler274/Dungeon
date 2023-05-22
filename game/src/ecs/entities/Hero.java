@@ -14,7 +14,7 @@ import starter.Game;
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity implements IOnDeathFunction {
+public class Hero extends Entity {
 
     private final int swordCoolDown = 1;
     private final int fireballCoolDown = 2;
@@ -40,7 +40,7 @@ public class Hero extends Entity implements IOnDeathFunction {
     public Hero() {
         super();
         new PositionComponent(this);
-        this.skills = new SkillComponent(this); // new
+        this.skills = new SkillComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
@@ -74,7 +74,9 @@ public class Hero extends Entity implements IOnDeathFunction {
     }
 
     private void setupHealthComponent() {
-        HealthComponent hc = new HealthComponent(this);
+        Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+        HealthComponent hc =
+            new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
     }
@@ -182,7 +184,6 @@ public class Hero extends Entity implements IOnDeathFunction {
         return ySpeed;
     }
 
-    @Override
     public void onDeath(Entity entity) {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();
