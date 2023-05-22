@@ -37,7 +37,7 @@ public class OrcNormal extends Entity {
         setupAnimationComponent();
         setupHitboxComponent();
         setupHealthComponent();
-        setupStatsComponent();
+        new StatsComponent(this);
     }
 
     private void setupVelocityComponent() {
@@ -75,8 +75,5 @@ public class OrcNormal extends Entity {
         HealthComponent hc = new HealthComponent(this);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
-    }
-    private void setupStatsComponent(){
-        StatsComponent sc = new StatsComponent(this);
     }
 }
