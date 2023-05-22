@@ -37,7 +37,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
         add((T) screenText);
 
-        // restart nutton
+        // restart button
         ScreenButton restart =
                 new ScreenButton(
                         "Restart Game",
@@ -58,7 +58,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_HEIGHT) / 2f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
-        // end the game
+        // button for ending the game
         ScreenButton quit =
                 new ScreenButton(
                         "Quit Game",
