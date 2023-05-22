@@ -7,11 +7,9 @@ import ecs.entities.Entity;
 public class BasicHealingSpell implements ISkillFunction  {
     private int healingPotency;
 
-
     public BasicHealingSpell(int healingPotency){
-        this.healingPotency=healingPotency;
+        this.healingPotency = healingPotency;
     }
-
 
     public void execute(Entity entity){
         HealthComponent hc =
@@ -19,8 +17,6 @@ public class BasicHealingSpell implements ISkillFunction  {
                 entity.getComponent(HealthComponent.class)
                     .orElseThrow(
                         () -> new MissingComponentException("HealthComponent"));
-        if(hc.getCurrentHealthpoints()<hc.getMaximalHealthpoints()+healingPotency){
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints()+healingPotency);
-            System.out.println(hc.getCurrentHealthpoints());}
     }
 }
