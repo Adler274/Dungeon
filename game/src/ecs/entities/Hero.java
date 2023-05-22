@@ -38,7 +38,6 @@ public class Hero extends Entity  {
     private final String pathToRunRight = "knight/runRight";
     private Skill firstSkill;
     private Skill secondSkill;
-
     private SkillComponent skills;
 
     /**

@@ -23,11 +23,11 @@ public class OrcNormal extends Entity {
     private final float xSpeed = 0.2f;
     private final float ySpeed = 0.2f;
     private final int health = 3;
+    private final int lootXP = 10;
     private final String pathToIdleLeft = "monster/orcNormal/idleLeft";
     private final String pathToIdleRight = "monster/orcNormal/idleRight";
     private final String pathToRunLeft = "monster/orcNormal/runLeft";
     private final String pathToRunRight = "monster/orcNormal/runRight";
-    private final int lootXP = 10;
 
     /**
      * Entity with Components
