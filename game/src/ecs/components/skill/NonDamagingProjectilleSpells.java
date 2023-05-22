@@ -14,13 +14,13 @@ import tools.Point;
 
 public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
 
-    private String pathToTexturesOfProjectile;
-    private float projectileSpeed;
-    private float projectileRange;
-    private Point projectileHitboxSize;
-    private ITargetSelection selectionFunction;
-    private int healthCost;
-    private boolean selfDamage = true;
+    protected String pathToTexturesOfProjectile;
+    protected float projectileSpeed;
+    protected float projectileRange;
+    protected Point projectileHitboxSize;
+    protected ITargetSelection selectionFunction;
+    protected int healthCost;
+    protected boolean selfDamage = true;
 
 
     public NonDamagingProjectilleSpells(
@@ -36,7 +36,6 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
         this.projectileHitboxSize = projectileHitboxSize;
         this.healthCost=healthCost;
         this.selectionFunction = selectionFunction;
-
     }
 
     @Override
@@ -60,6 +59,9 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
             SkillTools.calculateVelocity(epc.getPosition(), targetPoint, projectileSpeed);
         new VelocityComponent(projectile, velocity.x, velocity.y, animation, animation);
         new ProjectileComponent(projectile, epc.getPosition(), targetPoint);
+
+        this.effect(entity, projectile);
+        /*
             ICollide collide =
                 (a, b, from) -> {
                     if (b != entity) {
@@ -84,8 +86,9 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
                 };
             new HitboxComponent(
                 projectile, new Point(0.25f, 0.25f), projectileHitboxSize, collide, null);
+         */
         }
     }
-    }
 
-
+    protected abstract void effect(Entity entity, Entity projectile);
+}
