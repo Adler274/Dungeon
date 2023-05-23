@@ -4,6 +4,8 @@ import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.entities.Entity;
 import graphic.Animation;
+import java.util.logging.Logger;
+import logging.CustomLogLevel;
 import tools.Point;
 
 public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
@@ -14,6 +16,8 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
     protected Point projectileHitboxSize;
     protected ITargetSelection selectionFunction;
     protected int healthCost;
+
+    protected final Logger spellLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     public NonDamagingProjectilleSpells(
             String pathToTexturesOfProjectile,
@@ -66,7 +70,15 @@ public abstract class NonDamagingProjectilleSpells implements ISkillFunction {
                                 this.effect(entity, projectile);
                             }
                         });
+
+        spellLogger.log(
+                CustomLogLevel.INFO,
+                this.getClass().getSimpleName()
+                        + " was used by '"
+                        + entity.getClass().getSimpleName()
+                        + "'");
     }
 
+    /** actual effect of the spell implementing Collide and Hitbox */
     protected abstract void effect(Entity entity, Entity projectile);
 }

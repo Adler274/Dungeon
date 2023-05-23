@@ -97,7 +97,7 @@ public class Saving {
                 .getComponent(XPComponent.class)
                 .ifPresent(
                         xc -> {
-                            for (long current = 2; current <= playerLevel; current++) {
+                            for (long current = 1; current <= playerLevel; current++) {
                                 ((XPComponent) xc).levelUp(current);
                             }
                             ((XPComponent) xc).setCurrentXP(playerXP);

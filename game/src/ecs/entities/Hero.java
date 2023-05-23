@@ -76,7 +76,7 @@ public class Hero extends Entity {
     private void setupHealthComponent() {
         Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
         HealthComponent hc =
-            new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
+                new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
         hc.setMaximalHealthpoints(health);
         hc.setCurrentHealthpoints(health);
     }
@@ -156,6 +156,7 @@ public class Hero extends Entity {
                         });
     }
 
+    /** Increases players health upon levelUp and learns new skills */
     public void onLevelUp(long nexLevel) {
         this.getComponent(HealthComponent.class)
                 .ifPresent(
@@ -168,12 +169,18 @@ public class Hero extends Entity {
                                             ((HealthComponent) hc).getCurrentHealthpoints() + 1);
                         });
         switch ((int) nexLevel) {
-            case 2 -> this.setupFireballSkill();
-            case 3 -> this.setupBasicHealingSpell();
-            case 4 -> this.setupPhysicalWeaknessSpell();
-            case 5 -> this.setupHomingFireballSkill();
-            case 6 -> this.setupPiercingArrowSkill();
+            case 1 -> this.setupFireballSkill();
+            case 2 -> this.setupBasicHealingSpell();
+            case 3 -> this.setupPhysicalWeaknessSpell();
+            case 4 -> this.setupHomingFireballSkill();
+            case 5 -> this.setupPiercingArrowSkill();
         }
+        this.getComponent(XPComponent.class)
+                .ifPresent(
+                        xc -> {
+                            ((XPComponent) xc)
+                                    .setCurrentLevel(((XPComponent) xc).getCurrentLevel() + 1);
+                        });
     }
 
     public float getXSpeed() {
@@ -184,6 +191,7 @@ public class Hero extends Entity {
         return ySpeed;
     }
 
+    /** Deletes the current savefile and opens the GameOverMenu upon player death */
     public void onDeath(Entity entity) {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();

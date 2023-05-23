@@ -6,11 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
+import java.util.logging.Logger;
+import logging.CustomLogLevel;
 import starter.Game;
 import tools.Constants;
 import tools.Point;
 
 public class GameOverMenu<T extends Actor> extends ScreenController<T> {
+
+    private final Logger menuLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     /** Creates a new GameOverMEnu with a new Spritebatch */
     public GameOverMenu() {
@@ -37,7 +41,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
         add((T) screenText);
 
-        // restart nutton
+        // restart button
         ScreenButton restart =
                 new ScreenButton(
                         "Restart Game",
@@ -46,6 +50,8 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
                                 Game.restart();
+
+                                menuLogger.log(CustomLogLevel.INFO, "The game has been restarted.");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -58,7 +64,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_HEIGHT) / 2f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
-        // end the game
+        // button for ending the game
         ScreenButton quit =
                 new ScreenButton(
                         "Quit Game",
@@ -87,6 +93,8 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
     /** shows the Menu */
     public void showMenu() {
         this.forEach((Actor s) -> s.setVisible(true));
+
+        menuLogger.log(CustomLogLevel.INFO, "The GameOverMenu has been opened.");
     }
 
     /** hides the Menu */

@@ -2,6 +2,7 @@ package ecs.components;
 
 import ecs.entities.Entity;
 import java.util.logging.Logger;
+import logging.CustomLogLevel;
 
 /** Component is a piece of data associated with an entity */
 public abstract class Component {
@@ -20,7 +21,8 @@ public abstract class Component {
         this.entity = entity;
         entity.addComponent(this);
         Logger componentLogger = Logger.getLogger(this.getClass().getName());
-        componentLogger.info(
+        componentLogger.log(
+                CustomLogLevel.DEBUG,
                 "The component '"
                         + this.getClass().getSimpleName()
                         + "' was added to entity '"
