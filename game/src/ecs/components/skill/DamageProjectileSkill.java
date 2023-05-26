@@ -37,18 +37,19 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
         this.projectileRange = projectileRange;
         this.projectileHitboxSize = projectileHitboxSize;
         this.selectionFunction = selectionFunction;
-        this.knockback = 0.8f;  //default value
-        this.piercing = false;  //default value
+        this.knockback = 0.8f; // default value
+        this.piercing = false; // default value
     }
+
     public DamageProjectileSkill(
-        String pathToTexturesOfProjectile,
-        float projectileSpeed,
-        Damage projectileDamage,
-        Point projectileHitboxSize,
-        ITargetSelection selectionFunction,
-        float projectileRange,
-        float knockback,
-        boolean piercing) {
+            String pathToTexturesOfProjectile,
+            float projectileSpeed,
+            Damage projectileDamage,
+            Point projectileHitboxSize,
+            ITargetSelection selectionFunction,
+            float projectileRange,
+            float knockback,
+            boolean piercing) {
         this.pathToTexturesOfProjectile = pathToTexturesOfProjectile;
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = projectileSpeed;
@@ -58,7 +59,6 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
         this.knockback = knockback;
         this.piercing = piercing;
     }
-
 
     @Override
     public void execute(Entity entity) {
@@ -87,10 +87,11 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
                                 .ifPresent(
                                         hc -> {
                                             ((HealthComponent) hc).receiveHit(projectileDamage);
-                                            if (!piercing){
+                                            if (!piercing) {
                                                 Game.removeEntity(projectile);
                                             }
-                                            SkillTools.applyKnockback(epc.getPosition(),b ,knockback);
+                                            SkillTools.applyKnockback(
+                                                    epc.getPosition(), b, knockback);
                                         });
                     }
                 };

@@ -2,8 +2,6 @@ package tools;
 
 import level.tools.Coordinate;
 
-import java.io.Serializable;
-
 /**
  * For easy handling of positions in the dungeon. <br>
  * No getter needed. All attributes are public. <br>

@@ -9,7 +9,7 @@ import ecs.components.ai.transition.RangeTransition;
 import ecs.entities.Entity;
 import graphic.Animation;
 
-/** A freindly follower (used to trigger an effect in conjunction with a Tombstone object)*/
+/** A freindly follower (used to trigger an effect in conjunction with a Tombstone object) */
 public class Ghost extends Entity {
 
     private final float xSpeed = 0.1f;
@@ -19,8 +19,8 @@ public class Ghost extends Entity {
     private final String pathToRunLeft = "npc/ghost/runLeft";
     private final String pathToRunRight = "npc/ghost/runRight";
 
-    /** Entity with Components*/
-    public Ghost(){
+    /** Entity with Components */
+    public Ghost() {
         super();
         new AIComponent(this, new CollideAI(0f), new GhostWalk(), new RangeTransition(0));
         new PositionComponent(this);
@@ -42,9 +42,6 @@ public class Ghost extends Entity {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(
-            this,
-            null,
-            null);
+        new HitboxComponent(this, null, null);
     }
 }

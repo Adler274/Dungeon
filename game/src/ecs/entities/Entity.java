@@ -1,10 +1,10 @@
 package ecs.entities;
 
 import ecs.components.Component;
-
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Logger;
+import logging.CustomLogLevel;
 import semanticAnalysis.types.DSLContextPush;
 import semanticAnalysis.types.DSLType;
 import starter.Game;
@@ -22,7 +22,9 @@ public class Entity {
         components = new HashMap<>();
         Game.addEntity(this);
         entityLogger = Logger.getLogger(this.getClass().getName());
-        entityLogger.info("The entity '" + this.getClass().getSimpleName() + "' was created.");
+        entityLogger.log(
+                CustomLogLevel.DEBUG,
+                "The entity '" + this.getClass().getSimpleName() + "' was created.");
     }
 
     /**
@@ -52,5 +54,4 @@ public class Entity {
     public Optional<Component> getComponent(Class klass) {
         return Optional.ofNullable(components.get(klass));
     }
-
 }

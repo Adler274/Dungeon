@@ -3,12 +3,15 @@ package saveLoad;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/** DataStorage objects are used to store the savedata in a savefile*/
+/** DataStorage objects are used to store the savedata in a savefile */
 public class DataStorage implements Serializable {
     /** Stores the name of entities as Strings */
     private ArrayList<String> entityList;
+
     private int levelCount;
     private int playerHealth;
+    private long playerLevel;
+    private long playerXP;
     private boolean hasGhost;
 
     public ArrayList<String> getEntityList() {
@@ -41,5 +44,21 @@ public class DataStorage implements Serializable {
 
     public void setPlayerHealth(int playerHealth) {
         this.playerHealth = playerHealth;
+    }
+
+    public long getPlayerLevel() {
+        return playerLevel;
+    }
+
+    public void setPlayerLevel(long playerLevel) {
+        this.playerLevel = playerLevel;
+    }
+
+    public long getPlayerXP() {
+        return playerXP;
+    }
+
+    public void setPlayerXP(long playerXP) {
+        this.playerXP = playerXP;
     }
 }

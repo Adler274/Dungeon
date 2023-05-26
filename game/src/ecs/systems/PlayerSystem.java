@@ -36,10 +36,16 @@ public class PlayerSystem extends ECS_System {
             InteractionTool.interactWithClosestInteractable(ksd.e);
 
         // check skills
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.MELEE_SKILL.get()))
+            ksd.pc.getSkillSlotMelee().ifPresent(skill -> skill.execute(ksd.e));
         else if (Gdx.input.isKeyPressed(KeyboardConfig.FIRST_SKILL.get()))
             ksd.pc.getSkillSlot1().ifPresent(skill -> skill.execute(ksd.e));
         else if (Gdx.input.isKeyPressed(KeyboardConfig.SECOND_SKILL.get()))
             ksd.pc.getSkillSlot2().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.THIRD_SKILL.get()))
+            ksd.pc.getSkillSlot3().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.FOURTH_SKILL.get()))
+            ksd.pc.getSkillSlot4().ifPresent(skill -> skill.execute(ksd.e));
     }
 
     private KSData buildDataObject(PlayableComponent pc) {

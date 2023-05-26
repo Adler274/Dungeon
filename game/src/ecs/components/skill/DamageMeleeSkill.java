@@ -7,11 +7,7 @@ import ecs.damage.Damage;
 import ecs.entities.Entity;
 import graphic.Animation;
 import starter.Game;
-import tools.Constants;
 import tools.Point;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public abstract class DamageMeleeSkill implements ISkillFunction {
 
@@ -60,26 +56,25 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                                 .orElseThrow(
                                         () -> new MissingComponentException("PositionComponent"));
         Point aimedOn = selectionFunction.selectTargetPoint();
-        String direction = SkillTools.calculateMeleeDirection(
-            epc.getPosition(), aimedOn);
+        String direction = SkillTools.calculateMeleeDirection(epc.getPosition(), aimedOn);
         Animation animation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
         Point targetPoint = epc.getPosition();
-        switch (direction){
+        switch (direction) {
             case "up" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackUp);
-                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y+0.5f);
+                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y + 0.5f);
             }
             case "down" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackDown);
-                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y-0.75f);
+                targetPoint = new Point(epc.getPosition().x, epc.getPosition().y - 0.75f);
             }
             case "left" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackLeft);
-                targetPoint = new Point(epc.getPosition().x-0.75f, epc.getPosition().y);
+                targetPoint = new Point(epc.getPosition().x - 0.75f, epc.getPosition().y);
             }
             case "right" -> {
                 animation = AnimationBuilder.buildAnimation(pathToTexturesOfAttackRight);
-                targetPoint = new Point(epc.getPosition().x+0.5f, epc.getPosition().y);
+                targetPoint = new Point(epc.getPosition().x + 0.5f, epc.getPosition().y);
             }
         }
         new AnimationComponent(attack, animation);
@@ -91,19 +86,17 @@ public abstract class DamageMeleeSkill implements ISkillFunction {
                                 .ifPresent(
                                         hc -> {
                                             ((HealthComponent) hc).receiveHit(attackDamage);
-                                            SkillTools.applyKnockback(epc.getPosition(),b ,knockback);
+                                            SkillTools.applyKnockback(
+                                                    epc.getPosition(), b, knockback);
                                         });
                     }
                 };
-        new HitboxComponent(
-                attack, new Point(0.25f, 0.25f), attackHitboxSize, collide, null);
+        new HitboxComponent(attack, new Point(0.25f, 0.25f), attackHitboxSize, collide, null);
     }
 
-    /**
-     * counts frames and removes attack upon completion
-     */
+    /** counts frames and removes attack upon completion */
     public static void update() {
-        if (isActive){
+        if (isActive) {
             if (animationFrames >= 16) {
                 for (Entity a : Game.getEntities()) {
                     if (a == attack) {
