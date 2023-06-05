@@ -35,8 +35,11 @@ public class Hero extends Entity {
     private Skill thirdSkill;
     private Skill fourthSkill;
     private SkillComponent skills;
+    private Character character;
+    private enum Character {
+        WIZARD,KNIGHT,DWARF
+    }
 
-    /** Entity with Components */
     public Hero() {
         super();
         new PositionComponent(this);
@@ -50,6 +53,39 @@ public class Hero extends Entity {
         setupSwordSkill();
     }
 
+
+    /** Entity with Components */
+    public Hero(Character character) {
+        super();
+        this.character=character;
+        new PositionComponent(this);
+        this.skills = new SkillComponent(this);
+        setupVelocityComponent();
+        setupHitboxComponent();
+        new PlayableComponent(this);
+        switch (character){
+            case WIZARD:
+                setupFireballSkill();
+                setupAnimationComponent();
+                setupHealthComponent();
+                setupXpComponent();
+            case KNIGHT:
+                setupSwordSkill();
+                setupAnimationComponent();
+                setupHealthComponent();
+                setupXpComponent();
+            case DWARF:
+                setupSwordSkill();
+                setupAnimationComponent();
+                setupHealthComponent();
+                setupXpComponent();
+
+
+        }
+    }
+
+
+
     private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
@@ -57,9 +93,23 @@ public class Hero extends Entity {
     }
 
     private void setupAnimationComponent() {
-        Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
-        Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
-        new AnimationComponent(this, idleLeft, idleRight);
+
+        if (character==Character.WIZARD) {
+
+    } else if (character==Character.KNIGHT) {
+            Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
+            Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
+            new AnimationComponent(this, idleLeft, idleRight);
+
+    } else if (character==Character.DWARF) {
+
+    }
+
+        else{
+            Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
+            Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
+            new AnimationComponent(this, idleLeft, idleRight);
+        }
     }
 
     private void setupHitboxComponent() {
@@ -74,11 +124,34 @@ public class Hero extends Entity {
     }
 
     private void setupHealthComponent() {
-        Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
-        HealthComponent hc =
+        if(character==Character.WIZARD){
+            Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+            HealthComponent hc =
+                new HealthComponent(this, 5, this::onDeath, hcAnimation, hcAnimation);
+            hc.setMaximalHealthpoints(5);
+            hc.setCurrentHealthpoints(5);
+        } else if (character==Character.KNIGHT) {
+            Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+            HealthComponent hc =
                 new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
-        hc.setMaximalHealthpoints(health);
-        hc.setCurrentHealthpoints(health);
+            hc.setMaximalHealthpoints(health);
+            hc.setCurrentHealthpoints(health);
+
+        } else if (character==Character.DWARF) {
+            Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+            HealthComponent hc =
+                new HealthComponent(this, 8, this::onDeath, hcAnimation, hcAnimation);
+            hc.setMaximalHealthpoints(8);
+            hc.setCurrentHealthpoints(8);
+
+        }
+        else {
+            Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
+            HealthComponent hc =
+                new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
+            hc.setMaximalHealthpoints(health);
+            hc.setCurrentHealthpoints(health);
+        }
     }
 
     private void setupXpComponent() {
@@ -168,12 +241,31 @@ public class Hero extends Entity {
                                     .setCurrentHealthpoints(
                                             ((HealthComponent) hc).getCurrentHealthpoints() + 1);
                         });
-        switch ((int) nexLevel) {
-            case 1 -> this.setupFireballSkill();
-            case 2 -> this.setupBasicHealingSpell();
-            case 3 -> this.setupPhysicalWeaknessSpell();
-            case 4 -> this.setupHomingFireballSkill();
-            case 5 -> this.setupPiercingArrowSkill();
+        if (character==Character.WIZARD) {
+            switch ((int) nexLevel) {
+                case 2 -> this.setupBasicHealingSpell();
+                case 5 -> this.setupHomingFireballSkill();
+            }
+        } else if (character==Character.KNIGHT) {
+            switch ((int)nexLevel){
+                case 2 -> this.setupPhysicalWeaknessSpell();
+                case 5 -> this.setupPiercingArrowSkill();
+            }
+
+        } else if (character==Character.DWARF) {
+            switch ((int)nexLevel) {
+                case 2 -> this.setupBasicHealingSpell();
+                case 5 -> this.setupPhysicalWeaknessSpell();
+            }
+        }
+        else {
+            switch ((int) nexLevel) {
+                case 1 -> this.setupFireballSkill();
+                case 2 -> this.setupBasicHealingSpell();
+                case 3 -> this.setupPhysicalWeaknessSpell();
+                case 4 -> this.setupHomingFireballSkill();
+                case 5 -> this.setupPiercingArrowSkill();
+            }
         }
     }
 
