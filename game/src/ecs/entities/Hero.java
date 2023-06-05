@@ -110,9 +110,9 @@ public class Hero extends Entity {
             }
 
             case KNIGHT -> {
-                Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
-                Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
-                new AnimationComponent(this, idleLeft, idleRight);
+                Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
+                Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
+                new VelocityComponent(this, xSpeed,ySpeed,moveLeft,moveRight);
             }
 
 
