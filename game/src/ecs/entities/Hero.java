@@ -35,7 +35,13 @@ public class Hero extends Entity {
     private Skill thirdSkill;
     private Skill fourthSkill;
     private SkillComponent skills;
+
+    public Character getCharacter() {
+        return character;
+    }
+
     private Character character;
+
     private enum Character {
         WIZARD,KNIGHT,DWARF
     }
@@ -80,21 +86,40 @@ public class Hero extends Entity {
                 setupHealthComponent();
                 setupXpComponent();
 
-
         }
     }
 
 
 
     private void setupVelocityComponent() {
+        if (character==Character.WIZARD) {
+            Animation moveRight = AnimationBuilder.buildAnimation("wizzard_left_run_anim_f0.png");
+            Animation moveLeft = AnimationBuilder.buildAnimation("wizzard_m_run_anim_f0.png");
+            new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+
+        } else if (character==Character.KNIGHT) {
+            Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
+            Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
+            new AnimationComponent(this, idleLeft, idleRight);
+
+        } else if (character==Character.DWARF) {
+            Animation moveRight = AnimationBuilder.buildAnimation("elf_f_run_anim_f0.png");
+            Animation moveLeft = AnimationBuilder.buildAnimation("elf_left_run_anim_f0.png");
+            new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+
+        }
+        else{
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
-        new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+        new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);}
     }
 
     private void setupAnimationComponent() {
 
         if (character==Character.WIZARD) {
+            Animation idleRight = AnimationBuilder.buildAnimation("wizzard_m_idle_anim_f0.png");
+            Animation idleLeft = AnimationBuilder.buildAnimation("wizzard_left_idle_anim_f0.png");
+            new AnimationComponent(this, idleLeft, idleRight);
 
     } else if (character==Character.KNIGHT) {
             Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
@@ -102,9 +127,10 @@ public class Hero extends Entity {
             new AnimationComponent(this, idleLeft, idleRight);
 
     } else if (character==Character.DWARF) {
-
+            Animation idleRight = AnimationBuilder.buildAnimation("elf_f_idle_anim_f0.png");
+            Animation idleLeft = AnimationBuilder.buildAnimation("elf_left_idle_anim_f0.png");
+            new AnimationComponent(this, idleLeft, idleRight);
     }
-
         else{
             Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
             Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);

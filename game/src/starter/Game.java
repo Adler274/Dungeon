@@ -143,7 +143,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOverMenu<>();
         controller.add(gameOverMenu);
-        hero = new Hero();
+       // hero = new Hero();
+       // hero=new Hero(Hero.Character.WIZARD);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
