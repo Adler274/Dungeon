@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
 import java.util.logging.Logger;
+
+import ecs.entities.Hero;
 import logging.CustomLogLevel;
 import starter.Game;
 import tools.Constants;
@@ -14,6 +16,9 @@ import tools.Point;
 
 public class HeroSelection<T extends Actor> extends ScreenController<T> {
 
+    private boolean wizardBool = false;
+    private boolean knightBool = false;
+    private boolean elfBool = false;
     private final Logger menuLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     /** Creates a new GameOverMenu with a new Spritebatch */
@@ -49,9 +54,10 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        Game.restart();
-
+                        wizardBool = true;
+                        Game.choose();
                         menuLogger.log(CustomLogLevel.INFO, "The Wizard was choosen");
+                        hideMenu();
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -72,8 +78,8 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        Game.end();
-
+                        knightBool = true;
+                        Game.choose();
                         menuLogger.log(CustomLogLevel.INFO, "The Knight was choosen");
                     }
                 },
@@ -88,16 +94,17 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
             Align.center | Align.bottom);
 
         //Button for the selection of the Dwarf
-        ScreenButton dwarf =
+        ScreenButton elf =
             new ScreenButton(
-                "Dwarf",
+                "Elf",
                 new Point(0, 0),
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        Game.restart();
-
-                        menuLogger.log(CustomLogLevel.INFO, "The Dwarf was choosen");
+                        elfBool = true;
+                        Game.choose();
+                      //  hideMenu();
+                        menuLogger.log(CustomLogLevel.INFO, "The Elf was choosen");
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -105,7 +112,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                     .setOverFontColor(Color.RED)
                     .build());
 
-        dwarf.setPosition(
+        elf.setPosition(
             (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
             (Constants.WINDOW_HEIGHT) / 4f + screenText.getHeight(),
             Align.center | Align.bottom);
@@ -113,7 +120,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
 
         add((T) wizard);
         add((T) knight);
-        add((T) dwarf);
+        add((T) elf);
         hideMenu();
     }
 
@@ -127,5 +134,16 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
     /** hides the Menu */
     public void hideMenu() {
         this.forEach((Actor s) -> s.setVisible(false));
+    }
+    public boolean isWizardBool() {
+        return wizardBool;
+    }
+
+    public boolean isKnightBool() {
+        return knightBool;
+    }
+
+    public boolean isElfBool() {
+        return elfBool;
     }
 }

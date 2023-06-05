@@ -12,10 +12,7 @@ import configuration.Configuration;
 import configuration.KeyboardConfig;
 import controller.AbstractController;
 import controller.SystemController;
-import ecs.components.HealthComponent;
-import ecs.components.MissingComponentException;
-import ecs.components.PositionComponent;
-import ecs.components.VelocityComponent;
+import ecs.components.*;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
 import ecs.entities.Character;
@@ -30,6 +27,7 @@ import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
 import graphic.hud.GameOverMenu;
+import graphic.hud.HeroSelection;
 import graphic.hud.PauseMenu;
 import java.io.*;
 import java.nio.file.Files;
@@ -89,6 +87,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static ILevel currentLevel;
     private static GameOverMenu<Actor> gameOverMenu;
     private static PauseMenu<Actor> pauseMenu;
+    private static HeroSelection<Actor> heroSelection;
     private static Entity hero;
     private Logger gameLogger;
 
@@ -144,7 +143,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOverMenu<>();
         controller.add(gameOverMenu);
-        hero=new Hero(Character.ELF);
+        if (levelCount < 1) {
+            heroSelection = new HeroSelection<>();
+            controller.add(heroSelection);
+            heroSelection.showMenu();
+        }
+
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
@@ -184,6 +188,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static void restart() {
         levelCount = 0;
         game.setup();
+    }
+    public static void choose(){
+        if (heroSelection.isWizardBool()){
+            hero = new Hero(Character.WIZARD);
+            heroSelection.hideMenu();
+        } else if (heroSelection.isElfBool()) {
+            hero = new Hero(Character.ELF);
+        } else if (heroSelection.isKnightBool()) {
+            hero = new Hero(Character.KNIGHT);
+        }
+        heroSelection.hideMenu();
     }
 
     /** Closes the game safely */
