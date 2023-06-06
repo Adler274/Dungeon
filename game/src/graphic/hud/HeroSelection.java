@@ -53,7 +53,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                             public void clicked(InputEvent event, float x, float y) {
                                 heroClass = Character.WIZARD;
                                 Game.chooseClass();
-                                menuLogger.log(CustomLogLevel.INFO, "The Wizard was choosen");
+                                menuLogger.log(CustomLogLevel.INFO, "The wizard has been chosen");
                                 hideMenu();
                             }
                         },
@@ -77,7 +77,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                             public void clicked(InputEvent event, float x, float y) {
                                 heroClass = Character.KNIGHT;
                                 Game.chooseClass();
-                                menuLogger.log(CustomLogLevel.INFO, "The Knight was choosen");
+                                menuLogger.log(CustomLogLevel.INFO, "The knight has been chosen");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -101,7 +101,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                                 heroClass = Character.ELF;
                                 Game.chooseClass();
                                 //  hideMenu();
-                                menuLogger.log(CustomLogLevel.INFO, "The Elf was choosen");
+                                menuLogger.log(CustomLogLevel.INFO, "The elf has been chosen");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
