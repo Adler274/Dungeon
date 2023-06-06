@@ -19,7 +19,7 @@ import starter.Game;
 public class Hero extends Entity {
 
     private final int swordCoolDown = 1;
-    private final int fireballCoolDown = 2;
+    private final int fireballCoolDown = 1;
     private final int piercingArrowCoolDown = 5;
     private final int physicalWeaknessCoolDown = 1;
     private final int basicHealingCoolDown = 10;
@@ -294,7 +294,6 @@ public class Hero extends Entity {
                 case 2 -> this.setupBasicHealingSpell();
                 case 5 -> this.setupPhysicalWeaknessSpell();
             }
-            this.setupPiercingArrowSkill();
         } else if (character == Character.ELF) {
             switch ((int) nexLevel) {
                 case 2 -> this.setupPiercingArrowSkill();
