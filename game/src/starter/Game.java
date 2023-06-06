@@ -15,6 +15,7 @@ import controller.SystemController;
 import ecs.components.*;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
+import ecs.entities.Character;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -191,8 +192,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         game.setup();
     }
 
-    public static void chooseClass() {
-        hero = new Hero(heroSelection.getHeroClass());
+    /**
+     * creates a new Hero with a selectable class
+     *
+     * @param heroClass: class which the hero should be
+     */
+    public static void chooseClass(Character heroClass) {
+        hero = new Hero(heroClass);
         heroSelection.hideMenu();
     }
 

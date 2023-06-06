@@ -15,7 +15,6 @@ import tools.Point;
 
 public class HeroSelection<T extends Actor> extends ScreenController<T> {
 
-    private Character heroClass;
     private final Logger menuLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     /** Creates a new GameOverMenu with a new Spritebatch */
@@ -51,8 +50,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                heroClass = Character.WIZARD;
-                                Game.chooseClass();
+                                Game.chooseClass(Character.WIZARD);
                                 menuLogger.log(CustomLogLevel.INFO, "The wizard has been chosen");
                                 hideMenu();
                             }
@@ -75,8 +73,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                heroClass = Character.KNIGHT;
-                                Game.chooseClass();
+                                Game.chooseClass(Character.KNIGHT);
                                 menuLogger.log(CustomLogLevel.INFO, "The knight has been chosen");
                             }
                         },
@@ -98,8 +95,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                heroClass = Character.ELF;
-                                Game.chooseClass();
+                                Game.chooseClass(Character.ELF);
                                 //  hideMenu();
                                 menuLogger.log(CustomLogLevel.INFO, "The elf has been chosen");
                             }
@@ -130,9 +126,5 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
     /** hides the Menu */
     public void hideMenu() {
         this.forEach((Actor s) -> s.setVisible(false));
-    }
-
-    public Character getHeroClass() {
-        return heroClass;
     }
 }
