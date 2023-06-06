@@ -168,7 +168,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (levelCount == 0 && new File("savefile\\Save.ser").exists()) {
             saving.loadSave();
             return;
-        } else if (levelCount == 0){
+        } else if (levelCount == 0) { // fresh save
             heroSelection = new HeroSelection<>();
             controller.add(heroSelection);
             heroSelection.showMenu();
@@ -185,6 +185,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** Restarts the game on level 1 */
     public static void restart() {
+        gameOverMenu.hideMenu();
+        removeEntity(hero);
         levelCount = 0;
         game.setup();
     }
