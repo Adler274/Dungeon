@@ -235,16 +235,14 @@ public class Hero extends Entity {
      * @param nexLevel: level to which the hero gets
      */
     public void onLevelUp(long nexLevel) {
-        boolean healthUp = false;
+        final boolean healthUp;
         switch (character) {
             case WIZARD -> {
                 switch ((int) nexLevel) {
                     case 2 -> this.setupBasicHealingSpell();
                     case 5 -> this.setupHomingFireballSkill();
                 }
-                if (nexLevel % 2 == 0) {
-                    healthUp = true;
-                }
+                healthUp = nexLevel % 2 == 0;
             }
             case KNIGHT -> {
                 switch ((int) nexLevel) {
@@ -258,9 +256,7 @@ public class Hero extends Entity {
                     case 2 -> this.setupPiercingArrowSkill();
                     case 5 -> this.setupPhysicalWeaknessSpell();
                 }
-                if (nexLevel % 2 == 0 || nexLevel % 3 == 0) {
-                    healthUp = true;
-                }
+                healthUp = nexLevel % 2 == 0 || nexLevel % 3 == 0;
             }
             default -> {
                 switch ((int) nexLevel) {
@@ -273,20 +269,19 @@ public class Hero extends Entity {
                 healthUp = true;
             }
         }
-        if (healthUp) {
-            this.getComponent(HealthComponent.class)
-                    .ifPresent(
-                            hc -> {
+        this.getComponent(HealthComponent.class)
+                .ifPresent(
+                        hc -> {
+                            if (healthUp) {
                                 ((HealthComponent) hc)
                                         .setMaximalHealthpoints(
                                                 ((HealthComponent) hc).getMaximalHealthpoints()
                                                         + 1);
-                                ((HealthComponent) hc)
-                                        .setCurrentHealthpoints(
-                                                ((HealthComponent) hc).getCurrentHealthpoints()
-                                                        + 1);
-                            });
-        }
+                            }
+                            ((HealthComponent) hc)
+                                    .setCurrentHealthpoints(
+                                            ((HealthComponent) hc).getCurrentHealthpoints() + 1);
+                        });
     }
 
     public float getXSpeed() {
