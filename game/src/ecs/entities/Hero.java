@@ -169,7 +169,6 @@ public class Hero extends Entity {
                 sc.getDamageModifiers().setMultiplier(DamageType.PHYSICAL, 0.8f);
                 sc.getDamageModifiers().setMultiplier(DamageType.FIRE, 1.5f);
             }
-
             case ELF -> {
                 sc.getDamageModifiers().setMultiplier(DamageType.MAGIC, 1.5f);
                 sc.getDamageModifiers().setMultiplier(DamageType.FIRE, 0.8f);
@@ -181,10 +180,7 @@ public class Hero extends Entity {
         meleeSkill = new Skill(new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
         skills.addSkill(meleeSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill));
     }
 
     private void setupFireballSkill() {
@@ -193,10 +189,7 @@ public class Hero extends Entity {
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
         skills.addSkill(firstSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlot1(firstSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlot1(firstSkill));
     }
 
     private void setupHomingFireballSkill() {
@@ -206,10 +199,7 @@ public class Hero extends Entity {
                         fireballCoolDown);
         skills.addSkill(firstSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlot1(firstSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlot1(firstSkill));
     }
 
     private void setupPiercingArrowSkill() {
@@ -219,20 +209,14 @@ public class Hero extends Entity {
                         piercingArrowCoolDown);
         skills.addSkill(secondSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlot2(secondSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlot2(secondSkill));
     }
 
     private void setupBasicHealingSpell() {
         thirdSkill = new Skill(new BasicHealingSpell(basicHealingPotency), basicHealingCoolDown);
         skills.addSkill(thirdSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlot3(thirdSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlot3(thirdSkill));
     }
 
     private void setupPhysicalWeaknessSpell() {
@@ -242,10 +226,7 @@ public class Hero extends Entity {
                         physicalWeaknessCoolDown);
         skills.addSkill(fourthSkill);
         this.getComponent(PlayableComponent.class)
-                .ifPresent(
-                        pc -> {
-                            ((PlayableComponent) pc).setSkillSlot4(fourthSkill);
-                        });
+                .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlot4(fourthSkill));
     }
 
     /**
