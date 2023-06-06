@@ -277,6 +277,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("HealthComponent"));
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 1);
+        gameLogger.log(CustomLogLevel.INFO, "current HP: " + hc.getCurrentHealthpoints());
     }
 
     /** Toggle between pause and run */
