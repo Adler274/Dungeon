@@ -44,12 +44,14 @@ public class Tombstone extends Entity {
 
     /** Despawns most Entities if ghost and hero enough */
     public void despawnAllMonsters() {
-        if (AITools.entityInRange(Game.getHero().get(), this, 1f)
-                && AITools.entityInRange(this, ghost, 2f)) {
-            for (Entity entity : Game.getEntities()) {
-                if (!(entity == Game.getHero().get() || entity == this)) {
-                    if (entity.getComponent(HealthComponent.class).isPresent()) {
-                        Game.removeEntity(entity);
+        if (Game.getLevelCount() != 0) {
+            if (AITools.entityInRange(Game.getHero().get(), this, 1f)
+                    && AITools.entityInRange(this, ghost, 2f)) {
+                for (Entity entity : Game.getEntities()) {
+                    if (!(entity == Game.getHero().get() || entity == this)) {
+                        if (entity.getComponent(HealthComponent.class).isPresent()) {
+                            Game.removeEntity(entity);
+                        }
                     }
                 }
             }

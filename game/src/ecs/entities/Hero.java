@@ -297,6 +297,23 @@ public class Hero extends Entity {
         return ySpeed;
     }
 
+    public int getHeroClass() {
+        switch (character) {
+            case WIZARD -> {
+                return 1;
+            }
+            case KNIGHT -> {
+                return 2;
+            }
+            case ELF -> {
+                return 3;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
+
     /** Deletes the current savefile and opens the GameOverMenu upon player death */
     public void onDeath(Entity entity) {
         Game.deleteSave();

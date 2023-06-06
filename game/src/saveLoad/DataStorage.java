@@ -13,6 +13,7 @@ public class DataStorage implements Serializable {
     private long playerLevel;
     private long playerXP;
     private boolean hasGhost;
+    private int heroClass;
 
     public ArrayList<String> getEntityList() {
         return entityList;
@@ -60,5 +61,13 @@ public class DataStorage implements Serializable {
 
     public void setPlayerXP(long playerXP) {
         this.playerXP = playerXP;
+    }
+
+    public int getHeroClass() {
+        return heroClass;
+    }
+
+    public void setHeroClass(int heroClass) {
+        this.heroClass = heroClass;
     }
 }

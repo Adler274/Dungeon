@@ -142,11 +142,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOverMenu<>();
         controller.add(gameOverMenu);
-        if (levelCount < 1) {
-            heroSelection = new HeroSelection<>();
-            controller.add(heroSelection);
-            heroSelection.showMenu();
-        }
 
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -169,11 +164,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public void onLevelLoad() {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
-        getHero().ifPresent(this::placeOnLevelStart);
         if (levelCount == 0 && new File("savefile\\Save.ser").exists()) {
             saving.loadSave();
             return;
         }
+        if (levelCount == 0) {
+            heroSelection = new HeroSelection<>();
+            controller.add(heroSelection);
+            heroSelection.showMenu();
+        }
+        getHero().ifPresent(this::placeOnLevelStart);
         levelCount++;
         spawnMonsters();
         spawnGhost();
