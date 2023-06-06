@@ -188,7 +188,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static void restart() {
         gameOverMenu.hideMenu();
         removeEntity(hero);
-        levelCount = 0;
         game.setup();
     }
 
