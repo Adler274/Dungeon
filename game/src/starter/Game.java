@@ -15,7 +15,6 @@ import controller.SystemController;
 import ecs.components.*;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
-import ecs.entities.Character;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -190,15 +189,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         game.setup();
     }
 
-    public static void choose() {
-        if (heroSelection.isWizardBool()) {
-            hero = new Hero(Character.WIZARD);
-            heroSelection.hideMenu();
-        } else if (heroSelection.isElfBool()) {
-            hero = new Hero(Character.ELF);
-        } else if (heroSelection.isKnightBool()) {
-            hero = new Hero(Character.KNIGHT);
-        }
+    public static void chooseClass() {
+        hero = new Hero(heroSelection.getHeroClass());
         heroSelection.hideMenu();
     }
 

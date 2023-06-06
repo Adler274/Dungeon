@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
+import ecs.entities.Character;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
 import starter.Game;
@@ -14,9 +15,7 @@ import tools.Point;
 
 public class HeroSelection<T extends Actor> extends ScreenController<T> {
 
-    private boolean wizardBool = false;
-    private boolean knightBool = false;
-    private boolean elfBool = false;
+    private Character heroClass;
     private final Logger menuLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     /** Creates a new GameOverMenu with a new Spritebatch */
@@ -52,8 +51,8 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                wizardBool = true;
-                                Game.choose();
+                                heroClass = Character.WIZARD;
+                                Game.chooseClass();
                                 menuLogger.log(CustomLogLevel.INFO, "The Wizard was choosen");
                                 hideMenu();
                             }
@@ -76,8 +75,8 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                knightBool = true;
-                                Game.choose();
+                                heroClass = Character.KNIGHT;
+                                Game.chooseClass();
                                 menuLogger.log(CustomLogLevel.INFO, "The Knight was choosen");
                             }
                         },
@@ -99,8 +98,8 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                elfBool = true;
-                                Game.choose();
+                                heroClass = Character.ELF;
+                                Game.chooseClass();
                                 //  hideMenu();
                                 menuLogger.log(CustomLogLevel.INFO, "The Elf was choosen");
                             }
@@ -133,15 +132,7 @@ public class HeroSelection<T extends Actor> extends ScreenController<T> {
         this.forEach((Actor s) -> s.setVisible(false));
     }
 
-    public boolean isWizardBool() {
-        return wizardBool;
-    }
-
-    public boolean isKnightBool() {
-        return knightBool;
-    }
-
-    public boolean isElfBool() {
-        return elfBool;
+    public Character getHeroClass() {
+        return heroClass;
     }
 }
