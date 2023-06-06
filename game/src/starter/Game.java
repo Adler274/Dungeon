@@ -142,6 +142,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOverMenu<>();
         controller.add(gameOverMenu);
+        levelCount = 0;
 
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -167,8 +168,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (levelCount == 0 && new File("savefile\\Save.ser").exists()) {
             saving.loadSave();
             return;
-        }
-        if (levelCount == 0) {
+        } else if (levelCount == 0){
             heroSelection = new HeroSelection<>();
             controller.add(heroSelection);
             heroSelection.showMenu();
