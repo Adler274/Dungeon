@@ -189,8 +189,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelCount = 0;
         game.setup();
     }
-    public static void choose(){
-        if (heroSelection.isWizardBool()){
+
+    public static void choose() {
+        if (heroSelection.isWizardBool()) {
             hero = new Hero(Character.WIZARD);
             heroSelection.hideMenu();
         } else if (heroSelection.isElfBool()) {

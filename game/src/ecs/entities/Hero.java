@@ -38,18 +38,11 @@ public class Hero extends Entity {
     private Skill fourthSkill;
     private SkillComponent skills;
 
-
-
     public Character character;
 
-    /**
-     * Choose the character
-     */
+    /** Choose the character */
 
-
-    /**
-     * Default constructor
-     */
+    /** Default constructor */
     public Hero() {
         super();
         new PositionComponent(this);
@@ -63,10 +56,7 @@ public class Hero extends Entity {
         setupSwordSkill();
     }
 
-
-    /**
-     * Entity with Components
-     */
+    /** Entity with Components */
     public Hero(Character character) {
         super();
         this.character = character;
@@ -100,28 +90,26 @@ public class Hero extends Entity {
         }
     }
 
-
     private void setupVelocityComponent() {
         switch (character) {
             case WIZARD -> {
                 Animation moveRight = AnimationBuilder.buildAnimation("wizzard_m_run_anim_f0.png");
-                Animation moveLeft = AnimationBuilder.buildAnimation("wizzard_left_run_anim_f0.png");
+                Animation moveLeft =
+                        AnimationBuilder.buildAnimation("wizzard_left_run_anim_f0.png");
                 new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
             }
 
             case KNIGHT -> {
                 Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
                 Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
-                new VelocityComponent(this, xSpeed,ySpeed,moveLeft,moveRight);
+                new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
             }
-
 
             case ELF -> {
                 Animation moveRight = AnimationBuilder.buildAnimation("elf_f_run_anim_f0.png");
                 Animation moveLeft = AnimationBuilder.buildAnimation("elf_left_run_anim_f0.png");
                 new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
             }
-
         }
     }
 
@@ -130,7 +118,8 @@ public class Hero extends Entity {
         switch (character) {
             case WIZARD -> {
                 Animation idleRight = AnimationBuilder.buildAnimation("wizzard_m_idle_anim_f0.png");
-                Animation idleLeft = AnimationBuilder.buildAnimation("wizzard_left_idle_anim_f0.png");
+                Animation idleLeft =
+                        AnimationBuilder.buildAnimation("wizzard_left_idle_anim_f0.png");
                 new AnimationComponent(this, idleLeft, idleRight);
             }
             case KNIGHT -> {
@@ -143,75 +132,71 @@ public class Hero extends Entity {
                 Animation idleLeft = AnimationBuilder.buildAnimation("elf_left_idle_anim_f0.png");
                 new AnimationComponent(this, idleLeft, idleRight);
             }
-
         }
     }
 
-
     private void setupHitboxComponent() {
         new HitboxComponent(
-            this,
-            (you, other, direction) ->
-                System.out.println(
-                    "heroCollisionEnter: " + other.getClass().getSimpleName()),
-            (you, other, direction) ->
-                System.out.println(
-                    "heroCollisionLeave: " + other.getClass().getSimpleName()));
+                this,
+                (you, other, direction) ->
+                        System.out.println(
+                                "heroCollisionEnter: " + other.getClass().getSimpleName()),
+                (you, other, direction) ->
+                        System.out.println(
+                                "heroCollisionLeave: " + other.getClass().getSimpleName()));
     }
 
     private void setupHealthComponent() {
-       switch (character) {
-           case WIZARD -> {
-               Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
-               HealthComponent hc =
-                   new HealthComponent(this, 5, this::onDeath, hcAnimation, hcAnimation);
-               hc.setMaximalHealthpoints(5);
-               hc.setCurrentHealthpoints(5);
-           }
-           case KNIGHT -> {
-               Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
-               HealthComponent hc =
-                   new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
-               hc.setMaximalHealthpoints(health);
-               hc.setCurrentHealthpoints(health);
-           }
+        switch (character) {
+            case WIZARD -> {
+                Animation hcAnimation =
+                        AnimationBuilder.buildAnimation("animation/missingTexture.png");
+                HealthComponent hc =
+                        new HealthComponent(this, 5, this::onDeath, hcAnimation, hcAnimation);
+                hc.setMaximalHealthpoints(5);
+                hc.setCurrentHealthpoints(5);
+            }
+            case KNIGHT -> {
+                Animation hcAnimation =
+                        AnimationBuilder.buildAnimation("animation/missingTexture.png");
+                HealthComponent hc =
+                        new HealthComponent(this, health, this::onDeath, hcAnimation, hcAnimation);
+                hc.setMaximalHealthpoints(health);
+                hc.setCurrentHealthpoints(health);
+            }
 
-           case ELF -> {
-               Animation hcAnimation = AnimationBuilder.buildAnimation("animation/missingTexture.png");
-               HealthComponent hc =
-                   new HealthComponent(this, 8, this::onDeath, hcAnimation, hcAnimation);
-               hc.setMaximalHealthpoints(8);
-               hc.setCurrentHealthpoints(8);
-           }
-       }
-
-
+            case ELF -> {
+                Animation hcAnimation =
+                        AnimationBuilder.buildAnimation("animation/missingTexture.png");
+                HealthComponent hc =
+                        new HealthComponent(this, 8, this::onDeath, hcAnimation, hcAnimation);
+                hc.setMaximalHealthpoints(8);
+                hc.setCurrentHealthpoints(8);
+            }
+        }
     }
 
     private void setupXpComponent() {
         XPComponent xc = new XPComponent(this, this::onLevelUp);
     }
 
-    private void setupStatsComponent(){
+    private void setupStatsComponent() {
         switch (character) {
             case WIZARD -> {
-                StatsComponent sc= new StatsComponent(this);
-                sc.getDamageModifiers().setMultiplier(DamageType.PHYSICAL,1.5f);
-                sc.getDamageModifiers().setMultiplier(DamageType.MAGIC,0.8f);
+                StatsComponent sc = new StatsComponent(this);
+                sc.getDamageModifiers().setMultiplier(DamageType.PHYSICAL, 1.5f);
+                sc.getDamageModifiers().setMultiplier(DamageType.MAGIC, 0.8f);
             }
             case KNIGHT -> {
-                StatsComponent sc= new StatsComponent(this);
-                sc.getDamageModifiers().setMultiplier(DamageType.PHYSICAL,0.8f);
-                sc.getDamageModifiers().setMultiplier(DamageType.FIRE,1.2f);
-
+                StatsComponent sc = new StatsComponent(this);
+                sc.getDamageModifiers().setMultiplier(DamageType.PHYSICAL, 0.8f);
+                sc.getDamageModifiers().setMultiplier(DamageType.FIRE, 1.2f);
             }
 
             case ELF -> {
-                StatsComponent sc= new StatsComponent(this);
-                sc.getDamageModifiers().setMultiplier(DamageType.MAGIC,1.5f);
-                sc.getDamageModifiers().setMultiplier(DamageType.FIRE,0.8f);
-
-
+                StatsComponent sc = new StatsComponent(this);
+                sc.getDamageModifiers().setMultiplier(DamageType.MAGIC, 1.5f);
+                sc.getDamageModifiers().setMultiplier(DamageType.FIRE, 0.8f);
             }
         }
     }
@@ -220,87 +205,85 @@ public class Hero extends Entity {
         meleeSkill = new Skill(new SwordSkill(SkillTools::getCursorPositionAsPoint), swordCoolDown);
         skills.addSkill(meleeSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill);
+                        });
     }
 
     private void setupFireballSkill() {
         firstSkill =
-            new Skill(
-                new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+                new Skill(
+                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
         skills.addSkill(firstSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlot1(firstSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlot1(firstSkill);
+                        });
     }
 
     private void setupHomingFireballSkill() {
         firstSkill =
-            new Skill(
-                new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint),
-                fireballCoolDown);
+                new Skill(
+                        new HomingFireballSkill(SkillTools::getClosestEnemyPositionAsPoint),
+                        fireballCoolDown);
         skills.addSkill(firstSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlot1(firstSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlot1(firstSkill);
+                        });
     }
 
     private void setupPiercingArrowSkill() {
         secondSkill =
-            new Skill(
-                new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint),
-                piercingArrowCoolDown);
+                new Skill(
+                        new PiercingArrowSkill(SkillTools::getCursorPositionAsPoint),
+                        piercingArrowCoolDown);
         skills.addSkill(secondSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlot2(secondSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlot2(secondSkill);
+                        });
     }
 
     private void setupBasicHealingSpell() {
         thirdSkill = new Skill(new BasicHealingSpell(basicHealingPotency), basicHealingCoolDown);
         skills.addSkill(thirdSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlot3(thirdSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlot3(thirdSkill);
+                        });
     }
 
     private void setupPhysicalWeaknessSpell() {
         fourthSkill =
-            new Skill(
-                new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),
-                physicalWeaknessCoolDown);
+                new Skill(
+                        new PhysicalWeaknessSpell(SkillTools::getCursorPositionAsPoint),
+                        physicalWeaknessCoolDown);
         skills.addSkill(fourthSkill);
         this.getComponent(PlayableComponent.class)
-            .ifPresent(
-                pc -> {
-                    ((PlayableComponent) pc).setSkillSlot4(fourthSkill);
-                });
+                .ifPresent(
+                        pc -> {
+                            ((PlayableComponent) pc).setSkillSlot4(fourthSkill);
+                        });
     }
 
-    /**
-     * Increases players health upon levelUp and learns new skills
-     */
+    /** Increases players health upon levelUp and learns new skills */
     public void onLevelUp(long nexLevel) {
         this.getComponent(HealthComponent.class)
-            .ifPresent(
-                hc -> {
-                    ((HealthComponent) hc)
-                        .setMaximalHealthpoints(
-                            ((HealthComponent) hc).getMaximalHealthpoints() + 1);
-                    ((HealthComponent) hc)
-                        .setCurrentHealthpoints(
-                            ((HealthComponent) hc).getCurrentHealthpoints() + 1);
-                });
+                .ifPresent(
+                        hc -> {
+                            ((HealthComponent) hc)
+                                    .setMaximalHealthpoints(
+                                            ((HealthComponent) hc).getMaximalHealthpoints() + 1);
+                            ((HealthComponent) hc)
+                                    .setCurrentHealthpoints(
+                                            ((HealthComponent) hc).getCurrentHealthpoints() + 1);
+                        });
         if (character == Character.WIZARD) {
             switch ((int) nexLevel) {
                 case 2 -> this.setupBasicHealingSpell();
@@ -336,9 +319,7 @@ public class Hero extends Entity {
         return ySpeed;
     }
 
-    /**
-     * Deletes the current savefile and opens the GameOverMenu upon player death
-     */
+    /** Deletes the current savefile and opens the GameOverMenu upon player death */
     public void onDeath(Entity entity) {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();
