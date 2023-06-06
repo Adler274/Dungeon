@@ -2,8 +2,6 @@ package ecs.components.xp;
 
 import ecs.components.Component;
 import ecs.entities.Entity;
-
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
 

@@ -129,6 +129,21 @@ public class SkillTools {
     }
 
     /**
+     * return the heros position as point for monster target selection
+     *
+     * @return hero position
+     */
+    public static Point getHeroPosition() {
+        final Point[] heroPosition = new Point[1];
+        heroPosition[0] = new Point(0, 0); // default
+        Game.getHero()
+                .get()
+                .getComponent(PositionComponent.class)
+                .ifPresent(pc -> heroPosition[0] = ((PositionComponent) pc).getPosition());
+        return heroPosition[0];
+    }
+
+    /**
      * applys a knockback effect to an entity
      *
      * @param hitDirection direction from which the hit comes
