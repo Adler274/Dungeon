@@ -437,6 +437,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Random random = new Random();
         if (random.nextInt(2) == 0){
             addEntity(new Mimic());
+        } else {
+            addEntity(Chest.createNewChest());
         }
     }
 
