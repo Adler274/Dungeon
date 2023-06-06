@@ -16,15 +16,12 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Chest;
 import ecs.entities.Entity;
-import ecs.items.ItemData;
 import graphic.Animation;
-import java.util.List;
 import starter.Game;
 
 public class Mimic extends Entity {
 
     private final int lootXP = 25;
-    private List<ItemData> loot;
     private final String DEFAULT_ANIMATION_FRAME =
             "objects/treasurechest/chest_full_open_anim_f0.png";
 
