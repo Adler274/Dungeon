@@ -4,5 +4,6 @@ public enum ItemType {
     SwordFightingBasics,
     Bread,
     ExperiencePotion,
-    Bag
+    Bag,
+    Basic
 }

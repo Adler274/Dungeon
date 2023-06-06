@@ -35,6 +35,7 @@ public class Hero extends Entity {
     private Skill thirdSkill;
     private Skill fourthSkill;
     private SkillComponent skills;
+    private InventoryComponent inventar;
 
     /** Entity with Components */
     public Hero() {
@@ -189,5 +190,9 @@ public class Hero extends Entity {
     public void onDeath(Entity entity) {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();
+    }
+
+    public InventoryComponent getInventar() {
+        return inventar;
     }
 }
