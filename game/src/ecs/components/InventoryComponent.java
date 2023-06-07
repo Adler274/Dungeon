@@ -89,4 +89,14 @@ public class InventoryComponent extends Component {
     public List<ItemData> getItems() {
         return new ArrayList<>(inventory);
     }
+
+    public void showInventory(){
+        StringBuilder inv = new StringBuilder("Inventory opened");
+        if (inventory.size() != 0){
+            for(int i = 0; i < inventory.size(); i++){
+                inv.append("\n").append(i+1).append(": ").append(inventory.get(i).getItemName());
+            }
+        }
+        inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
+    }
 }

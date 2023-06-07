@@ -2,6 +2,7 @@ package ecs.systems;
 
 import com.badlogic.gdx.Gdx;
 import configuration.KeyboardConfig;
+import ecs.components.InventoryComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PlayableComponent;
 import ecs.components.VelocityComponent;
@@ -12,7 +13,7 @@ import starter.Game;
 /** Used to control the player */
 public class PlayerSystem extends ECS_System {
 
-    private record KSData(Entity e, PlayableComponent pc, VelocityComponent vc) {}
+    private record KSData(Entity e, PlayableComponent pc, VelocityComponent vc, InventoryComponent ic) {}
 
     @Override
     public void update() {
@@ -35,6 +36,9 @@ public class PlayerSystem extends ECS_System {
         if (Gdx.input.isKeyPressed(KeyboardConfig.INTERACT_WORLD.get()))
             InteractionTool.interactWithClosestInteractable(ksd.e);
 
+        if (Gdx.input.isKeyPressed(KeyboardConfig.SHOW_INVENTORY.get()))
+            ksd.ic.showInventory();
+
         // check skills
         else if (Gdx.input.isKeyPressed(KeyboardConfig.MELEE_SKILL.get()))
             ksd.pc.getSkillSlotMelee().ifPresent(skill -> skill.execute(ksd.e));
@@ -56,10 +60,19 @@ public class PlayerSystem extends ECS_System {
                         e.getComponent(VelocityComponent.class)
                                 .orElseThrow(PlayerSystem::missingVC);
 
-        return new KSData(e, pc, vc);
+        InventoryComponent ic =
+                (InventoryComponent)
+                    e.getComponent(InventoryComponent.class)
+                        .orElseThrow(PlayerSystem::missingIC);
+
+        return new KSData(e, pc, vc, ic);
     }
 
     private static MissingComponentException missingVC() {
         return new MissingComponentException("VelocityComponent");
+    }
+
+    private static MissingComponentException missingIC() {
+        return new MissingComponentException("InventoryComponent");
     }
 }

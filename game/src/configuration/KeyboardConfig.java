@@ -14,10 +14,10 @@ public class KeyboardConfig {
             new ConfigKey<>(new String[] {"movement", "left"}, new ConfigIntValue(Input.Keys.A));
     public static final ConfigKey<Integer> MOVEMENT_RIGHT =
             new ConfigKey<>(new String[] {"movement", "right"}, new ConfigIntValue(Input.Keys.D));
-    public static final ConfigKey<Integer> INVENTORY_OPEN =
-            new ConfigKey<>(new String[] {"inventory", "open"}, new ConfigIntValue(Input.Keys.I));
     public static final ConfigKey<Integer> INTERACT_WORLD =
             new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.E));
+    public static final ConfigKey<Integer> SHOW_INVENTORY =
+            new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.I));
     public static final ConfigKey<Integer> MELEE_SKILL =
             new ConfigKey<>(new String[] {"skill", "melee"}, new ConfigIntValue(Input.Keys.Q));
     public static final ConfigKey<Integer> FIRST_SKILL =
