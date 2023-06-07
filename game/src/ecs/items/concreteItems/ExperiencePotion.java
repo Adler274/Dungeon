@@ -27,18 +27,17 @@ public class ExperiencePotion extends ItemData {
     public void onDrop(Entity user, ItemData which, Point position) {}
 
     public void onUse(Entity e, ItemData item) {
-        //granting xp
+        // granting xp
         Game.getHero()
-            .get()
-            .getComponent(XPComponent.class)
-            .ifPresent(
-                xc -> {
-                    ((XPComponent) xc).addXP(((XPComponent) xc).getXPToNextLevel());
-                });
+                .get()
+                .getComponent(XPComponent.class)
+                .ifPresent(
+                        xc -> {
+                            ((XPComponent) xc).addXP(((XPComponent) xc).getXPToNextLevel());
+                        });
 
-        //removing item
+        // removing item
         e.getComponent(InventoryComponent.class)
-            .ifPresent(
-                ic -> ((InventoryComponent) ic).removeItem(this));
+                .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
     }
 }

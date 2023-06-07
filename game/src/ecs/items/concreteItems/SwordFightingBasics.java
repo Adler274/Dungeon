@@ -2,8 +2,6 @@ package ecs.items.concreteItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.InventoryComponent;
-import ecs.components.PlayableComponent;
-import ecs.components.skill.SkillComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.items.*;
@@ -29,15 +27,14 @@ public class SwordFightingBasics extends ItemData {
     public void onDrop(Entity user, ItemData which, Point position) {}
 
     public void onUse(Entity e, ItemData item) {
-        //learning skill if used by hero
-        if (e == Game.getHero().get()){
+        // learning skill if used by hero
+        if (e == Game.getHero().get()) {
             Hero hero = (Hero) Game.getHero().get();
             hero.learnSwordSkill();
         }
 
-        //removing item
+        // removing item
         e.getComponent(InventoryComponent.class)
-            .ifPresent(
-                ic -> ((InventoryComponent) ic).removeItem(this));
+                .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
     }
 }

@@ -27,22 +27,20 @@ public class Bread extends ItemData {
     public void onDrop(Entity user, ItemData which, Point position) {}
 
     /**
-     *
      * @param e entity that uses the item
      * @param item the items being used
      */
     public void onUse(Entity e, ItemData item) {
-        //healing
+        // healing
         HealthComponent hc =
-            (HealthComponent)
-                e.getComponent(HealthComponent.class)
-                    .orElseThrow(
-                        () -> new MissingComponentException("HealthComponent"));
+                (HealthComponent)
+                        e.getComponent(HealthComponent.class)
+                                .orElseThrow(
+                                        () -> new MissingComponentException("HealthComponent"));
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 5);
 
-        //removing item
+        // removing item
         e.getComponent(InventoryComponent.class)
-            .ifPresent(
-                ic -> ((InventoryComponent) ic).removeItem(this));
+                .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
     }
 }
