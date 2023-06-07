@@ -108,7 +108,7 @@ public class InventoryComponent extends Component {
     public void useItem(int index, Entity user) {
         if (inventory.size() > index) {
             inventoryLogger.log(
-                    CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used");
+                    CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used \nInventory closed");
             inventory.get(index).triggerUse(user);
         }
     }
