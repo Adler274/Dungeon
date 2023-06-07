@@ -65,13 +65,11 @@ public class Bag extends ItemData {
                         });
     }
 
-    public boolean addItem(ItemData itemData) {
-        if (inventory.size() >= inventorySize || itemData.getItemType() != inventoryType) {
-            return false;
-        }
-        return inventory.add(itemData);
-    }
-
+    /**
+     * switches own inventory with that of the hero
+     * @param e entity using the item (not used)
+     * @param item item used (also unused)
+     */
     public void onUse(Entity e, ItemData item) {
         InventoryComponent bagInventory =
                 (InventoryComponent) bagEntity.getComponent(InventoryComponent.class).get();

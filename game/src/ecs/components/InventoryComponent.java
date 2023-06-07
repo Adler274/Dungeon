@@ -119,6 +119,9 @@ public class InventoryComponent extends Component {
     }
 
     /**
+     * uses an item in the inventory
+     * if a bag is used, accounts for that
+     *
      * @param index index of the item to be used
      * @param user entity who uses the item
      */
@@ -135,10 +138,12 @@ public class InventoryComponent extends Component {
         }
     }
 
+    /** closes the bag by switching back inventory and setting the boolean to false */
     public void closeBag() {
         if (bagInUse) {
             bagInUse = false;
             openedBag.triggerUse(Game.getHero().get());
+            inventoryLogger.log(CustomLogLevel.INFO, "Bag closed");
         }
     }
 }

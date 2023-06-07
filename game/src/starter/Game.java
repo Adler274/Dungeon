@@ -177,8 +177,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (levelCount > 1) {
             saving.writeSave();
         }
-
-        entities.add(Chest.createNewChest()); // TODO remove
     }
 
     /** Restarts the game on level 1 */
