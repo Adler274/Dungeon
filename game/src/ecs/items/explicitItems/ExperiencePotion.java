@@ -1,4 +1,4 @@
-package ecs.items.ItemEntities;
+package ecs.items.explicitItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.entities.Entity;
@@ -9,7 +9,7 @@ public class ExperiencePotion extends ItemData implements IOnCollect, IOnDrop, I
 
     public ExperiencePotion(){
         super(
-            ItemType.ExperiencePotion,
+            ItemType.POTION,
             AnimationBuilder.buildAnimation("missingTexture.png"),
             AnimationBuilder.buildAnimation("missingTexture.png"),
             "ExperiencePotion",

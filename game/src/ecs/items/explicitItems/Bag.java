@@ -1,12 +1,10 @@
-package ecs.items.ItemEntities;
+package ecs.items.explicitItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.InventoryComponent;
-import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.items.*;
-import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
@@ -19,7 +17,7 @@ public class Bag extends ItemData implements IOnCollect, IOnDrop, IOnUse {
     private final int max = 3;
     public Bag(){
         super(
-            ItemType.Bag,
+            ItemType.BAG,
             AnimationBuilder.buildAnimation("missingTexture.png"),
             AnimationBuilder.buildAnimation("missingTexture.png"),
             "Bag",

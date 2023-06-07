@@ -1,25 +1,26 @@
-package ecs.items.ItemEntities;
+package ecs.items.explicitItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.entities.Entity;
 import ecs.items.*;
 import tools.Point;
 
-public class Bread extends ItemData implements IOnCollect, IOnDrop, IOnUse {
 
-    public Bread(){
+
+public class SwordFightingBasics extends ItemData implements IOnCollect, IOnDrop, IOnUse {
+
+    public SwordFightingBasics(){
         super(
-            ItemType.Bread,
+            ItemType.BOOK,
             AnimationBuilder.buildAnimation("missingTexture.png"),
             AnimationBuilder.buildAnimation("missingTexture.png"),
-            "Bread",
-            "Heals the hero by 5 health points");
+            "SwordFightingBasics",
+            "Adds a SwordSkill skill to the hero's SkillComponent");
         this.setOnCollect(this);
         this.setOnDrop(this);
         this.setOnUse(this);
 
     }
-
     @Override
     public void onCollect(Entity WorldItemEntity, Entity whoCollides) {
 
