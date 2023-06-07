@@ -96,6 +96,11 @@ public class Hero extends Entity {
                         });
     }
 
+    /** Public method to learn SwordSkill from the outside */
+    public void learnSwordSkill() {
+        setupSwordSkill();
+    }
+
     private void setupFireballSkill() {
         firstSkill =
                 new Skill(

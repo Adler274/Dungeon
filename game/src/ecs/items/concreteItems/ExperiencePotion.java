@@ -1,8 +1,11 @@
 package ecs.items.concreteItems;
 
 import dslToGame.AnimationBuilder;
+import ecs.components.InventoryComponent;
+import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
 import ecs.items.*;
+import starter.Game;
 import tools.Point;
 
 public class ExperiencePotion extends ItemData {
@@ -23,5 +26,19 @@ public class ExperiencePotion extends ItemData {
 
     public void onDrop(Entity user, ItemData which, Point position) {}
 
-    public void onUse(Entity e, ItemData item) {}
+    public void onUse(Entity e, ItemData item) {
+        //granting xp
+        Game.getHero()
+            .get()
+            .getComponent(XPComponent.class)
+            .ifPresent(
+                xc -> {
+                    ((XPComponent) xc).addXP(((XPComponent) xc).getXPToNextLevel());
+                });
+
+        //removing item
+        e.getComponent(InventoryComponent.class)
+            .ifPresent(
+                ic -> ((InventoryComponent) ic).removeItem(this));
+    }
 }
