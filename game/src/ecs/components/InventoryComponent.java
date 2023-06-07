@@ -2,10 +2,14 @@ package ecs.components;
 
 import ecs.entities.Entity;
 import ecs.items.ItemData;
+import ecs.items.ItemType;
+import ecs.items.concreteItems.Bag;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
+import starter.Game;
 
 /** Allows an Entity to carry Items */
 public class InventoryComponent extends Component {
@@ -13,6 +17,9 @@ public class InventoryComponent extends Component {
     private List<ItemData> inventory;
     private int maxSize;
     private final Logger inventoryLogger = Logger.getLogger(this.getClass().getName());
+
+    private boolean bagInUse;
+    private Bag openedBag;
 
     /**
      * creates a new InventoryComponent
@@ -24,6 +31,7 @@ public class InventoryComponent extends Component {
         super(entity);
         inventory = new ArrayList<>(maxSize);
         this.maxSize = maxSize;
+        bagInUse = false;
     }
 
     /**
@@ -35,10 +43,17 @@ public class InventoryComponent extends Component {
      */
     public boolean addItem(ItemData itemData) {
         if (inventory.size() >= maxSize) return false;
+        if (bagInUse) if (itemData.getItemType() != openedBag.getInventoryType()) return false;
+        Level logLevel;
+        if (entity == Game.getHero().get()){
+            logLevel = CustomLogLevel.INFO;
+        } else {
+            logLevel = CustomLogLevel.DEBUG;
+        }
         inventoryLogger.log(
-                CustomLogLevel.DEBUG,
+                logLevel,
                 "Item '"
-                        + this.getClass().getSimpleName()
+                        + itemData.getItemName()
                         + "' was added to the inventory of entity '"
                         + entity.getClass().getSimpleName()
                         + "'.");
@@ -55,7 +70,7 @@ public class InventoryComponent extends Component {
         inventoryLogger.log(
                 CustomLogLevel.DEBUG,
                 "Removing item '"
-                        + this.getClass().getSimpleName()
+                        + itemData.getItemName()
                         + "' from inventory of entity '"
                         + entity.getClass().getSimpleName()
                         + "'.");
@@ -88,5 +103,54 @@ public class InventoryComponent extends Component {
      */
     public List<ItemData> getItems() {
         return new ArrayList<>(inventory);
+    }
+
+    public void setItems(List<ItemData> items) {
+        inventory = items;
+    }
+
+    /** shows the heros inventory using a logger */
+    public void showInventory() {
+        StringBuilder inv = new StringBuilder();
+        if (bagInUse) {
+            inv.append("Bag opened");
+        } else {
+            inv.append("Inventory opened");
+        }
+        if (inventory.size() != 0) {
+            for (int i = 0; i < inventory.size(); i++) {
+                inv.append("\n").append(i + 1).append(": ").append(inventory.get(i).getItemName());
+            }
+        }
+        inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
+    }
+
+    /**
+     * uses an item in the inventory
+     * if a bag is used, accounts for that
+     *
+     * @param index index of the item to be used
+     * @param user entity who uses the item
+     */
+    public void useItem(int index, Entity user) {
+        if (inventory.size() > index) {
+            inventoryLogger.log(
+                    CustomLogLevel.INFO,
+                    inventory.get(index).getItemName() + " was used \nInventory closed");
+            if (inventory.get(index).getItemType() == ItemType.BAG) {
+                bagInUse = true;
+                openedBag = ((Bag) inventory.get(index));
+            }
+            inventory.get(index).triggerUse(user);
+        }
+    }
+
+    /** closes the bag by switching back inventory and setting the boolean to false */
+    public void closeBag() {
+        if (bagInUse) {
+            bagInUse = false;
+            openedBag.triggerUse(Game.getHero().get());
+            inventoryLogger.log(CustomLogLevel.INFO, "Bag closed");
+        }
     }
 }

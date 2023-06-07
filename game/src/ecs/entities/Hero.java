@@ -48,6 +48,7 @@ public class Hero extends Entity {
         setupHitboxComponent();
         new PlayableComponent(this);
         new XPComponent(this, this::onLevelUp);
+        new InventoryComponent(this, 3);
         setupAnimationComponent();
         setupHealthComponent();
         setupStatsComponent();
@@ -181,6 +182,11 @@ public class Hero extends Entity {
         skills.addSkill(meleeSkill);
         this.getComponent(PlayableComponent.class)
                 .ifPresent(pc -> ((PlayableComponent) pc).setSkillSlotMelee(meleeSkill));
+    }
+
+    /** Public method to learn SwordSkill from the outside */
+    public void learnSwordSkill() {
+        setupSwordSkill();
     }
 
     private void setupFireballSkill() {
