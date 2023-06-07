@@ -34,8 +34,9 @@ public class Bread extends ItemData {
                                 hero.getComponent(InventoryComponent.class)
                                         .ifPresent(
                                                 (ic) -> {
-                                                    ((InventoryComponent) ic).addItem(this);
-                                                    Game.removeEntity(worldItem);
+                                                    if (((InventoryComponent) ic).addItem(this)){
+                                                        Game.removeEntity(worldItem);
+                                                    }
                                                 });
                             }
                         });

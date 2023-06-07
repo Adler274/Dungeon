@@ -17,7 +17,6 @@ public class Bag extends ItemData {
     private final int inventorySize = 3;
     private ItemType inventoryType;
     private Entity bagEntity;
-    // private final Logger bagLogger = Logger.getLogger(this.getClass().getName());
 
     public Bag() {
         super(
@@ -58,8 +57,9 @@ public class Bag extends ItemData {
                                 hero.getComponent(InventoryComponent.class)
                                         .ifPresent(
                                                 (ic) -> {
-                                                    ((InventoryComponent) ic).addItem(this);
-                                                    Game.removeEntity(worldItem);
+                                                    if (((InventoryComponent) ic).addItem(this)){
+                                                        Game.removeEntity(worldItem);
+                                                    }
                                                 });
                             }
                         });
