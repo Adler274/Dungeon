@@ -92,6 +92,7 @@ public class Mimic extends Entity {
                         xc -> {
                             ((XPComponent) xc).addXP(lootXP);
                         });
+
         Chest mimic = Chest.createNewChest();
         this.getComponent(PositionComponent.class)
                 .ifPresent(
