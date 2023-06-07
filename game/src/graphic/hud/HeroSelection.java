@@ -6,29 +6,30 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
+import ecs.entities.Character;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
 import starter.Game;
 import tools.Constants;
 import tools.Point;
 
-public class GameOverMenu<T extends Actor> extends ScreenController<T> {
+public class HeroSelection<T extends Actor> extends ScreenController<T> {
 
     private final Logger menuLogger = Logger.getLogger(this.getClass().getSimpleName());
 
-    /** Creates a new GameOverMEnu with a new Spritebatch */
-    public GameOverMenu() {
+    /** Creates a new GameOverMenu with a new Spritebatch */
+    public HeroSelection() {
         this(new SpriteBatch());
     }
 
     /** Creates a new GameOverMenu with a given Spritebatch */
-    public GameOverMenu(SpriteBatch batch) {
+    public HeroSelection(SpriteBatch batch) {
         super(batch);
 
         // headline
         ScreenText screenText =
                 new ScreenText(
-                        "Game Over",
+                        "Choose a hero",
                         new Point(0, 0),
                         3,
                         new LabelStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -41,18 +42,17 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
         add((T) screenText);
 
-        // restart button
-        ScreenButton restart =
+        // button for the selection of the Wizard
+        ScreenButton wizard =
                 new ScreenButton(
-                        "Restart Game",
+                        "Wizard",
                         new Point(0, 0),
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-
-                                Game.restart();
-
-                                menuLogger.log(CustomLogLevel.INFO, "The game has been restarted.");
+                                Game.chooseClass(Character.WIZARD);
+                                menuLogger.log(CustomLogLevel.INFO, "The wizard has been chosen");
+                                hideMenu();
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -60,20 +60,21 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                                 .setOverFontColor(Color.RED)
                                 .build());
 
-        restart.setPosition(
+        wizard.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 2f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
-        // button for ending the game
-        ScreenButton quit =
+        // button for the selection of the Knight
+        ScreenButton knight =
                 new ScreenButton(
-                        "Quit Game",
+                        "Knight",
                         new Point(0, 0),
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                Game.end();
+                                Game.chooseClass(Character.KNIGHT);
+                                menuLogger.log(CustomLogLevel.INFO, "The knight has been chosen");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -81,13 +82,37 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
                                 .setOverFontColor(Color.RED)
                                 .build());
 
-        quit.setPosition(
+        knight.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 3f + screenText.getHeight(),
                 Align.center | Align.bottom);
 
-        add((T) restart);
-        add((T) quit);
+        // Button for the selection of the Dwarf
+        ScreenButton elf =
+                new ScreenButton(
+                        "Elf",
+                        new Point(0, 0),
+                        new TextButtonListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                Game.chooseClass(Character.ELF);
+                                //  hideMenu();
+                                menuLogger.log(CustomLogLevel.INFO, "The elf has been chosen");
+                            }
+                        },
+                        new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
+                                .setFontColor(Color.WHITE)
+                                .setOverFontColor(Color.RED)
+                                .build());
+
+        elf.setPosition(
+                (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
+                (Constants.WINDOW_HEIGHT) / 4f + screenText.getHeight(),
+                Align.center | Align.bottom);
+
+        add((T) wizard);
+        add((T) knight);
+        add((T) elf);
         hideMenu();
     }
 
@@ -95,7 +120,7 @@ public class GameOverMenu<T extends Actor> extends ScreenController<T> {
     public void showMenu() {
         this.forEach((Actor s) -> s.setVisible(true));
 
-        menuLogger.log(CustomLogLevel.INFO, "The GameOverMenu has been opened.");
+        menuLogger.log(CustomLogLevel.INFO, "The HeroSelection has been opened.");
     }
 
     /** hides the Menu */
