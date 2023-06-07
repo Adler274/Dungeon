@@ -13,8 +13,8 @@ public class Bread extends ItemData {
     public Bread() {
         super(
                 ItemType.FOOD,
-                AnimationBuilder.buildAnimation("ui_heart_full.png"), // TODO change
-                AnimationBuilder.buildAnimation("ui_heart_full.png"), // TODO change
+                AnimationBuilder.buildAnimation("bread.png"),
+                AnimationBuilder.buildAnimation("bread.png"),
                 "Bread",
                 "restores 5 HP to the user");
         this.setOnCollect(this::onCollect);
