@@ -17,13 +17,13 @@ public class KeyboardConfig {
     public static final ConfigKey<Integer> INTERACT_WORLD =
             new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.E));
     public static final ConfigKey<Integer> SHOW_INVENTORY =
-            new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.I));
+            new ConfigKey<>(new String[] {"inventory", "show"}, new ConfigIntValue(Input.Keys.I));
     public static final ConfigKey<Integer> USE_ITEM_ONE =
-            new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.NUMPAD_1));
+            new ConfigKey<>(new String[] {"use_item", "one"}, new ConfigIntValue(Input.Keys.NUMPAD_1));
     public static final ConfigKey<Integer> USE_ITEM_TWO =
-            new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.NUMPAD_2));
+            new ConfigKey<>(new String[] {"use_item", "two"}, new ConfigIntValue(Input.Keys.NUMPAD_2));
     public static final ConfigKey<Integer> USE_ITEM_THREE =
-            new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.NUMPAD_3));
+            new ConfigKey<>(new String[] {"use_item", "three"}, new ConfigIntValue(Input.Keys.NUMPAD_3));
     public static final ConfigKey<Integer> MELEE_SKILL =
             new ConfigKey<>(new String[] {"skill", "melee"}, new ConfigIntValue(Input.Keys.Q));
     public static final ConfigKey<Integer> FIRST_SKILL =
