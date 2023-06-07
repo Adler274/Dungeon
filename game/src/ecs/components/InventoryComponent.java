@@ -2,10 +2,13 @@ package ecs.components;
 
 import ecs.entities.Entity;
 import ecs.items.ItemData;
+import ecs.items.ItemType;
+import ecs.items.concreteItems.Bag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
+import starter.Game;
 
 /** Allows an Entity to carry Items */
 public class InventoryComponent extends Component {
@@ -13,6 +16,9 @@ public class InventoryComponent extends Component {
     private List<ItemData> inventory;
     private int maxSize;
     private final Logger inventoryLogger = Logger.getLogger(this.getClass().getName());
+
+    private boolean bagInUse;
+    private Bag openedBag;
 
     /**
      * creates a new InventoryComponent
@@ -24,6 +30,7 @@ public class InventoryComponent extends Component {
         super(entity);
         inventory = new ArrayList<>(maxSize);
         this.maxSize = maxSize;
+        bagInUse = false;
     }
 
     /**
@@ -35,6 +42,7 @@ public class InventoryComponent extends Component {
      */
     public boolean addItem(ItemData itemData) {
         if (inventory.size() >= maxSize) return false;
+        if (bagInUse) if (itemData.getItemType() != openedBag.getInventoryType()) return false;
         inventoryLogger.log(
                 CustomLogLevel.DEBUG,
                 "Item '"
@@ -90,9 +98,18 @@ public class InventoryComponent extends Component {
         return new ArrayList<>(inventory);
     }
 
+    public void setItems(List<ItemData> items) {
+        inventory = items;
+    }
+
     /** shows the heros inventory using a logger */
     public void showInventory() {
-        StringBuilder inv = new StringBuilder("Inventory opened");
+        StringBuilder inv = new StringBuilder();
+        if (bagInUse) {
+            inv.append("Bag opened");
+        } else {
+            inv.append("Inventory opened");
+        }
         if (inventory.size() != 0) {
             for (int i = 0; i < inventory.size(); i++) {
                 inv.append("\n").append(i + 1).append(": ").append(inventory.get(i).getItemName());
@@ -108,8 +125,20 @@ public class InventoryComponent extends Component {
     public void useItem(int index, Entity user) {
         if (inventory.size() > index) {
             inventoryLogger.log(
-                    CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used \nInventory closed");
+                    CustomLogLevel.INFO,
+                    inventory.get(index).getItemName() + " was used \nInventory closed");
+            if (inventory.get(index).getItemType() == ItemType.BAG) {
+                bagInUse = true;
+                openedBag = ((Bag) inventory.get(index));
+            }
             inventory.get(index).triggerUse(user);
+        }
+    }
+
+    public void closeBag() {
+        if (bagInUse) {
+            bagInUse = false;
+            openedBag.triggerUse(Game.getHero().get());
         }
     }
 }

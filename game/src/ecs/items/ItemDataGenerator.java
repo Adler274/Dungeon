@@ -1,5 +1,6 @@
 package ecs.items;
 
+import ecs.items.concreteItems.Bag;
 import ecs.items.concreteItems.Bread;
 import ecs.items.concreteItems.ExperiencePotion;
 import ecs.items.concreteItems.SwordFightingBasics;
@@ -11,7 +12,7 @@ public class ItemDataGenerator {
     private static final List<String> missingTexture = List.of("animation/missingTexture.png");
 
     private List<ItemData> templates =
-            List.of(new Bread(), new ExperiencePotion(), new SwordFightingBasics());
+            List.of(new Bread(), new ExperiencePotion(), new SwordFightingBasics(), new Bag());
     private Random rand = new Random();
 
     /**

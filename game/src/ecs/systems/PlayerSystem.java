@@ -43,6 +43,10 @@ public class PlayerSystem extends ECS_System {
             ksd.ic.showInventory();
             inventoryOpen = true;
         }
+        if (Gdx.input.isKeyPressed(KeyboardConfig.CLOSE_BAG_INVENTORY.get())) {
+            ksd.ic.closeBag();
+            inventoryOpen = false;
+        }
 
         // check item use
         if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_ONE.get())) {

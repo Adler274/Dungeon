@@ -1,23 +1,27 @@
 package ecs.items.concreteItems;
 
+import static ecs.items.ItemType.BAG;
+
 import dslToGame.AnimationBuilder;
 import ecs.components.InventoryComponent;
 import ecs.entities.Entity;
-import ecs.entities.Hero;
 import ecs.items.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import starter.Game;
-import tools.Point;
 
 public class Bag extends ItemData {
 
     private List<ItemData> inventory;
-    private final int max = 3;
+    private final int inventorySize = 3;
+    private ItemType inventoryType;
+    private Entity bagEntity;
+    // private final Logger bagLogger = Logger.getLogger(this.getClass().getName());
 
     public Bag() {
         super(
-                ItemType.BAG,
+                BAG,
                 AnimationBuilder.buildAnimation("bag.png"),
                 AnimationBuilder.buildAnimation("bag.png"),
                 "Bag",
@@ -26,8 +30,20 @@ public class Bag extends ItemData {
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
 
-        WorldItemBuilder.buildWorldItem(this);
-        inventory = new ArrayList<>(3);
+        // generating random inventoryType
+        Random rand = new Random();
+        while (true) {
+            int ran = rand.nextInt(ItemType.values().length);
+            ItemType randomType = ItemType.values()[ran];
+            if (randomType != ItemType.BAG && randomType != ItemType.DEBUG) {
+                inventoryType = randomType;
+                break;
+            }
+        }
+        inventory = new ArrayList<>(inventorySize);
+
+        bagEntity = new Entity();
+        bagEntity.addComponent(new InventoryComponent(bagEntity, inventorySize));
     }
 
     /**
@@ -36,29 +52,40 @@ public class Bag extends ItemData {
      */
     public void onCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
-            .ifPresent(
-                hero -> {
-                    if (whoCollected.equals(hero)) {
-                        hero.getComponent(InventoryComponent.class)
-                            .ifPresent(
-                                (ic) -> {
-                                    ((InventoryComponent) ic).addItem(this);
-                                    Game.removeEntity(worldItem);
-                                });
-                    }
-                });
+                .ifPresent(
+                        hero -> {
+                            if (whoCollected.equals(hero)) {
+                                hero.getComponent(InventoryComponent.class)
+                                        .ifPresent(
+                                                (ic) -> {
+                                                    ((InventoryComponent) ic).addItem(this);
+                                                    Game.removeEntity(worldItem);
+                                                });
+                            }
+                        });
     }
 
     public boolean addItem(ItemData itemData) {
-        if (inventory.size() >= max) {
+        if (inventory.size() >= inventorySize || itemData.getItemType() != inventoryType) {
             return false;
         }
         return inventory.add(itemData);
     }
 
-    public void onDrop(Entity user, ItemData which, Point position) {}
-
     public void onUse(Entity e, ItemData item) {
-        System.out.println("Bag used");
+        InventoryComponent bagInventory =
+                (InventoryComponent) bagEntity.getComponent(InventoryComponent.class).get();
+        InventoryComponent heroInventory =
+                (InventoryComponent)
+                        Game.getHero().get().getComponent(InventoryComponent.class).get();
+
+        List<ItemData> temp;
+        temp = bagInventory.getItems();
+        bagInventory.setItems(heroInventory.getItems());
+        heroInventory.setItems(temp);
+    }
+
+    public ItemType getInventoryType() {
+        return inventoryType;
     }
 }

@@ -18,6 +18,10 @@ public class KeyboardConfig {
             new ConfigKey<>(new String[] {"interact", "world"}, new ConfigIntValue(Input.Keys.E));
     public static final ConfigKey<Integer> SHOW_INVENTORY =
             new ConfigKey<>(new String[] {"inventory", "show"}, new ConfigIntValue(Input.Keys.I));
+    public static final ConfigKey<Integer> CLOSE_BAG_INVENTORY =
+            new ConfigKey<>(
+                    new String[] {"inventory", "close_bag"},
+                    new ConfigIntValue(Input.Keys.NUMPAD_0));
     public static final ConfigKey<Integer> USE_ITEM_ONE =
             new ConfigKey<>(
                     new String[] {"use_item", "one"}, new ConfigIntValue(Input.Keys.NUMPAD_1));
