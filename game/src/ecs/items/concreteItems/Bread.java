@@ -1,6 +1,9 @@
 package ecs.items.concreteItems;
 
 import dslToGame.AnimationBuilder;
+import ecs.components.HealthComponent;
+import ecs.components.InventoryComponent;
+import ecs.components.MissingComponentException;
 import ecs.entities.Entity;
 import ecs.items.*;
 import tools.Point;
@@ -23,5 +26,23 @@ public class Bread extends ItemData {
 
     public void onDrop(Entity user, ItemData which, Point position) {}
 
-    public void onUse(Entity e, ItemData item) {}
+    /**
+     *
+     * @param e entity that uses the item
+     * @param item the items being used
+     */
+    public void onUse(Entity e, ItemData item) {
+        //healing
+        HealthComponent hc =
+            (HealthComponent)
+                e.getComponent(HealthComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("HealthComponent"));
+        hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 5);
+
+        //removing item
+        e.getComponent(InventoryComponent.class)
+            .ifPresent(
+                ic -> ((InventoryComponent) ic).removeItem(this));
+    }
 }
