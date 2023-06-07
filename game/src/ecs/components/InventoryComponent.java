@@ -45,18 +45,20 @@ public class InventoryComponent extends Component {
         if (inventory.size() >= maxSize) return false;
         if (bagInUse) if (itemData.getItemType() != openedBag.getInventoryType()) return false;
         Level logLevel;
-        if (Game.getHero().isPresent() && entity == Game.getHero().get()){
+        if (Game.getHero().isPresent() && entity == Game.getHero().get()) {
             logLevel = CustomLogLevel.INFO;
         } else {
             logLevel = CustomLogLevel.DEBUG;
         }
-        inventoryLogger.log(
-                logLevel,
-                "Item '"
-                        + itemData.getItemName()
-                        + "' was added to the inventory of entity '"
-                        + entity.getClass().getSimpleName()
-                        + "'.");
+        StringBuilder inv = new StringBuilder();
+        inv.append("Item '").append(itemData.getItemName());
+        if (itemData.getItemType() == ItemType.BAG) {
+            inv.append(" (").append(((Bag) itemData).getInventoryType()).append(")");
+        }
+        inv.append("' was added to the inventory of entity '")
+                .append(entity.getClass().getSimpleName())
+                .append("'.");
+        inventoryLogger.log(logLevel, inv.toString());
         return inventory.add(itemData);
     }
 
@@ -120,14 +122,17 @@ public class InventoryComponent extends Component {
         if (inventory.size() != 0) {
             for (int i = 0; i < inventory.size(); i++) {
                 inv.append("\n").append(i + 1).append(": ").append(inventory.get(i).getItemName());
+                if (inventory.get(i).getItemType() == ItemType.BAG) {
+                    Bag item = ((Bag) inventory.get(i));
+                    inv.append(" (").append(item.getInventoryType().toString()).append(")");
+                }
             }
         }
         inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
     }
 
     /**
-     * uses an item in the inventory
-     * if a bag is used, accounts for that
+     * uses an item in the inventory if a bag is used, accounts for that
      *
      * @param index index of the item to be used
      * @param user entity who uses the item

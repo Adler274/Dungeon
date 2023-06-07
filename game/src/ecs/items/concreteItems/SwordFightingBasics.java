@@ -33,7 +33,7 @@ public class SwordFightingBasics extends ItemData {
                                 hero.getComponent(InventoryComponent.class)
                                         .ifPresent(
                                                 (ic) -> {
-                                                    if (((InventoryComponent) ic).addItem(this)){
+                                                    if (((InventoryComponent) ic).addItem(this)) {
                                                         Game.removeEntity(worldItem);
                                                     }
                                                 });

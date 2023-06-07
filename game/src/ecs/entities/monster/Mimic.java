@@ -80,7 +80,8 @@ public class Mimic extends Entity {
         hc.setCurrentHealthpoints(5);
     }
 
-    /** player earns xp and a new chest spawns upon death
+    /**
+     * player earns xp and a new chest spawns upon death
      *
      * @param entity is required and unused
      */
@@ -108,7 +109,8 @@ public class Mimic extends Entity {
                         });
     }
 
-    /** Damages mimic on interaction to change into fight mode
+    /**
+     * Damages mimic on interaction to change into fight mode
      *
      * @param entity is required and unused
      */

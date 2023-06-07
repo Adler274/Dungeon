@@ -57,7 +57,7 @@ public class Bag extends ItemData {
                                 hero.getComponent(InventoryComponent.class)
                                         .ifPresent(
                                                 (ic) -> {
-                                                    if (((InventoryComponent) ic).addItem(this)){
+                                                    if (((InventoryComponent) ic).addItem(this)) {
                                                         Game.removeEntity(worldItem);
                                                     }
                                                 });
@@ -67,6 +67,7 @@ public class Bag extends ItemData {
 
     /**
      * switches own inventory with that of the hero
+     *
      * @param e entity using the item (not used)
      * @param item item used (also unused)
      */
