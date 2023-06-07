@@ -12,8 +12,8 @@ public class ExperiencePotion extends ItemData {
     public ExperiencePotion() {
         super(
                 ItemType.POTION,
-                AnimationBuilder.buildAnimation("xp_potion.png"), // TODO change
-                AnimationBuilder.buildAnimation("xp_potion.png"), // TODO change
+                AnimationBuilder.buildAnimation("xp_potion.png"),
+                AnimationBuilder.buildAnimation("xp_potion.png"),
                 "ExperiencePotion",
                 "gives the user enough xp to level up");
         this.setOnCollect(this::onCollect);
