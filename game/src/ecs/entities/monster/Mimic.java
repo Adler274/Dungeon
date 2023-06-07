@@ -19,6 +19,7 @@ import ecs.entities.Entity;
 import graphic.Animation;
 import starter.Game;
 
+/** A type of monster which disguises as chest but attacks upon interaction */
 public class Mimic extends Entity {
 
     private final int lootXP = 25;
@@ -27,7 +28,7 @@ public class Mimic extends Entity {
 
     private SkillComponent skills;
 
-    /** Entity with Components */
+    /** Entity with Components. Creates a Mimic which uses fireballs to attack. */
     public Mimic() {
         super();
         new InteractionComponent(this, 1, false, this::onInteract);
@@ -45,6 +46,7 @@ public class Mimic extends Entity {
         new StatsComponent(this);
     }
 
+    /** Crestes XpComponent and sets lootXP */
     private void setupXpComponent() {
         XPComponent xc = new XPComponent(this);
         xc.setLootXP(lootXP);
@@ -70,11 +72,12 @@ public class Mimic extends Entity {
                 null);
     }
 
+    /** Creates HealthComponent */
     private void setupHealthComponent() {
         Animation hcAnimation = AnimationBuilder.buildAnimation(DEFAULT_ANIMATION_FRAME);
-        HealthComponent hc = new HealthComponent(this, 6, this::onDeath, hcAnimation, hcAnimation);
-        hc.setMaximalHealthpoints(6);
-        hc.setCurrentHealthpoints(6);
+        HealthComponent hc = new HealthComponent(this, 5, this::onDeath, hcAnimation, hcAnimation);
+        hc.setMaximalHealthpoints(5);
+        hc.setCurrentHealthpoints(5);
     }
 
     /** player earns xp and a new chest spawns upon death */
@@ -104,7 +107,7 @@ public class Mimic extends Entity {
     /**
      * Damages mimic on interaction to change into fight mode
      *
-     * @param entity: interacting entity
+     * @param entity interacting entity
      */
     private void onInteract(Entity entity) {
         this.getComponent(HealthComponent.class)

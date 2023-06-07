@@ -433,12 +433,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    private void spawnChestsAndMimics(){
+    /** Used to randomly spawn a chest, a mimic or nothing */
+    private void spawnChestsAndMimics() {
         Random random = new Random();
-        if (random.nextInt(2) == 0){
-            addEntity(new Mimic());
-        } else {
-            addEntity(Chest.createNewChest());
+        int rando = random.nextInt(3);
+        switch (rando) {
+            case 0 -> entities.add(new Mimic());
+            case 1 -> entities.add(Chest.createNewChest());
         }
     }
 

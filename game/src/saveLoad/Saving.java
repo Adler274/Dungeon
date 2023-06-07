@@ -3,6 +3,7 @@ package saveLoad;
 import ecs.components.HealthComponent;
 import ecs.components.xp.XPComponent;
 import ecs.entities.*;
+import ecs.entities.monster.Mimic;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -103,6 +104,7 @@ public class Saving {
                             ((XPComponent) xc).setCurrentXP(playerXP);
                         });
         for (String entity : data.getEntityList()) {
+            System.out.println(entity);
             switch (entity) {
                 case "OrcNormal" -> Game.getEntities().add(new OrcNormal());
                 case "OrcBaby" -> Game.getEntities().add(new OrcBaby());
@@ -120,6 +122,8 @@ public class Saving {
                     Game.getEntities().add(spawnerT);
                     Game.getEntities().add(new TrapSwitch(spawnerT));
                 }
+                case "Chest" -> Game.getEntities().add(Chest.createNewChest());
+                case "Mimic" -> Game.getEntities().add(new Mimic());
             }
         }
     }
