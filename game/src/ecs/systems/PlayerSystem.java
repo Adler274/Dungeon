@@ -14,6 +14,7 @@ import starter.Game;
 public class PlayerSystem extends ECS_System {
 
     private record KSData(Entity e, PlayableComponent pc, VelocityComponent vc, InventoryComponent ic) {}
+    boolean inventoryOpen = false;
 
     @Override
     public void update() {
@@ -36,8 +37,30 @@ public class PlayerSystem extends ECS_System {
         if (Gdx.input.isKeyPressed(KeyboardConfig.INTERACT_WORLD.get()))
             InteractionTool.interactWithClosestInteractable(ksd.e);
 
-        if (Gdx.input.isKeyPressed(KeyboardConfig.SHOW_INVENTORY.get()))
+        if (Gdx.input.isKeyPressed(KeyboardConfig.SHOW_INVENTORY.get())){
             ksd.ic.showInventory();
+            inventoryOpen = true;
+        }
+
+        if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_ONE.get())){
+            if (inventoryOpen){
+                ksd.ic.useItem(0, ksd.e);
+                inventoryOpen = false;
+            }
+        }
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_TWO.get())){
+            if (inventoryOpen){
+                ksd.ic.useItem(1, ksd.e);
+                inventoryOpen = false;
+            }
+        }
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_THREE.get())){
+            if (inventoryOpen){
+                ksd.ic.useItem(2, ksd.e);
+                inventoryOpen = false;
+            }
+        }
+
 
         // check skills
         else if (Gdx.input.isKeyPressed(KeyboardConfig.MELEE_SKILL.get()))

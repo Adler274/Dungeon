@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
+import starter.Game;
 
 /** Allows an Entity to carry Items */
 public class InventoryComponent extends Component {
@@ -98,5 +99,11 @@ public class InventoryComponent extends Component {
             }
         }
         inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
+    }
+
+    public void useItem(int index, Entity user){
+        if (inventory.size() > index){
+            inventory.get(index).triggerUse(user);
+        }
     }
 }
