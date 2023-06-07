@@ -36,7 +36,7 @@ public class InventoryComponent extends Component {
     public boolean addItem(ItemData itemData) {
         if (inventory.size() >= maxSize) return false;
         inventoryLogger.log(
-                CustomLogLevel.DEBUG,
+                CustomLogLevel.INFO,
                 "Item '"
                         + this.getClass().getSimpleName()
                         + "' was added to the inventory of entity '"
@@ -53,7 +53,7 @@ public class InventoryComponent extends Component {
      */
     public boolean removeItem(ItemData itemData) {
         inventoryLogger.log(
-                CustomLogLevel.DEBUG,
+                CustomLogLevel.INFO,
                 "Removing item '"
                         + this.getClass().getSimpleName()
                         + "' from inventory of entity '"
