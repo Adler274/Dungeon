@@ -117,6 +117,6 @@ public class Mimic extends Entity {
                 .ifPresent(
                         hc ->
                                 ((HealthComponent) hc)
-                                        .receiveHit(new Damage(1, DamageType.PHYSICAL, Game.getHero().get())));
+                                        .receiveHit(new Damage(1, DamageType.PHYSICAL, null)));
     }
 }
