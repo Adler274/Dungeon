@@ -37,7 +37,7 @@ public class InventoryComponent extends Component {
     public boolean addItem(ItemData itemData) {
         if (inventory.size() >= maxSize) return false;
         inventoryLogger.log(
-                CustomLogLevel.INFO,
+                CustomLogLevel.DEBUG,
                 "Item '"
                         + itemData.getItemName()
                         + "' was added to the inventory of entity '"
@@ -54,7 +54,7 @@ public class InventoryComponent extends Component {
      */
     public boolean removeItem(ItemData itemData) {
         inventoryLogger.log(
-                CustomLogLevel.INFO,
+                CustomLogLevel.DEBUG,
                 "Removing item '"
                         + itemData.getItemName()
                         + "' from inventory of entity '"
@@ -103,6 +103,7 @@ public class InventoryComponent extends Component {
 
     public void useItem(int index, Entity user){
         if (inventory.size() > index){
+            inventoryLogger.log(CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used");
             inventory.get(index).triggerUse(user);
         }
     }
