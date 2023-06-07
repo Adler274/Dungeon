@@ -6,6 +6,7 @@ import ecs.items.ItemType;
 import ecs.items.concreteItems.Bag;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
 import starter.Game;
@@ -43,8 +44,14 @@ public class InventoryComponent extends Component {
     public boolean addItem(ItemData itemData) {
         if (inventory.size() >= maxSize) return false;
         if (bagInUse) if (itemData.getItemType() != openedBag.getInventoryType()) return false;
+        Level logLevel;
+        if (entity == Game.getHero().get()){
+            logLevel = CustomLogLevel.INFO;
+        } else {
+            logLevel = CustomLogLevel.DEBUG;
+        }
         inventoryLogger.log(
-                CustomLogLevel.DEBUG,
+                logLevel,
                 "Item '"
                         + itemData.getItemName()
                         + "' was added to the inventory of entity '"
