@@ -80,7 +80,10 @@ public class Mimic extends Entity {
         hc.setCurrentHealthpoints(5);
     }
 
-    /** player earns xp and a new chest spawns upon death */
+    /** player earns xp and a new chest spawns upon death
+     *
+     * @param entity is required and unused
+     */
     private void onDeath(Entity entity) {
         Game.getHero()
                 .get()
@@ -104,16 +107,15 @@ public class Mimic extends Entity {
                         });
     }
 
-    /**
-     * Damages mimic on interaction to change into fight mode
+    /** Damages mimic on interaction to change into fight mode
      *
-     * @param entity interacting entity
+     * @param entity is required and unused
      */
     private void onInteract(Entity entity) {
         this.getComponent(HealthComponent.class)
                 .ifPresent(
                         hc ->
                                 ((HealthComponent) hc)
-                                        .receiveHit(new Damage(1, DamageType.PHYSICAL, entity)));
+                                        .receiveHit(new Damage(1, DamageType.PHYSICAL, Game.getHero().get())));
     }
 }
