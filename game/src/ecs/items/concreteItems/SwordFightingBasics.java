@@ -17,12 +17,16 @@ public class SwordFightingBasics extends ItemData {
                 AnimationBuilder.buildAnimation("ui_heart_half.png"),   // TODO change
                 AnimationBuilder.buildAnimation("ui_heart_half.png"),   // TODO change
                 "SwordFightingBasics",
-                "Adds a SwordSkill skill to the hero's SkillComponent");
+                "if used by the hero, he learns how to use a sword");
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
     }
 
+    /**
+     * @param worldItem entity of the item
+     * @param whoCollected entity which collected the item
+     */
     public void onCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
             .ifPresent(
@@ -38,8 +42,10 @@ public class SwordFightingBasics extends ItemData {
                 });
     }
 
-    public void onDrop(Entity user, ItemData which, Point position) {}
-
+    /**
+     * @param e entity that uses the item
+     * @param item the items being used
+     */
     public void onUse(Entity e, ItemData item) {
         // learning skill if used by hero
         if (e == Game.getHero().get()) {

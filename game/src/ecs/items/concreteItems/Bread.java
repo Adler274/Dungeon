@@ -17,12 +17,16 @@ public class Bread extends ItemData {
                 AnimationBuilder.buildAnimation("ui_heart_full.png"),   // TODO change
                 AnimationBuilder.buildAnimation("ui_heart_full.png"),   // TODO change
                 "Bread",
-                "Heals the hero by 5 health points");
+                "restores 5 HP to the user");
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
     }
 
+    /**
+     * @param worldItem entity of the item
+     * @param whoCollected entity which collected the item
+     */
     public void onCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
             .ifPresent(
@@ -37,8 +41,6 @@ public class Bread extends ItemData {
                     }
                 });
     }
-
-    public void onDrop(Entity user, ItemData which, Point position) {}
 
     /**
      * @param e entity that uses the item
