@@ -10,7 +10,7 @@ import java.util.List;
 import starter.Game;
 import tools.Point;
 
-public class Bag extends ItemData implements IOnCollect, IOnDrop, IOnUse {
+public class Bag extends ItemData {
 
     private List<ItemData> inventory;
     private final int max = 3;
@@ -18,24 +18,35 @@ public class Bag extends ItemData implements IOnCollect, IOnDrop, IOnUse {
     public Bag() {
         super(
                 ItemType.BAG,
-                AnimationBuilder.buildAnimation("missingTexture.png"),
-                AnimationBuilder.buildAnimation("missingTexture.png"),
+                AnimationBuilder.buildAnimation("bag.png"),
+                AnimationBuilder.buildAnimation("bag.png"),
                 "Bag",
-                "Holds items for the hero");
-        this.setOnCollect(this);
-        this.setOnDrop(this);
-        this.setOnUse(this);
+                "Holds items of one type for the hero");
+        this.setOnCollect(this::onCollect);
+        this.setOnDrop(ItemData::defaultDrop);
+        this.setOnUse(this::onUse);
 
         WorldItemBuilder.buildWorldItem(this);
         inventory = new ArrayList<>(3);
     }
 
-    @Override
-    public void onCollect(Entity WorldItemEntity, Entity whoCollides) {
-        if (whoCollides instanceof Hero hero) {
-            Game.removeEntity(WorldItemEntity);
-            //InventoryComponent inventar = hero.getInventar();
-        }
+    /**
+     * @param worldItem entity of the item
+     * @param whoCollected entity which collected the item
+     */
+    public void onCollect(Entity worldItem, Entity whoCollected) {
+        Game.getHero()
+            .ifPresent(
+                hero -> {
+                    if (whoCollected.equals(hero)) {
+                        hero.getComponent(InventoryComponent.class)
+                            .ifPresent(
+                                (ic) -> {
+                                    ((InventoryComponent) ic).addItem(this);
+                                    Game.removeEntity(worldItem);
+                                });
+                    }
+                });
     }
 
     public boolean addItem(ItemData itemData) {
@@ -45,9 +56,9 @@ public class Bag extends ItemData implements IOnCollect, IOnDrop, IOnUse {
         return inventory.add(itemData);
     }
 
-    @Override
     public void onDrop(Entity user, ItemData which, Point position) {}
 
-    @Override
-    public void onUse(Entity e, ItemData item) {}
+    public void onUse(Entity e, ItemData item) {
+        System.out.println("Bag used");
+    }
 }

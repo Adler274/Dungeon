@@ -14,8 +14,8 @@ public class SwordFightingBasics extends ItemData {
     public SwordFightingBasics() {
         super(
                 ItemType.BOOK,
-                AnimationBuilder.buildAnimation("ui_heart_half.png"),   // TODO change
-                AnimationBuilder.buildAnimation("ui_heart_half.png"),   // TODO change
+                AnimationBuilder.buildAnimation("swordskill_book.png"),   // TODO change
+                AnimationBuilder.buildAnimation("swordskill_book..png"),   // TODO change
                 "SwordFightingBasics",
                 "if used by the hero, he learns how to use a sword");
         this.setOnCollect(this::onCollect);
