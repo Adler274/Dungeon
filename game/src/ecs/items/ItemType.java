@@ -5,5 +5,5 @@ public enum ItemType {
     FOOD,
     POTION,
     BAG,
-    Basic
+    DEBUG
 }
