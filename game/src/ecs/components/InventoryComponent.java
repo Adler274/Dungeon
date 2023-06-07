@@ -45,7 +45,7 @@ public class InventoryComponent extends Component {
         if (inventory.size() >= maxSize) return false;
         if (bagInUse) if (itemData.getItemType() != openedBag.getInventoryType()) return false;
         Level logLevel;
-        if (entity == Game.getHero().get()){
+        if (Game.getHero().isPresent() && entity == Game.getHero().get()){
             logLevel = CustomLogLevel.INFO;
         } else {
             logLevel = CustomLogLevel.DEBUG;
