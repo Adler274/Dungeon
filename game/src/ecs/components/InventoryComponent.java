@@ -38,7 +38,7 @@ public class InventoryComponent extends Component {
         inventoryLogger.log(
                 CustomLogLevel.INFO,
                 "Item '"
-                        + this.getClass().getSimpleName()
+                        + itemData.getItemName()
                         + "' was added to the inventory of entity '"
                         + entity.getClass().getSimpleName()
                         + "'.");
@@ -55,7 +55,7 @@ public class InventoryComponent extends Component {
         inventoryLogger.log(
                 CustomLogLevel.INFO,
                 "Removing item '"
-                        + this.getClass().getSimpleName()
+                        + itemData.getItemName()
                         + "' from inventory of entity '"
                         + entity.getClass().getSimpleName()
                         + "'.");
