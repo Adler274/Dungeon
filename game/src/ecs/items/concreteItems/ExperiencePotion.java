@@ -13,16 +13,29 @@ public class ExperiencePotion extends ItemData {
     public ExperiencePotion() {
         super(
                 ItemType.POTION,
-                AnimationBuilder.buildAnimation("missingTexture.png"),
-                AnimationBuilder.buildAnimation("missingTexture.png"),
+                AnimationBuilder.buildAnimation("ui_heart_empty.png"),  // TODO change
+                AnimationBuilder.buildAnimation("ui_heart_empty.png"),  // TODO change
                 "ExperiencePotion",
                 "Adds XPComponent of the hero XP");
         this.setOnCollect(this::onCollect);
-        this.setOnDrop(this::onDrop);
+        this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
     }
 
-    public void onCollect(Entity WorldItemEntity, Entity whoCollides) {}
+    public void onCollect(Entity worldItem, Entity whoCollected) {
+        Game.getHero()
+            .ifPresent(
+                hero -> {
+                    if (whoCollected.equals(hero)) {
+                        hero.getComponent(InventoryComponent.class)
+                            .ifPresent(
+                                (ic) -> {
+                                    ((InventoryComponent) ic).addItem(this);
+                                    Game.removeEntity(worldItem);
+                                });
+                    }
+                });
+    }
 
     public void onDrop(Entity user, ItemData which, Point position) {}
 

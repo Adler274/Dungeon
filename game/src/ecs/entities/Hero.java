@@ -35,7 +35,6 @@ public class Hero extends Entity {
     private Skill thirdSkill;
     private Skill fourthSkill;
     private SkillComponent skills;
-    private InventoryComponent inventar;
 
     /** Entity with Components */
     public Hero() {
@@ -49,6 +48,7 @@ public class Hero extends Entity {
         setupXpComponent();
         new PlayableComponent(this);
         setupSwordSkill();
+        new InventoryComponent(this, 3);
     }
 
     private void setupVelocityComponent() {
@@ -197,7 +197,4 @@ public class Hero extends Entity {
         Game.getGameOverMenu().showMenu();
     }
 
-    public InventoryComponent getInventar() {
-        return inventar;
-    }
 }

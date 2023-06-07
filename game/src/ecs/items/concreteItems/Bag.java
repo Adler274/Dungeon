@@ -34,7 +34,7 @@ public class Bag extends ItemData implements IOnCollect, IOnDrop, IOnUse {
     public void onCollect(Entity WorldItemEntity, Entity whoCollides) {
         if (whoCollides instanceof Hero hero) {
             Game.removeEntity(WorldItemEntity);
-            InventoryComponent inventar = hero.getInventar();
+            //InventoryComponent inventar = hero.getInventar();
         }
     }
 

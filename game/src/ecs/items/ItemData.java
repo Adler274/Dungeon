@@ -155,7 +155,7 @@ public class ItemData {
      * @param e Entity that uses the item
      * @param item Item that is used
      */
-    private static void defaultUseCallback(Entity e, ItemData item) {
+    protected static void defaultUseCallback(Entity e, ItemData item) {
         e.getComponent(InventoryComponent.class)
                 .ifPresent(
                         component -> {
@@ -165,7 +165,7 @@ public class ItemData {
         System.out.printf("Item \"%s\" used by entity %d\n", item.getItemName(), e.id);
     }
 
-    private static void defaultDrop(Entity who, ItemData which, Point position) {
+    protected static void defaultDrop(Entity who, ItemData which, Point position) {
         Entity droppedItem = new Entity();
         new PositionComponent(droppedItem, position);
         new AnimationComponent(droppedItem, which.getWorldTexture());
@@ -173,7 +173,7 @@ public class ItemData {
         component.setiCollideEnter((a, b, direction) -> which.triggerCollect(a, b));
     }
 
-    private static void defaultCollect(Entity worldItem, Entity whoCollected) {
+    protected static void defaultCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
                 .ifPresent(
                         hero -> {
