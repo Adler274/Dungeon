@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import logging.CustomLogLevel;
-import starter.Game;
 
 /** Allows an Entity to carry Items */
 public class InventoryComponent extends Component {
@@ -91,19 +90,25 @@ public class InventoryComponent extends Component {
         return new ArrayList<>(inventory);
     }
 
-    public void showInventory(){
+    /** shows the heros inventory using a logger */
+    public void showInventory() {
         StringBuilder inv = new StringBuilder("Inventory opened");
-        if (inventory.size() != 0){
-            for(int i = 0; i < inventory.size(); i++){
-                inv.append("\n").append(i+1).append(": ").append(inventory.get(i).getItemName());
+        if (inventory.size() != 0) {
+            for (int i = 0; i < inventory.size(); i++) {
+                inv.append("\n").append(i + 1).append(": ").append(inventory.get(i).getItemName());
             }
         }
         inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
     }
 
-    public void useItem(int index, Entity user){
-        if (inventory.size() > index){
-            inventoryLogger.log(CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used");
+    /**
+     * @param index index of the item to be used
+     * @param user entity who uses the item
+     */
+    public void useItem(int index, Entity user) {
+        if (inventory.size() > index) {
+            inventoryLogger.log(
+                    CustomLogLevel.INFO, inventory.get(index).getItemName() + " was used");
             inventory.get(index).triggerUse(user);
         }
     }

@@ -6,15 +6,14 @@ import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
 import ecs.items.*;
 import starter.Game;
-import tools.Point;
 
 public class ExperiencePotion extends ItemData {
 
     public ExperiencePotion() {
         super(
                 ItemType.POTION,
-                AnimationBuilder.buildAnimation("xp_potion.png"),  // TODO change
-                AnimationBuilder.buildAnimation("xp_potion.png"),  // TODO change
+                AnimationBuilder.buildAnimation("xp_potion.png"), // TODO change
+                AnimationBuilder.buildAnimation("xp_potion.png"), // TODO change
                 "ExperiencePotion",
                 "gives the user enough xp to level up");
         this.setOnCollect(this::onCollect);
@@ -28,17 +27,17 @@ public class ExperiencePotion extends ItemData {
      */
     public void onCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
-            .ifPresent(
-                hero -> {
-                    if (whoCollected.equals(hero)) {
-                        hero.getComponent(InventoryComponent.class)
-                            .ifPresent(
-                                (ic) -> {
-                                    ((InventoryComponent) ic).addItem(this);
-                                    Game.removeEntity(worldItem);
-                                });
-                    }
-                });
+                .ifPresent(
+                        hero -> {
+                            if (whoCollected.equals(hero)) {
+                                hero.getComponent(InventoryComponent.class)
+                                        .ifPresent(
+                                                (ic) -> {
+                                                    ((InventoryComponent) ic).addItem(this);
+                                                    Game.removeEntity(worldItem);
+                                                });
+                            }
+                        });
     }
 
     /**

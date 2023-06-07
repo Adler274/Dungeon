@@ -196,5 +196,4 @@ public class Hero extends Entity {
         Game.deleteSave();
         Game.getGameOverMenu().showMenu();
     }
-
 }

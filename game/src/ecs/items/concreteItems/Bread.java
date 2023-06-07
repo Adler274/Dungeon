@@ -7,15 +7,14 @@ import ecs.components.MissingComponentException;
 import ecs.entities.Entity;
 import ecs.items.*;
 import starter.Game;
-import tools.Point;
 
 public class Bread extends ItemData {
 
     public Bread() {
         super(
                 ItemType.FOOD,
-                AnimationBuilder.buildAnimation("ui_heart_full.png"),   // TODO change
-                AnimationBuilder.buildAnimation("ui_heart_full.png"),   // TODO change
+                AnimationBuilder.buildAnimation("ui_heart_full.png"), // TODO change
+                AnimationBuilder.buildAnimation("ui_heart_full.png"), // TODO change
                 "Bread",
                 "restores 5 HP to the user");
         this.setOnCollect(this::onCollect);
@@ -29,17 +28,17 @@ public class Bread extends ItemData {
      */
     public void onCollect(Entity worldItem, Entity whoCollected) {
         Game.getHero()
-            .ifPresent(
-                hero -> {
-                    if (whoCollected.equals(hero)) {
-                        hero.getComponent(InventoryComponent.class)
-                            .ifPresent(
-                                (ic) -> {
-                                    ((InventoryComponent) ic).addItem(this);
-                                    Game.removeEntity(worldItem);
-                                });
-                    }
-                });
+                .ifPresent(
+                        hero -> {
+                            if (whoCollected.equals(hero)) {
+                                hero.getComponent(InventoryComponent.class)
+                                        .ifPresent(
+                                                (ic) -> {
+                                                    ((InventoryComponent) ic).addItem(this);
+                                                    Game.removeEntity(worldItem);
+                                                });
+                            }
+                        });
     }
 
     /**

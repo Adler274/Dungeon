@@ -13,8 +13,10 @@ import starter.Game;
 /** Used to control the player */
 public class PlayerSystem extends ECS_System {
 
-    private record KSData(Entity e, PlayableComponent pc, VelocityComponent vc, InventoryComponent ic) {}
-    boolean inventoryOpen = false;
+    private record KSData(
+            Entity e, PlayableComponent pc, VelocityComponent vc, InventoryComponent ic) {}
+
+    boolean inventoryOpen = false; // inventory need to be open for items to be used
 
     @Override
     public void update() {
@@ -37,30 +39,28 @@ public class PlayerSystem extends ECS_System {
         if (Gdx.input.isKeyPressed(KeyboardConfig.INTERACT_WORLD.get()))
             InteractionTool.interactWithClosestInteractable(ksd.e);
 
-        if (Gdx.input.isKeyPressed(KeyboardConfig.SHOW_INVENTORY.get())){
+        if (Gdx.input.isKeyPressed(KeyboardConfig.SHOW_INVENTORY.get())) {
             ksd.ic.showInventory();
             inventoryOpen = true;
         }
 
-        if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_ONE.get())){
-            if (inventoryOpen){
+        // check item use
+        if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_ONE.get())) {
+            if (inventoryOpen) {
                 ksd.ic.useItem(0, ksd.e);
                 inventoryOpen = false;
             }
-        }
-        else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_TWO.get())){
-            if (inventoryOpen){
+        } else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_TWO.get())) {
+            if (inventoryOpen) {
                 ksd.ic.useItem(1, ksd.e);
                 inventoryOpen = false;
             }
-        }
-        else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_THREE.get())){
-            if (inventoryOpen){
+        } else if (Gdx.input.isKeyPressed(KeyboardConfig.USE_ITEM_THREE.get())) {
+            if (inventoryOpen) {
                 ksd.ic.useItem(2, ksd.e);
                 inventoryOpen = false;
             }
         }
-
 
         // check skills
         else if (Gdx.input.isKeyPressed(KeyboardConfig.MELEE_SKILL.get()))
@@ -85,8 +85,8 @@ public class PlayerSystem extends ECS_System {
 
         InventoryComponent ic =
                 (InventoryComponent)
-                    e.getComponent(InventoryComponent.class)
-                        .orElseThrow(PlayerSystem::missingIC);
+                        e.getComponent(InventoryComponent.class)
+                                .orElseThrow(PlayerSystem::missingIC);
 
         return new KSData(e, pc, vc, ic);
     }
