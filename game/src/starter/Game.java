@@ -18,6 +18,7 @@ import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
+import ecs.entities.monster.Mimic;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -174,6 +175,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnMonsters();
         spawnGhost();
         spawnTraps();
+        spawnChestsAndMimics();
         if (levelCount > 1) {
             saving.writeSave();
         }
@@ -428,6 +430,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (spawnerBool) {
             SpawnerTrap spawner = new SpawnerTrap();
             new TrapSwitch(spawner);
+        }
+    }
+
+    /** Used to randomly spawn a chest, a mimic or nothing */
+    private void spawnChestsAndMimics() {
+        Random random = new Random();
+        int rando = random.nextInt(3);
+        switch (rando) {
+            case 0 -> entities.add(new Mimic());
+            case 1 -> entities.add(Chest.createNewChest());
         }
     }
 
