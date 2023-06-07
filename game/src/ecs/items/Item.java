@@ -10,17 +10,23 @@ public abstract class Item extends Entity {
     protected String itemName;
     protected String description;
 
-    public Item(ItemType itemType,Animation inventoyTexture,Animation worldTexture,String itemName,String description){
+    public Item(
+            ItemType itemType,
+            Animation inventoyTexture,
+            Animation worldTexture,
+            String itemName,
+            String description) {
         super();
-        this.itemType=itemType;
-        this.inventoyTexture=inventoyTexture;
-        this.worldTexture=worldTexture;
-        this.itemName=itemName;
-        this.description=description;
+        this.itemType = itemType;
+        this.inventoyTexture = inventoyTexture;
+        this.worldTexture = worldTexture;
+        this.itemName = itemName;
+        this.description = description;
     }
 
-    protected void setupItemComponent(){};
+    protected void setupItemComponent() {}
+    ;
 
-    protected void onCollect(Entity worldItemEntity,Entity whoCollides){};
-
+    protected void onCollect(Entity worldItemEntity, Entity whoCollides) {}
+    ;
 }

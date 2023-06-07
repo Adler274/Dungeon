@@ -1,6 +1,8 @@
 package ecs.items;
 
-import graphic.Animation;
+import ecs.items.concreteItems.Bread;
+import ecs.items.concreteItems.ExperiencePotion;
+import ecs.items.concreteItems.SwordFightingBasics;
 import java.util.List;
 import java.util.Random;
 
@@ -9,25 +11,7 @@ public class ItemDataGenerator {
     private static final List<String> missingTexture = List.of("animation/missingTexture.png");
 
     private List<ItemData> templates =
-            List.of(
-                    new ItemData(
-                            ItemType.Basic,
-                            new Animation(missingTexture, 1),
-                            new Animation(missingTexture, 1),
-                            "Buch",
-                            "Ein sehr lehrreiches Buch."),
-                    new ItemData(
-                            ItemType.Basic,
-                            new Animation(missingTexture, 1),
-                            new Animation(missingTexture, 1),
-                            "Tuch",
-                            "Ein sauberes Tuch.."),
-                    new ItemData(
-                            ItemType.Basic,
-                            new Animation(missingTexture, 1),
-                            new Animation(missingTexture, 1),
-                            "Namensschild",
-                            "Ein Namensschild wo der Name nicht mehr lesbar ist.."));
+            List.of(new Bread(), new ExperiencePotion(), new SwordFightingBasics());
     private Random rand = new Random();
 
     /**
