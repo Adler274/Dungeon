@@ -6,6 +6,7 @@ import ecs.components.HealthComponent;
 import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
 import ecs.entities.npc.Ghost;
+import java.util.NoSuchElementException;
 import starter.Game;
 
 /** A none moving Entity with a method to remove most Entities */
@@ -44,15 +45,18 @@ public class Tombstone extends Entity {
 
     /** Despawns most Entities if ghost and hero enough */
     public void despawnAllMonsters() {
-        if (AITools.entityInRange(Game.getHero().get(), this, 1f)
-                && AITools.entityInRange(this, ghost, 2f)) {
-            for (Entity entity : Game.getEntities()) {
-                if (!(entity == Game.getHero().get() || entity == this)) {
-                    if (entity.getComponent(HealthComponent.class).isPresent()) {
-                        Game.removeEntity(entity);
+        try { // needed because the game would sometimes crash on startup otherwise
+            if (AITools.entityInRange(Game.getHero().get(), this, 1f)
+                    && AITools.entityInRange(this, ghost, 2f)) {
+                for (Entity entity : Game.getEntities()) {
+                    if (!(entity == Game.getHero().get() || entity == this)) {
+                        if (entity.getComponent(HealthComponent.class).isPresent()) {
+                            Game.removeEntity(entity);
+                        }
                     }
                 }
             }
+        } catch (NoSuchElementException e) {
         }
     }
 }

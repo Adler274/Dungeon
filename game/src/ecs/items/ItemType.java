@@ -1,7 +1,9 @@
 package ecs.items;
 
 public enum ItemType {
-    Basic,
-    Active,
-    Passive
+    BOOK,
+    FOOD,
+    POTION,
+    BAG,
+    DEBUG
 }

@@ -3,6 +3,8 @@ package saveLoad;
 import ecs.components.HealthComponent;
 import ecs.components.xp.XPComponent;
 import ecs.entities.*;
+import ecs.entities.Character;
+import ecs.entities.monster.Mimic;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -48,6 +50,7 @@ public class Saving {
                             data.setPlayerLevel(((XPComponent) xc).getCurrentLevel());
                             data.setPlayerXP(((XPComponent) xc).getCurrentXP());
                         });
+        data.setHeroClass(((Hero) Game.getHero().get()).getHeroClass());
 
         ArrayList<String> entityList = new ArrayList<>();
         for (Entity entity : Game.getEntities()) {
@@ -85,6 +88,13 @@ public class Saving {
         int playerHealth = data.getPlayerHealth();
         long playerLevel = data.getPlayerLevel();
         long playerXP = data.getPlayerXP();
+
+        switch (data.getHeroClass()) {
+            case 1 -> Game.setHero(new Hero(Character.WIZARD));
+            case 2 -> Game.setHero(new Hero(Character.KNIGHT));
+            case 3 -> Game.setHero(new Hero(Character.ELF));
+            default -> Game.setHero(new Hero(Character.DEBUG));
+        }
         Game.getHero()
                 .get()
                 .getComponent(HealthComponent.class)
@@ -103,6 +113,7 @@ public class Saving {
                             ((XPComponent) xc).setCurrentXP(playerXP);
                         });
         for (String entity : data.getEntityList()) {
+            System.out.println(entity);
             switch (entity) {
                 case "OrcNormal" -> Game.getEntities().add(new OrcNormal());
                 case "OrcBaby" -> Game.getEntities().add(new OrcBaby());
@@ -120,6 +131,8 @@ public class Saving {
                     Game.getEntities().add(spawnerT);
                     Game.getEntities().add(new TrapSwitch(spawnerT));
                 }
+                case "Chest" -> Game.getEntities().add(Chest.createNewChest());
+                case "Mimic" -> Game.getEntities().add(new Mimic());
             }
         }
     }

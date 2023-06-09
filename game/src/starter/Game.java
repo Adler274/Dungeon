@@ -12,12 +12,11 @@ import configuration.Configuration;
 import configuration.KeyboardConfig;
 import controller.AbstractController;
 import controller.SystemController;
-import ecs.components.HealthComponent;
-import ecs.components.MissingComponentException;
-import ecs.components.PositionComponent;
-import ecs.components.VelocityComponent;
+import ecs.components.*;
 import ecs.components.skill.DamageMeleeSkill;
 import ecs.entities.*;
+import ecs.entities.Character;
+import ecs.entities.monster.Mimic;
 import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
@@ -29,6 +28,7 @@ import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
 import graphic.hud.GameOverMenu;
+import graphic.hud.HeroSelection;
 import graphic.hud.PauseMenu;
 import java.io.*;
 import java.nio.file.Files;
@@ -88,6 +88,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static ILevel currentLevel;
     private static GameOverMenu<Actor> gameOverMenu;
     private static PauseMenu<Actor> pauseMenu;
+    private static HeroSelection<Actor> heroSelection;
     private static Entity hero;
     private Logger gameLogger;
 
@@ -143,7 +144,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOverMenu<>();
         controller.add(gameOverMenu);
-        hero = new Hero();
+        levelCount = 0;
+
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
@@ -165,15 +167,20 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public void onLevelLoad() {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
-        getHero().ifPresent(this::placeOnLevelStart);
         if (levelCount == 0 && new File("savefile\\Save.ser").exists()) {
             saving.loadSave();
             return;
+        } else if (levelCount == 0) { // fresh save
+            heroSelection = new HeroSelection<>();
+            controller.add(heroSelection);
+            heroSelection.showMenu();
         }
+        getHero().ifPresent(this::placeOnLevelStart);
         levelCount++;
         spawnMonsters();
         spawnGhost();
         spawnTraps();
+        spawnChestsAndMimics();
         if (levelCount > 1) {
             saving.writeSave();
         }
@@ -181,8 +188,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** Restarts the game on level 1 */
     public static void restart() {
-        levelCount = 0;
+        gameOverMenu.hideMenu();
+        removeEntity(hero);
         game.setup();
+    }
+
+    /**
+     * creates a new Hero with a selectable class
+     *
+     * @param heroClass: class which the hero should be
+     */
+    public static void chooseClass(Character heroClass) {
+        hero = new Hero(heroClass);
+        heroSelection.hideMenu();
     }
 
     /** Closes the game safely */
@@ -261,6 +279,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("HealthComponent"));
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 1);
+        gameLogger.log(CustomLogLevel.INFO, "current HP: " + hc.getCurrentHealthpoints());
     }
 
     /** Toggle between pause and run */
@@ -428,6 +447,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (spawnerBool) {
             SpawnerTrap spawner = new SpawnerTrap();
             new TrapSwitch(spawner);
+        }
+    }
+
+    /** Used to randomly spawn a chest, a mimic or nothing */
+    private void spawnChestsAndMimics() {
+        Random random = new Random();
+        int rando = random.nextInt(3);
+        switch (rando) {
+            case 0 -> entities.add(new Mimic());
+            case 1 -> entities.add(Chest.createNewChest());
         }
     }
 
