@@ -19,4 +19,26 @@ public class SystemController extends AbstractController<ECS_System> {
             e.update();
         }
     }
+
+    /**
+     * Toggles run for all systems (in the SystemController) of the provided class
+     *
+     * @param ecs_system class of the systems to toggle
+     */
+    public void toggleSystem(Class<? extends ECS_System> ecs_system) {
+        for (ECS_System system : toList()) {
+            if (system.getClass() == ecs_system) {
+                system.toggleRun();
+                if (system.isRunning()) {
+                    system.systemLogger.log(
+                            CustomLogLevel.INFO,
+                            system.getClass().getSimpleName() + " has been started.");
+                } else {
+                    system.systemLogger.log(
+                            CustomLogLevel.INFO,
+                            system.getClass().getSimpleName() + " has been paused.");
+                }
+            }
+        }
+    }
 }
