@@ -11,6 +11,7 @@ import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
 import graphic.Animation;
 import starter.Game;
 
@@ -24,6 +25,7 @@ public class OrcBaby extends Entity {
     private final float ySpeed = 0.4f;
     private final int health = 1;
     private final int lootXP = 75;
+    private final int lootMoney = 1;
     private final String pathToIdleLeft = "monster/orcBaby/idleLeft";
     private final String pathToIdleRight = "monster/orcBaby/idleRight";
     private final String pathToRunLeft = "monster/orcBaby/runLeft";
@@ -89,12 +91,13 @@ public class OrcBaby extends Entity {
 
     /** player earns xp upon death */
     private void onDeath(Entity entity) {
-        Game.getHero()
-                .get()
-                .getComponent(XPComponent.class)
+        Entity hero = Game.getHero().get();
+        hero.getComponent(XPComponent.class)
                 .ifPresent(
                         xc -> {
                             ((XPComponent) xc).addXP(lootXP);
                         });
+
+        ((Hero) hero).addMoney(lootMoney);
     }
 }
