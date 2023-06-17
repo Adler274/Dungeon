@@ -12,6 +12,7 @@ public class DataStorage implements Serializable {
     private int playerHealth;
     private long playerLevel;
     private long playerXP;
+    private int playerMoney;
     private boolean hasGhost;
     private int heroClass;
 
@@ -61,6 +62,14 @@ public class DataStorage implements Serializable {
 
     public void setPlayerXP(long playerXP) {
         this.playerXP = playerXP;
+    }
+
+    public int getPlayerMoney() {
+        return playerMoney;
+    }
+
+    public void setPlayerMoney(int playerMoney) {
+        this.playerMoney = playerMoney;
     }
 
     public int getHeroClass() {
