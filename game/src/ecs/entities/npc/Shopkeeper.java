@@ -46,7 +46,7 @@ public class Shopkeeper extends Entity {
     private void setupInventoryComponent() {
         InventoryComponent ic = new InventoryComponent(this, inventorySize);
         ItemDataGenerator itemGenerator = new ItemDataGenerator();
-        for(int i = 0; i < inventorySize; i++){
+        for (int i = 0; i < inventorySize; i++) {
             ic.addItem(itemGenerator.generateItemData());
         }
     }
