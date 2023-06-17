@@ -6,6 +6,7 @@ import ecs.components.InteractionComponent;
 import ecs.components.InventoryComponent;
 import ecs.components.PositionComponent;
 import ecs.entities.Entity;
+import ecs.items.ItemDataGenerator;
 import ecs.systems.PlayerSystem;
 import graphic.Animation;
 import java.util.Random;
@@ -44,7 +45,10 @@ public class Shopkeeper extends Entity {
     /** Helper method to create an InventoryComponent and fill it with random Items */
     private void setupInventoryComponent() {
         InventoryComponent ic = new InventoryComponent(this, inventorySize);
-        // add random Items
+        ItemDataGenerator itemGenerator = new ItemDataGenerator();
+        for(int i = 0; i < inventorySize; i++){
+            ic.addItem(itemGenerator.generateItemData());
+        }
     }
 
     /**
