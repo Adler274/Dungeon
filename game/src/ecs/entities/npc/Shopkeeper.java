@@ -19,7 +19,7 @@ public class Shopkeeper extends Entity {
 
     private final float defaultInteractionRadius = 1f;
     private final int inventorySize = 3;
-    private final String PathToIdleAnimation = "missingTexture.png";
+    private final String PathToIdleAnimation = "npc/shopkeeper/idle";
     private boolean riddleCleared = false;
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
