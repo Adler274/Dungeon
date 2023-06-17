@@ -58,7 +58,7 @@ public class Shopkeeper extends Entity {
         if (!riddleCleared) {
             riddle();
         } else {
-            selecetBuyOrSell();
+            selectBuyOrSell();
         }
         Game.systems.toggleSystem(PlayerSystem.class);
     }
@@ -70,7 +70,7 @@ public class Shopkeeper extends Entity {
         }
     }
 
-    private void selecetBuyOrSell() {
+    private void selectBuyOrSell() {
         // selection
         if (true) {
             shopLogger.log(CustomLogLevel.INFO, "Option 'Buy' was chosen.");
