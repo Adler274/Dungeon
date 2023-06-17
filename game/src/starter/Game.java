@@ -281,7 +281,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 CustomLogLevel.INFO,
                 "current HP: "
                         + hc.getCurrentHealthpoints()
-                        + "\ncurrent money: "
+                        + ", current money: "
                         + ((Hero) hero).getMoney());
     }
 
