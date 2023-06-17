@@ -319,7 +319,7 @@ public class Hero extends Entity {
 
     /** Used to increase the heros money but not above the cap */
     public void addMoney(int profit) {
-        this.money = Math.max(money + profit, moneyCap);
+        this.money = Math.min(money + profit, moneyCap);
     }
 
     /**
