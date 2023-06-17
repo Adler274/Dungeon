@@ -9,6 +9,7 @@ import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
+import ecs.entities.npc.Shopkeeper;
 import ecs.entities.traps.SlowTrap;
 import ecs.entities.traps.SpawnerTrap;
 import ecs.entities.traps.TrapSwitch;
@@ -120,6 +121,7 @@ public class Saving {
                     Game.getEntities().add(tombstone);
                     game.setTomb(tombstone);
                 }
+                case "Shopkeeper" -> Game.getEntities().add(new Shopkeeper());
                 case "SlowTrap" -> Game.getEntities().add(new SlowTrap());
                 case "SpawnerTrap" -> {
                     SpawnerTrap spawnerT = new SpawnerTrap();
