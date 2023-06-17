@@ -1,6 +1,7 @@
 package configuration;
 
 import configuration.values.ConfigEnumValue;
+import configuration.values.ConfigIntValue;
 import configuration.values.ConfigStringValue;
 import ecs.items.ItemType;
 
@@ -10,6 +11,10 @@ public class ItemConfig {
     /** The Description of the Default ItemData */
     public static final ConfigKey<String> DESCRIPTION =
             new ConfigKey<>(new String[] {"description"}, new ConfigStringValue("Default Item"));
+
+    /** The Price of the Default ItemData */
+    public static final ConfigKey<Integer> PRICE =
+            new ConfigKey<>(new String[] {"price"}, new ConfigIntValue(10));
 
     /** The Name of the Default ItemData */
     public static final ConfigKey<String> NAME =

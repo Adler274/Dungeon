@@ -21,6 +21,7 @@ public class Bag extends ItemData {
     public Bag() {
         super(
                 BAG,
+                15,
                 AnimationBuilder.buildAnimation("bag.png"),
                 AnimationBuilder.buildAnimation("bag.png"),
                 "Bag",

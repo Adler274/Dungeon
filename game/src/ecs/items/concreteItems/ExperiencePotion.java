@@ -12,6 +12,7 @@ public class ExperiencePotion extends ItemData {
     public ExperiencePotion() {
         super(
                 ItemType.POTION,
+                10,
                 AnimationBuilder.buildAnimation("xp_potion.png"),
                 AnimationBuilder.buildAnimation("xp_potion.png"),
                 "ExperiencePotion",

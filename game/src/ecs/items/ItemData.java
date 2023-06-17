@@ -16,6 +16,7 @@ import tools.Point;
 /** A Class which contains the Information of a specific Item. */
 public class ItemData {
     private ItemType itemType;
+    private int price;
     private Animation inventoryTexture;
     private Animation worldTexture;
     private String itemName;
@@ -33,6 +34,7 @@ public class ItemData {
      * creates a new item data object.
      *
      * @param itemType
+     * @param price
      * @param inventoryTexture
      * @param worldTexture
      * @param itemName
@@ -44,6 +46,7 @@ public class ItemData {
      */
     public ItemData(
             ItemType itemType,
+            int price,
             Animation inventoryTexture,
             Animation worldTexture,
             String itemName,
@@ -53,6 +56,7 @@ public class ItemData {
             IOnUse onUse,
             DamageModifier damageModifier) {
         this.itemType = itemType;
+        this.price = price;
         this.inventoryTexture = inventoryTexture;
         this.worldTexture = worldTexture;
         this.itemName = itemName;
@@ -67,6 +71,7 @@ public class ItemData {
      * creates a new item data object. With a basic handling of collecting and dropping
      *
      * @param itemType
+     * @param price
      * @param inventoryTexture
      * @param worldTexture
      * @param itemName
@@ -74,12 +79,14 @@ public class ItemData {
      */
     public ItemData(
             ItemType itemType,
+            int price,
             Animation inventoryTexture,
             Animation worldTexture,
             String itemName,
             String description) {
         this(
                 itemType,
+                price,
                 inventoryTexture,
                 worldTexture,
                 itemName,
@@ -93,6 +100,7 @@ public class ItemData {
     public ItemData() {
         this(
                 ItemConfig.TYPE.get(),
+                ItemConfig.PRICE.get(),
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 ItemConfig.NAME.get(),
@@ -130,6 +138,14 @@ public class ItemData {
 
     public ItemType getItemType() {
         return itemType;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public Animation getInventoryTexture() {

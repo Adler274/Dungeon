@@ -13,6 +13,7 @@ public class Bread extends ItemData {
     public Bread() {
         super(
                 ItemType.FOOD,
+                5,
                 AnimationBuilder.buildAnimation("bread.png"),
                 AnimationBuilder.buildAnimation("bread.png"),
                 "Bread",

@@ -12,6 +12,7 @@ public class SwordFightingBasics extends ItemData {
     public SwordFightingBasics() {
         super(
                 ItemType.BOOK,
+                20,
                 AnimationBuilder.buildAnimation("swordskill_book.png"),
                 AnimationBuilder.buildAnimation("swordskill_book.png"),
                 "SwordFightingBasics",
