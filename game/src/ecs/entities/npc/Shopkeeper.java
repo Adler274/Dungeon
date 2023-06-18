@@ -75,6 +75,7 @@ public class Shopkeeper extends Entity {
     }
 
     private void riddle() {
+        // TODO add logging
         System.out.println("This is a riddle"); // TODO riddle
         matcher = riddlePattern.matcher(scanner.next());
         if (matcher.matches()) {
@@ -86,11 +87,17 @@ public class Shopkeeper extends Entity {
     }
 
     private void selectBuyOrSell() {
-        // selection
-        if (true) {
+        // TODO add prints
+        String input = scanner.next();
+        matcher = buyPattern.matcher(input);
+        boolean buy = matcher.find();
+        matcher = sellPattern.matcher(input);
+        boolean sell = matcher.find();
+
+        if (buy && !sell) {
             shopLogger.log(CustomLogLevel.INFO, "Option 'Buy' was chosen.");
             buy();
-        } else if (false) {
+        } else if (sell && !buy) {
             shopLogger.log(CustomLogLevel.INFO, "Option 'Sell' was chosen.");
             sell();
         } else {
