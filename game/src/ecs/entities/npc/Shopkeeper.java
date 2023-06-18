@@ -12,6 +12,8 @@ import graphic.Animation;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import logging.CustomLogLevel;
 import starter.Game;
 
@@ -23,6 +25,11 @@ public class Shopkeeper extends Entity {
     private boolean riddleCleared = false;
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
+    private Matcher matcher;
+    private static final Pattern riddlePattern =
+            Pattern.compile("answer", Pattern.CASE_INSENSITIVE); // TODO change answer
+    private static final Pattern buyPattern = Pattern.compile("buy", Pattern.CASE_INSENSITIVE);
+    private static final Pattern sellPattern = Pattern.compile("sell", Pattern.CASE_INSENSITIVE);
     private final Logger shopLogger = Logger.getLogger(this.getClass().getSimpleName());
 
     /** Entity with Components. Creates a Shopkeeper to buy/sell items after clearing a riddle. */
@@ -68,9 +75,13 @@ public class Shopkeeper extends Entity {
     }
 
     private void riddle() {
-        // riddle
-        if (true) {
+        System.out.println("This is a riddle"); // TODO riddle
+        matcher = riddlePattern.matcher(scanner.next());
+        if (matcher.matches()) {
             riddleCleared = true;
+            System.out.println("riddle cleared"); // TODO change dialog
+        } else {
+            System.out.println("idiot"); // TODO change dialog
         }
     }
 
