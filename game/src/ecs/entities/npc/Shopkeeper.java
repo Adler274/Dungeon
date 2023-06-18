@@ -135,7 +135,7 @@ public class Shopkeeper extends Entity {
                     "Ah, a customer with the intention to spend. You've come to the right place. Take a good look at my wares, but don't waste my time with idle browsing.");
         }
         inventory.printInventory();
-        //TODO actual buying
+        // TODO actual buying
     }
 
     private void sell() {
@@ -155,15 +155,15 @@ public class Shopkeeper extends Entity {
         // TODO actual selling
     }
 
-    private void cancelConversation(){
+    private void cancelConversation() {
         randInt = random.nextInt(3);
         switch (randInt) {
             case 0 -> System.out.println(
-                "Oh, walking away empty-handed, are we? Typical. Just another tire kicker wasting my time.\nDon't bother coming back unless you plan on actually buying something. ");
+                    "Oh, walking away empty-handed, are we? Typical. Just another tire kicker wasting my time.\nDon't bother coming back unless you plan on actually buying something. ");
             case 1 -> System.out.println(
-                "Well, it seems you've decided to leave without making a transaction. Fine by me.\nI've got plenty of other customers who know what they want. No need to stick around if you're not serious about buying or selling.\nOff you go now, and let me get back to serving customers who actually contribute to my livelihood.");
+                    "Well, it seems you've decided to leave without making a transaction. Fine by me.\nI've got plenty of other customers who know what they want. No need to stick around if you're not serious about buying or selling.\nOff you go now, and let me get back to serving customers who actually contribute to my livelihood.");
             case 2 -> System.out.println(
-                "Leaving already? I'm not here to entertain window shoppers.\nIf you change your mind and decide to come back with some real business, maybe I'll consider giving you the time of day.\nBut until then, don't waste any more of my precious time.");
+                    "Leaving already? I'm not here to entertain window shoppers.\nIf you change your mind and decide to come back with some real business, maybe I'll consider giving you the time of day.\nBut until then, don't waste any more of my precious time.");
         }
     }
 }
