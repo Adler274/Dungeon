@@ -93,7 +93,7 @@ public class Bag extends ItemData {
      * @return itemName including type of inventory
      */
     @Override
-    public String getItemName(){
+    public String getItemName() {
         return super.getItemName() + (" (" + inventoryType.toString().toLowerCase() + ")");
     }
 }

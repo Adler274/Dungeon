@@ -62,7 +62,7 @@ public class SwordFightingBasics extends ItemData {
      * @return name of the item with spaces
      */
     @Override
-    public String getItemName(){
+    public String getItemName() {
         return "Sword Fighting Basics";
     }
 }

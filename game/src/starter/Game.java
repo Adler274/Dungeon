@@ -386,6 +386,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private void spawnEntities() {
         if (levelCount % 5 == 0) {
             spawnShopkeeper();
+            hasGhost = false;
         } else {
             spawnMonsters();
             spawnGhost();
