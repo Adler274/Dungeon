@@ -57,4 +57,12 @@ public class SwordFightingBasics extends ItemData {
         e.getComponent(InventoryComponent.class)
                 .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
     }
+
+    /**
+     * @return name of the item with spaces
+     */
+    @Override
+    public String getItemName(){
+        return "Sword Fighting Basics";
+    }
 }

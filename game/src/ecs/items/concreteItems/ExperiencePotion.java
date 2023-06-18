@@ -60,4 +60,12 @@ public class ExperiencePotion extends ItemData {
         e.getComponent(InventoryComponent.class)
                 .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
     }
+
+    /**
+     * @return name of the item with spaces
+     */
+    @Override
+    public String getItemName(){
+        return "Experience Potion";
+    }
 }
