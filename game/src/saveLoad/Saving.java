@@ -109,7 +109,6 @@ public class Saving {
                         });
         ((Hero) hero).addMoney(data.getPlayerMoney());
         for (String entity : data.getEntityList()) {
-            System.out.println(entity);
             switch (entity) {
                 case "OrcNormal" -> Game.getEntities().add(new OrcNormal());
                 case "OrcBaby" -> Game.getEntities().add(new OrcBaby());
