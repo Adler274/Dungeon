@@ -93,6 +93,7 @@ public class Shopkeeper extends Entity {
     }
 
     private void selectBuyOrSell() {
+        shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
         randInt = random.nextInt(3);
         switch (randInt) {
             case 0 -> System.out.println(
@@ -102,7 +103,6 @@ public class Shopkeeper extends Entity {
             case 2 -> System.out.println(
                     "Now, no more jokes. Let's get down to business. Buying or selling?");
         }
-        shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
 
         // getting selection
         input = scanner.nextLine();
@@ -123,7 +123,7 @@ public class Shopkeeper extends Entity {
         } else {
             shopLogger.log(
                     CustomLogLevel.INFO,
-                    "No option was chosen. Ending process. (input: " + input + ")");
+                    "No option was chosen. (input: " + input + ")");
             cancelConversation();
         }
     }
