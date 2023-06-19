@@ -162,7 +162,14 @@ public class Shopkeeper extends Entity {
                     "So, you think you can outwit me with your offer? I've been in this business long enough to spot a lowball when I see one.\nBut I'm in a generous mood today, so I'll humor you. Go ahead, name your price. Just don't get your hopes up");
         }
         Hero hero = (Hero) Game.getHero().get();
-        int offer = scanner.nextInt();
+        int offer =0;
+        if (scanner.hasNextInt()) {
+            offer = scanner.nextInt();
+            System.out.println("Angebot: " + offer);
+        } else {
+            System.out.println("Ungueltige Eingabe. Bitte geben Sie eine Ganzzahl ein.");
+            cancelConversation();
+        }
         int lowball = item.getPrice() - offer;
         randInt = random.nextInt(3);
         if (randInt >= lowball) { // haggling worked
