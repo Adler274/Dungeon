@@ -32,7 +32,6 @@ public class Shopkeeper extends Entity {
     private int randInt;
     private String input;
     private Matcher matcher;
-    private String answer;
     private  Pattern riddlePattern ;
     private static final Pattern buyPattern = Pattern.compile("buy", Pattern.CASE_INSENSITIVE);
     private static final Pattern sellPattern = Pattern.compile("sell", Pattern.CASE_INSENSITIVE);
