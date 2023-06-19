@@ -6,6 +6,8 @@ import ecs.components.InteractionComponent;
 import ecs.components.InventoryComponent;
 import ecs.components.PositionComponent;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
+import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;
 import ecs.systems.PlayerSystem;
 import graphic.Animation;
@@ -27,6 +29,7 @@ public class Shopkeeper extends Entity {
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     private int randInt;
+    private String input;
     private Matcher matcher;
     private static final Pattern riddlePattern =
             Pattern.compile("answer", Pattern.CASE_INSENSITIVE); // TODO change answer
@@ -101,7 +104,7 @@ public class Shopkeeper extends Entity {
         shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
 
         // getting selection
-        String input = scanner.nextLine();
+        input = scanner.nextLine();
         matcher = buyPattern.matcher(input);
         boolean buy = matcher.find();
         matcher = sellPattern.matcher(input);
@@ -136,6 +139,14 @@ public class Shopkeeper extends Entity {
         }
         inventory.printInventory(1f);
         // TODO actual buying
+        input = scanner.nextLine();
+        for (ItemData item : inventory.getItems()) {
+            matcher = item.getItemPattern().matcher(input);
+            if (matcher.find()) {
+                // TODO haggle
+
+            }
+        }
     }
 
     private void sell() {
@@ -148,11 +159,19 @@ public class Shopkeeper extends Entity {
             case 2 -> System.out.println(
                     "Ah, another would-be peddler, hoping to make a quick coin. Well, let's see what you've brought to the table.\nKeep in mind, I've seen it all, so don't think your trinkets hold any special value to me.");
         }
-        Game.getHero()
-                .get()
-                .getComponent(InventoryComponent.class)
-                .ifPresent(ic -> ((InventoryComponent) ic).printInventory(0.7f));
-        // TODO actual selling
+        InventoryComponent heroInventory =
+                (InventoryComponent)
+                        Game.getHero().get().getComponent(InventoryComponent.class).get();
+        heroInventory.printInventory(0.7f);
+        input = scanner.nextLine();
+        for (ItemData item : heroInventory.getItems()) {
+            matcher = item.getItemPattern().matcher(input);
+            if (matcher.find()) {
+                ((Hero) Game.getHero().get()).addMoney((int) (item.getPrice() * 0.7f));
+                heroInventory.removeItem(item);
+                break;
+            }
+        }
     }
 
     private void cancelConversation() {
