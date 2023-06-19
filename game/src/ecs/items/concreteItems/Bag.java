@@ -38,7 +38,6 @@ public class Bag extends ItemData {
             ItemType randomType = ItemType.values()[ran];
             if (randomType != ItemType.BAG && randomType != ItemType.DEBUG) {
                 inventoryType = randomType;
-
                 this.setItemPattern("bag\\s*"+inventoryType.toString().replaceAll("[()]","")); // TODO change pattern
                 break;
             }
