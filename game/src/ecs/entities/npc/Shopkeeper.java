@@ -175,7 +175,7 @@ public class Shopkeeper extends Entity {
             input = scanner.nextLine();
             shopLogger.log(
                     CustomLogLevel.INFO,
-                    "Invalid Input. Needs to contain an Integer. (input: " + input + ")");
+                    "Invalid Input. Needs to be an Integer. (input: " + input + ")");
             cancelConversation();
             return;
         }
