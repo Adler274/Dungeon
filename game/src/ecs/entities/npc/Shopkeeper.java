@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import logging.CustomLogLevel;
 import starter.Game;
+import tools.Point;
 
 public class Shopkeeper extends Entity {
 
@@ -138,14 +139,34 @@ public class Shopkeeper extends Entity {
                     "Ah, a customer with the intention to spend. You've come to the right place. Take a good look at my wares, but don't waste my time with idle browsing.");
         }
         inventory.printInventory(1f);
-        // TODO actual buying
         input = scanner.nextLine();
         for (ItemData item : inventory.getItems()) {
             matcher = item.getItemPattern().matcher(input);
             if (matcher.find()) {
-                // TODO haggle
-
+                haggle(item);
+                return;
             }
+        }
+        //only reached if no haggling happened
+        cancelConversation();
+    }
+
+    private void haggle(ItemData item){
+        // TODO dialog
+        Hero hero = (Hero) Game.getHero().get();
+        int lowball = item.getPrice() - scanner.nextInt();
+        randInt = random.nextInt(3);
+        if (randInt >= lowball){        // haggling worked
+            if (hero.takeMoney(item.getPrice())){   // enough money
+                // TODO dialog
+                item.setPrice(lowball);
+                item.triggerDrop(this, calculateDropPosition());
+            } else { //to poor
+                // TODO dialog
+            }
+        } else { //haggling did not work
+            // TODO dialog
+            item.setPrice(item.getPrice() + 1);
         }
     }
 
@@ -169,9 +190,11 @@ public class Shopkeeper extends Entity {
             if (matcher.find()) {
                 ((Hero) Game.getHero().get()).addMoney((int) (item.getPrice() * 0.7f));
                 heroInventory.removeItem(item);
-                break;
+                return;
             }
         }
+        //only reached if no selling happened
+        cancelConversation();
     }
 
     private void cancelConversation() {
@@ -184,5 +207,17 @@ public class Shopkeeper extends Entity {
             case 2 -> System.out.println(
                     "Leaving already? I'm not here to entertain window shoppers.\nIf you change your mind and decide to come back with some real business, maybe I'll consider giving you the time of day.\nBut until then, don't waste any more of my precious time.");
         }
+    }
+
+    /**
+     * small Helper to determine the Position of the dropped item
+     *
+     * @return the Point one tile below the Shopkeeper
+     */
+    private Point calculateDropPosition() {
+        PositionComponent pc = (PositionComponent) this.getComponent(PositionComponent.class).get();
+        return new Point(
+            pc.getPosition().x,
+            (pc.getPosition().y) +1);
     }
 }
