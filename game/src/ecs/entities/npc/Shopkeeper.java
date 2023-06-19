@@ -177,6 +177,7 @@ public class Shopkeeper extends Entity {
                     case 2 -> System.out.println(
                             "Just remember, there are no refunds or exchanges here. Once it's yours, it's yours.\nDon't come back expecting special treatment. Now, take your item and leave. I've got other customers to attend to.");
                 }
+                inventory.removeItem(item);
                 item.triggerDrop(this, calculateDropPosition());
             } else { // to poor
                 randInt = random.nextInt(3);
