@@ -32,8 +32,7 @@ public class Shopkeeper extends Entity {
     private int randInt;
     private String input;
     private Matcher matcher;
-    private static final Pattern riddlePattern =
-            Pattern.compile("answer", Pattern.CASE_INSENSITIVE); // TODO change answer
+    private  Pattern riddlePattern ;
     private static final Pattern buyPattern = Pattern.compile("buy", Pattern.CASE_INSENSITIVE);
     private static final Pattern sellPattern = Pattern.compile("sell", Pattern.CASE_INSENSITIVE);
     private final Logger shopLogger = Logger.getLogger(this.getClass().getSimpleName());
@@ -80,16 +79,28 @@ public class Shopkeeper extends Entity {
         Game.systems.toggleSystem(PlayerSystem.class);
     }
 
-    /** TODO comment */
-    private void riddle() {
-        // TODO add logging
-        System.out.println("This is a riddle"); // TODO riddle
+   private void riddle() {
+        randInt= random.nextInt(3);
+        switch (randInt) {
+            case 0 -> {
+                System.out.println("What does a baby computer call his father?");
+                riddlePattern = Pattern.compile("Data", Pattern.CASE_INSENSITIVE);
+            }
+            case 1 -> {
+                System.out.println("What did the buffalo say when his son left?");
+                riddlePattern = Pattern.compile("Bison", Pattern.CASE_INSENSITIVE);
+            }
+            case 2 -> {
+                System.out.println("What is red and bad for your teeth?");
+                riddlePattern = Pattern.compile("A?\\s*Brick", Pattern.CASE_INSENSITIVE);
+            }
+        }
         matcher = riddlePattern.matcher(scanner.nextLine());
         if (matcher.matches()) {
             riddleCleared = true;
-            System.out.println("riddle cleared"); // TODO change dialog
+            System.out.println("riddle cleared");
         } else {
-            System.out.println("idiot"); // TODO change dialog
+            System.out.println("idiot");
         }
     }
 
