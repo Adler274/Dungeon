@@ -108,13 +108,11 @@ public class Shopkeeper extends Entity {
                 riddlePattern = Pattern.compile("A?\\s*Brick", Pattern.CASE_INSENSITIVE);
             }
         }
-        shopLogger.log(
-            CustomLogLevel.INFO, "Riddle was asked. (input: " + input + ")");
+        shopLogger.log(CustomLogLevel.INFO, "Riddle was asked. (input: " + input + ")");
         matcher = riddlePattern.matcher(scanner.nextLine());
         if (matcher.matches()) {
             riddleCleared = true;
-            shopLogger.log(
-                CustomLogLevel.INFO, "Correct answer was given. (input: " + input + ")");
+            shopLogger.log(CustomLogLevel.INFO, "Correct answer was given. (input: " + input + ")");
             randInt = random.nextInt(3);
             switch (randInt) {
                 case 0 -> System.out.println(
@@ -125,8 +123,7 @@ public class Shopkeeper extends Entity {
                         "You've earned yourself a chance to peruse my vast array of treasures.\nJust remember, while your wit may have granted you access, it won't grant you any special privileges when it comes to pricing.\nEnter and tread carefully, for your success in solving riddles does not guarantee success in bargaining.");
             }
         } else {
-            shopLogger.log(
-                CustomLogLevel.INFO, "Answer was not correct. (input: " + input + ")");
+            shopLogger.log(CustomLogLevel.INFO, "Answer was not correct. (input: " + input + ")");
             randInt = random.nextInt(3);
             switch (randInt) {
                 case 0 -> System.out.println(
@@ -362,6 +359,6 @@ public class Shopkeeper extends Entity {
      */
     private Point calculateDropPosition() {
         PositionComponent pc = (PositionComponent) this.getComponent(PositionComponent.class).get();
-        return new Point(pc.getPosition().x, (pc.getPosition().y) - 1);
+        return new Point(pc.getPosition().x, (pc.getPosition().y) - 0.5f);
     }
 }
