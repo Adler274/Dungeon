@@ -17,7 +17,7 @@ public class ExperiencePotion extends ItemData {
                 AnimationBuilder.buildAnimation("xp_potion.png"),
                 "ExperiencePotion",
                 "gives the user enough xp to level up",
-            "exp(erience)?\\s*potion\\s*|exp\\s*potion"); // TODO change pattern
+                "exp(erience)?\\s*potion\\s*|exp\\s*potion");
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
