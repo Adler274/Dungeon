@@ -122,10 +122,6 @@ public class InventoryComponent extends Component {
         if (inventory.size() != 0) {
             for (int i = 0; i < inventory.size(); i++) {
                 inv.append("\n").append(i + 1).append(": ").append(inventory.get(i).getItemName());
-                if (inventory.get(i).getItemType() == ItemType.BAG) {
-                    Bag item = ((Bag) inventory.get(i));
-                    inv.append(" (").append(item.getInventoryType().toString()).append(")");
-                }
             }
         }
         inventoryLogger.log(CustomLogLevel.INFO, inv.toString());
