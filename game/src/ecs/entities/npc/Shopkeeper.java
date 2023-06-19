@@ -163,9 +163,9 @@ public class Shopkeeper extends Entity {
                     "So, you think you can outwit me with your offer? I've been in this business long enough to spot a lowball when I see one.\nBut I'm in a generous mood today, so I'll humor you. Go ahead, name your price. Just don't get your hopes up");
         }
         Hero hero = (Hero) Game.getHero().get();
-        try {
+        if (scanner.hasNextInt()){
             int offer = scanner.nextInt();
-        } catch (InputMismatchException ex) {
+        } else {
             cancelConversation();
             return;
         }
