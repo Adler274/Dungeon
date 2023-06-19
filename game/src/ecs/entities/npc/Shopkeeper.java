@@ -105,7 +105,13 @@ public class Shopkeeper extends Entity {
         }
     }
 
+    /**
+     * Starts with random dialog and shows shopkeeper inventory with prices. Player can choose what
+     * to do via scanner. If either buyPattern or sellPattern is found (only one), the corresponding
+     * method process gets started.
+     */
     private void selectBuyOrSell() {
+        shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
         randInt = random.nextInt(3);
         switch (randInt) {
             case 0 -> System.out.println(
@@ -115,7 +121,6 @@ public class Shopkeeper extends Entity {
             case 2 -> System.out.println(
                     "Now, no more jokes. Let's get down to business. Buying or selling?");
         }
-        shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
 
         // getting selection
         input = scanner.nextLine();
@@ -134,13 +139,15 @@ public class Shopkeeper extends Entity {
                     CustomLogLevel.INFO, "Option 'Selling' was chosen. (input: " + input + ")");
             sell();
         } else {
-            shopLogger.log(
-                    CustomLogLevel.INFO,
-                    "No option was chosen. Ending process. (input: " + input + ")");
+            shopLogger.log(CustomLogLevel.INFO, "No option was chosen. (input: " + input + ")");
             cancelConversation();
         }
     }
 
+    /**
+     * Starts with random dialog and shows shopkeeper inventory with prices. Player can enter an
+     * item name via scanner. haggle() will get called if the item is found.
+     */
     private void buy() {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -156,14 +163,31 @@ public class Shopkeeper extends Entity {
         for (ItemData item : inventory.getItems()) {
             matcher = item.getItemPattern().matcher(input);
             if (matcher.find()) {
+                shopLogger.log(
+                        CustomLogLevel.INFO,
+                        "Matching item was found. (item: "
+                                + item.getItemName()
+                                + ", input: "
+                                + input
+                                + "), Starting haggling.");
                 haggle(item);
                 return;
             }
         }
         // only reached if no haggling happened
+        shopLogger.log(CustomLogLevel.INFO, "No matching Item was found. (input: " + input + ")");
         cancelConversation();
     }
 
+    /**
+     * Starts with random dialog. Tries to get an offer via scanner. The offer has to be an Integer.
+     * If the offer is no Integer, the process gets cancelled. If the offer is an Integer, the price
+     * difference is compared to random Integer to check if haggling is successful. If yes, the hero
+     * will try to pay for the item. If he can't, the price will get back to normal. If no. the
+     * items price gets increased by one.
+     *
+     * @param item with price that gets haggled about
+     */
     private void haggle(ItemData item) {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -175,17 +199,21 @@ public class Shopkeeper extends Entity {
                     "So, you think you can outwit me with your offer? I've been in this business long enough to spot a lowball when I see one.\nBut I'm in a generous mood today, so I'll humor you. Go ahead, name your price. Just don't get your hopes up");
         }
         Hero hero = (Hero) Game.getHero().get();
-        int offer =0;
+        int offer;
         if (scanner.hasNextInt()) {
             offer = scanner.nextInt();
-            System.out.println("Angebot: " + offer);
         } else {
-            System.out.println("Ungueltige Eingabe. Bitte geben Sie eine Ganzzahl ein.");
+            input = scanner.nextLine();
+            shopLogger.log(
+                    CustomLogLevel.INFO,
+                    "Invalid Input. Needs to be an Integer. (input: " + input + ")");
             cancelConversation();
+            return;
         }
         int lowball = item.getPrice() - offer;
         randInt = random.nextInt(3);
         if (randInt >= lowball) { // haggling worked
+            shopLogger.log(CustomLogLevel.INFO, "Haggling was successful. (offer: " + offer + ")");
             item.setPrice(offer);
             if (hero.takeMoney(item.getPrice())) { // enough money
                 randInt = random.nextInt(3);
@@ -197,6 +225,14 @@ public class Shopkeeper extends Entity {
                     case 2 -> System.out.println(
                             "Just remember, there are no refunds or exchanges here. Once it's yours, it's yours.\nDon't come back expecting special treatment. Now, take your item and leave. I've got other customers to attend to.");
                 }
+                shopLogger.log(
+                        CustomLogLevel.INFO,
+                        "Hero was able to buy '"
+                                + item.getItemName()
+                                + "'. (remaining money: "
+                                + hero.getMoney()
+                                + ")");
+                inventory.removeItem(item);
                 item.triggerDrop(this, calculateDropPosition());
             } else { // to poor
                 randInt = random.nextInt(3);
@@ -208,9 +244,18 @@ public class Shopkeeper extends Entity {
                     case 2 -> System.out.println(
                             "Seriously? You think you can walk in here, all empty-handed, and expect to buy something? This is a place of business, not a charity for the destitute.\nIf you can't afford what you're after, then move along. I have no time for time-wasters and broke wanderers.\nCome back when you've got the means to actually make a purchase. Now, leave and let the real customers through.");
                 }
+                shopLogger.log(
+                        CustomLogLevel.INFO,
+                        "Hero was unable to buy '"
+                                + item.getItemName()
+                                + "'. (money: "
+                                + hero.getMoney()
+                                + ")");
                 item.setPrice(item.getPrice() + lowball);
             }
         } else { // haggling did not work
+            shopLogger.log(
+                    CustomLogLevel.INFO, "Haggling was unsuccessful. (offer: " + offer + ")");
             randInt = random.nextInt(3);
             switch (randInt) {
                 case 0 -> System.out.println(
@@ -224,6 +269,10 @@ public class Shopkeeper extends Entity {
         }
     }
 
+    /**
+     * Starts with random dialog and shows player inventory with selling prices. Player can enter an
+     * item name via scanner. The item will get sold if found in the player's inventory.
+     */
     private void sell() {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -243,14 +292,23 @@ public class Shopkeeper extends Entity {
             matcher = item.getItemPattern().matcher(input);
             if (matcher.find()) {
                 ((Hero) Game.getHero().get()).addMoney((int) (item.getPrice() * 0.7f));
+                shopLogger.log(
+                        CustomLogLevel.INFO,
+                        "Hero sold '"
+                                + item.getItemName()
+                                + "'. (money: "
+                                + ((Hero) Game.getHero().get()).getMoney()
+                                + ")");
                 heroInventory.removeItem(item);
                 return;
             }
         }
         // only reached if no selling happened
+        shopLogger.log(CustomLogLevel.INFO, "No matching Item was found. (input: " + input + ")");
         cancelConversation();
     }
 
+    /** Random dialog to be called when the conversation ends without making a transaction */
     private void cancelConversation() {
         randInt = random.nextInt(3);
         switch (randInt) {
