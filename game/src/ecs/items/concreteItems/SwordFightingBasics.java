@@ -17,7 +17,7 @@ public class SwordFightingBasics extends ItemData {
                 AnimationBuilder.buildAnimation("swordskill_book.png"),
                 "SwordFightingBasics",
                 "if used by the hero, he learns how to use a sword",
-                "sword fighting basics");  // TODO change pattern
+                "sword fighting basics"); // TODO change pattern
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);

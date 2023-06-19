@@ -81,7 +81,7 @@ public class ItemData {
      * @param worldTexture
      * @param itemName
      * @param description
-     * @param
+     * @param pattern
      */
     public ItemData(
             ItemType itemType,
@@ -252,7 +252,7 @@ public class ItemData {
         return itemPattern;
     }
 
-    public void setItemPattern(String pattern){
+    public void setItemPattern(String pattern) {
         itemPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
     }
 }
