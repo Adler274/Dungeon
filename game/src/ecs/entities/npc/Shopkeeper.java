@@ -32,7 +32,7 @@ public class Shopkeeper extends Entity {
     private int randInt;
     private String input;
     private Matcher matcher;
-    private  Pattern riddlePattern ;
+    private Pattern riddlePattern;
     private static final Pattern buyPattern = Pattern.compile("buy", Pattern.CASE_INSENSITIVE);
     private static final Pattern sellPattern = Pattern.compile("sell", Pattern.CASE_INSENSITIVE);
     private final Logger shopLogger = Logger.getLogger(this.getClass().getSimpleName());
@@ -79,8 +79,21 @@ public class Shopkeeper extends Entity {
         Game.systems.toggleSystem(PlayerSystem.class);
     }
 
-   private void riddle() {
-        randInt= random.nextInt(3);
+    /**
+     * Shopkeeper asks a random riddle which has to be given a precise answer via scanner. If the
+     * given answer matches the correct answer, the player gets access to the shop.
+     */
+    private void riddle() {
+        randInt = random.nextInt(3);
+        switch (randInt) {
+            case 0 -> System.out.println(
+                    "Ah, welcome, traveler, to my humble establishment. But before I grant you access to the wonders within, you must prove your worth.\nBehold, a riddle I shall present. Solve it, and the doors of my shop shall open wide for you.");
+            case 1 -> System.out.println(
+                    " Ah, a potential customer stands before me. But before you can step foot into my realm, a challenge awaits.\nIf you can solve the riddle I present, you shall earn the privilege to access my shop.");
+            case 2 -> System.out.println(
+                    "Ah, a seeker of goods and knowledge approaches. But before you can enter my domain, a trial must be faced.\nSolve the riddle I present, and the gates shall open wide for you. ");
+        }
+        randInt = random.nextInt(3);
         switch (randInt) {
             case 0 -> {
                 System.out.println("What does a baby computer call his father?");
@@ -95,12 +108,34 @@ public class Shopkeeper extends Entity {
                 riddlePattern = Pattern.compile("A?\\s*Brick", Pattern.CASE_INSENSITIVE);
             }
         }
+        shopLogger.log(
+            CustomLogLevel.INFO, "Riddle was asked. (input: " + input + ")");
         matcher = riddlePattern.matcher(scanner.nextLine());
         if (matcher.matches()) {
             riddleCleared = true;
-            System.out.println("riddle cleared");
+            shopLogger.log(
+                CustomLogLevel.INFO, "Correct answer was given. (input: " + input + ")");
+            randInt = random.nextInt(3);
+            switch (randInt) {
+                case 0 -> System.out.println(
+                        "Well, well, it seems you've managed to solve my riddle. Color me impressed, or at least mildly surprised.\nI suppose you've earned the right to step foot in my esteemed establishment. Consider yourself privileged.");
+                case 1 -> System.out.println(
+                        "I must admit, I didn't think you had it in you. Well done, I suppose. You've proven yourself worthy of entry to my humble abode.\nStep inside and let's see if you have the same wit when it comes to striking a deal.\nBut remember, just because you solved one puzzle doesn't mean you can outsmart me in the realm of commerce.");
+                case 2 -> System.out.println(
+                        "You've earned yourself a chance to peruse my vast array of treasures.\nJust remember, while your wit may have granted you access, it won't grant you any special privileges when it comes to pricing.\nEnter and tread carefully, for your success in solving riddles does not guarantee success in bargaining.");
+            }
         } else {
-            System.out.println("idiot");
+            shopLogger.log(
+                CustomLogLevel.INFO, "Answer was not correct. (input: " + input + ")");
+            randInt = random.nextInt(3);
+            switch (randInt) {
+                case 0 -> System.out.println(
+                        "Hah! Looks like you couldn't solve my little riddle. I suppose I shouldn't be surprised.\nMost who enter here lack the wit to unravel its mysteries. You're just like the rest, a clueless fool.");
+                case 1 -> System.out.println(
+                        "Well, well, well. It seems you couldn't crack the riddle, just like the countless others who have tried and failed before you.\nDon't feel bad, though. Not everyone has the intellect to match wits with me.\nAccess to my shop is reserved for the clever and quick-minded, and you simply didn't make the cut. ");
+                case 2 -> System.out.println(
+                        "Oh, look at you, utterly stumped by a simple riddle.\nHow amusing. I had hoped for some semblance of intelligence, but alas, you've disappointed me. No entry to my shop for you, I'm afraid.\nOnly those who can prove their mental prowess are welcome here. Perhaps you should spend your time elsewhere, engaging in activities more suited to your limited capabilities.\nGood day to you.");
+            }
         }
     }
 
