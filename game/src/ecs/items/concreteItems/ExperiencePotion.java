@@ -16,7 +16,8 @@ public class ExperiencePotion extends ItemData {
                 AnimationBuilder.buildAnimation("xp_potion.png"),
                 AnimationBuilder.buildAnimation("xp_potion.png"),
                 "ExperiencePotion",
-                "gives the user enough xp to level up");
+                "gives the user enough xp to level up",
+                "experience potion"); // TODO change pattern
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
@@ -59,5 +60,13 @@ public class ExperiencePotion extends ItemData {
         // removing item
         e.getComponent(InventoryComponent.class)
                 .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
+    }
+
+    /**
+     * @return name of the item with spaces
+     */
+    @Override
+    public String getItemName() {
+        return "Experience Potion";
     }
 }

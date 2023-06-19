@@ -10,6 +10,7 @@ import ecs.components.stats.DamageModifier;
 import ecs.entities.Entity;
 import graphic.Animation;
 import java.util.List;
+import java.util.regex.Pattern;
 import starter.Game;
 import tools.Point;
 
@@ -29,6 +30,7 @@ public class ItemData {
 
     // passive
     private DamageModifier damageModifier;
+    private Pattern itemPattern;
 
     /**
      * creates a new item data object.
@@ -43,6 +45,7 @@ public class ItemData {
      * @param onDrop
      * @param onUse
      * @param damageModifier
+     * @param pattern
      */
     public ItemData(
             ItemType itemType,
@@ -54,7 +57,8 @@ public class ItemData {
             IOnCollect onCollect,
             IOnDrop onDrop,
             IOnUse onUse,
-            DamageModifier damageModifier) {
+            DamageModifier damageModifier,
+            String pattern) {
         this.itemType = itemType;
         this.price = price;
         this.inventoryTexture = inventoryTexture;
@@ -65,6 +69,7 @@ public class ItemData {
         this.setOnDrop(onDrop);
         this.setOnUse(onUse);
         this.damageModifier = damageModifier;
+        this.itemPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
     }
 
     /**
@@ -76,6 +81,7 @@ public class ItemData {
      * @param worldTexture
      * @param itemName
      * @param description
+     * @param pattern
      */
     public ItemData(
             ItemType itemType,
@@ -83,7 +89,8 @@ public class ItemData {
             Animation inventoryTexture,
             Animation worldTexture,
             String itemName,
-            String description) {
+            String description,
+            String pattern) {
         this(
                 itemType,
                 price,
@@ -94,7 +101,8 @@ public class ItemData {
                 ItemData::defaultCollect,
                 ItemData::defaultDrop,
                 ItemData::defaultUseCallback,
-                new DamageModifier());
+                new DamageModifier(),
+                pattern);
     }
 
     public ItemData() {
@@ -104,7 +112,8 @@ public class ItemData {
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 ItemConfig.NAME.get(),
-                ItemConfig.DESCRIPTION.get());
+                ItemConfig.DESCRIPTION.get(),
+                ItemConfig.PATTERN.get());
     }
 
     /**
@@ -237,5 +246,13 @@ public class ItemData {
 
     public void setOnUse(IOnUse onUse) {
         this.onUse = onUse;
+    }
+
+    public Pattern getItemPattern() {
+        return itemPattern;
+    }
+
+    public void setItemPattern(String pattern) {
+        itemPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
     }
 }

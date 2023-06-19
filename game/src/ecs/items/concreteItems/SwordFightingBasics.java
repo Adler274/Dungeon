@@ -16,7 +16,8 @@ public class SwordFightingBasics extends ItemData {
                 AnimationBuilder.buildAnimation("swordskill_book.png"),
                 AnimationBuilder.buildAnimation("swordskill_book.png"),
                 "SwordFightingBasics",
-                "if used by the hero, he learns how to use a sword");
+                "if used by the hero, he learns how to use a sword",
+                "sword fighting basics"); // TODO change pattern
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
@@ -56,5 +57,13 @@ public class SwordFightingBasics extends ItemData {
         // removing item
         e.getComponent(InventoryComponent.class)
                 .ifPresent(ic -> ((InventoryComponent) ic).removeItem(this));
+    }
+
+    /**
+     * @return name of the item with spaces
+     */
+    @Override
+    public String getItemName() {
+        return "Sword Fighting Basics";
     }
 }
