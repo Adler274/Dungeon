@@ -11,7 +11,6 @@ import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;
 import ecs.systems.PlayerSystem;
 import graphic.Animation;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -163,13 +162,13 @@ public class Shopkeeper extends Entity {
                     "So, you think you can outwit me with your offer? I've been in this business long enough to spot a lowball when I see one.\nBut I'm in a generous mood today, so I'll humor you. Go ahead, name your price. Just don't get your hopes up");
         }
         Hero hero = (Hero) Game.getHero().get();
-        if (scanner.hasNextInt()){
-            int offer = scanner.nextInt();
+        int offer;
+        if (scanner.hasNextInt()) {
+            offer = scanner.nextInt();
         } else {
             cancelConversation();
             return;
         }
-        int offer = scanner.nextInt();
         int lowball = item.getPrice() - offer;
         randInt = random.nextInt(3);
         if (randInt >= lowball) { // haggling worked
