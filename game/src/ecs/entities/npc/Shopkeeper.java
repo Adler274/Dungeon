@@ -134,7 +134,7 @@ public class Shopkeeper extends Entity {
             case 2 -> System.out.println(
                     "Ah, a customer with the intention to spend. You've come to the right place. Take a good look at my wares, but don't waste my time with idle browsing.");
         }
-        inventory.printInventory();
+        inventory.printInventory(1f);
         // TODO actual buying
     }
 
@@ -151,7 +151,7 @@ public class Shopkeeper extends Entity {
         Game.getHero()
                 .get()
                 .getComponent(InventoryComponent.class)
-                .ifPresent(ic -> ((InventoryComponent) ic).printInventory());
+                .ifPresent(ic -> ((InventoryComponent) ic).printInventory(0.7f));
         // TODO actual selling
     }
 

@@ -128,10 +128,14 @@ public class InventoryComponent extends Component {
     }
 
     /** Prints the name of all items in the inventory to the console */
-    public void printInventory() {
+    public void printInventory(float multiplier) {
         System.out.println("--------------------------------");
         for (ItemData itemData : inventory) {
-            System.out.println(itemData.getItemName());
+            System.out.println(
+                    itemData.getItemName()
+                            + " ("
+                            + (int) (itemData.getPrice() * multiplier)
+                            + " money)");
         }
     }
 
