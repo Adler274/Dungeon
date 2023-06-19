@@ -29,4 +29,7 @@ public class ItemConfig {
             new ConfigKey<>(
                     new String[] {"texture"},
                     new ConfigStringValue("animation/missingTexture.png"));
+
+    public static final ConfigKey<String> PATTERN =
+            new ConfigKey<>(new String[] {"pattern"}, new ConfigStringValue("Defaultpattern"));
 }

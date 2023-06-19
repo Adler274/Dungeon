@@ -17,7 +17,8 @@ public class Bread extends ItemData {
                 AnimationBuilder.buildAnimation("bread.png"),
                 AnimationBuilder.buildAnimation("bread.png"),
                 "Bread",
-                "restores 5 HP to the user");
+                "restores 5 HP to the user",
+                "bread");  // TODO change pattern
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
