@@ -80,6 +80,7 @@ public class Shopkeeper extends Entity {
         Game.systems.toggleSystem(PlayerSystem.class);
     }
 
+    /** TODO comment */
     private void riddle() {
         // TODO add logging
         System.out.println("This is a riddle"); // TODO riddle
@@ -92,6 +93,11 @@ public class Shopkeeper extends Entity {
         }
     }
 
+    /**
+     * Starts with random dialog and shows shopkeeper inventory with prices. Player can choose what
+     * to do via scanner. If either buyPattern or sellPattern is found (only one), the corresponding
+     * method process gets started.
+     */
     private void selectBuyOrSell() {
         shopLogger.log(CustomLogLevel.INFO, "Shop has been opened.");
         randInt = random.nextInt(3);
@@ -126,6 +132,10 @@ public class Shopkeeper extends Entity {
         }
     }
 
+    /**
+     * Starts with random dialog and shows shopkeeper inventory with prices. Player can enter an
+     * item name via scanner. haggle() will get called if the item is found.
+     */
     private void buy() {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -157,6 +167,15 @@ public class Shopkeeper extends Entity {
         cancelConversation();
     }
 
+    /**
+     * Starts with random dialog. Tries to get an offer via scanner. The offer has to be an Integer.
+     * If the offer is no Integer, the process gets cancelled. If the offer is an Integer, the price
+     * difference is compared to random Integer to check if haggling is successful. If yes, the hero
+     * will try to pay for the item. If he can't, the price will get back to normal. If no. the
+     * items price gets increased by one.
+     *
+     * @param item with price that gets haggled about
+     */
     private void haggle(ItemData item) {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -238,6 +257,10 @@ public class Shopkeeper extends Entity {
         }
     }
 
+    /**
+     * Starts with random dialog and shows player inventory with selling prices. Player can enter an
+     * item name via scanner. The item will get sold if found in the player's inventory.
+     */
     private void sell() {
         randInt = random.nextInt(3);
         switch (randInt) {
@@ -273,6 +296,7 @@ public class Shopkeeper extends Entity {
         cancelConversation();
     }
 
+    /** Random dialog to be called when the conversation ends without making a transaction */
     private void cancelConversation() {
         randInt = random.nextInt(3);
         switch (randInt) {
