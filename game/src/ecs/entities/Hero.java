@@ -26,6 +26,7 @@ public class Hero extends Entity {
     private final int basicHealingPotency = 2;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
+    private final int moneyCap = 100;
     private Skill meleeSkill;
     private Skill firstSkill;
     private Skill secondSkill;
@@ -33,6 +34,7 @@ public class Hero extends Entity {
     private Skill fourthSkill;
     private SkillComponent skills;
     private Character character;
+    private int money = 0;
 
     /**
      * Entity with Components
@@ -313,6 +315,30 @@ public class Hero extends Entity {
                 return 0;
             }
         }
+    }
+
+    /** Used to increase the heros money but not above the cap */
+    public void addMoney(int profit) {
+        this.money = Math.min(money + profit, moneyCap);
+    }
+
+    /**
+     * Used to reduce the Money the hero has but not below zero
+     *
+     * @param cost the amount of money to be subtracted
+     * @return if the money was taken (hero had enough money)
+     */
+    public boolean takeMoney(int cost) {
+        if (money >= cost) {
+            money -= cost;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getMoney() {
+        return this.money;
     }
 
     /** Deletes the current savefile and opens the GameOverMenu upon player death */

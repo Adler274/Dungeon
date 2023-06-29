@@ -21,10 +21,12 @@ public class Bag extends ItemData {
     public Bag() {
         super(
                 BAG,
+                15,
                 AnimationBuilder.buildAnimation("bag.png"),
                 AnimationBuilder.buildAnimation("bag.png"),
                 "Bag",
-                "Holds items of one type for the hero");
+                "Holds items of one type for the hero",
+                "bag ()");
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);
@@ -36,6 +38,7 @@ public class Bag extends ItemData {
             ItemType randomType = ItemType.values()[ran];
             if (randomType != ItemType.BAG && randomType != ItemType.DEBUG) {
                 inventoryType = randomType;
+                this.setItemPattern("bag\\s*" + inventoryType.toString().replaceAll("[()]", ""));
                 break;
             }
         }
@@ -86,5 +89,13 @@ public class Bag extends ItemData {
 
     public ItemType getInventoryType() {
         return inventoryType;
+    }
+
+    /**
+     * @return itemName including type of inventory
+     */
+    @Override
+    public String getItemName() {
+        return super.getItemName() + (" (" + inventoryType.toString().toLowerCase() + ")");
     }
 }

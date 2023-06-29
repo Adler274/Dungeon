@@ -139,7 +139,7 @@ public abstract class AbstractController<T> implements Iterable<T> {
     /**
      * @return An ordered list of all elements in this controller.
      */
-    private List<T> toList() {
+    protected List<T> toList() {
         final List<T> list = new ArrayList<>();
         for (List<T> l : layerTreeMap.values()) {
             list.addAll(l);

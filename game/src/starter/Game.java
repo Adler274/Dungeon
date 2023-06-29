@@ -21,6 +21,7 @@ import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
+import ecs.entities.npc.Shopkeeper;
 import ecs.entities.traps.SlowTrap;
 import ecs.entities.traps.SpawnerTrap;
 import ecs.entities.traps.TrapSwitch;
@@ -177,10 +178,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
         getHero().ifPresent(this::placeOnLevelStart);
         levelCount++;
-        spawnMonsters();
-        spawnGhost();
-        spawnTraps();
-        spawnChestsAndMimics();
+        spawnEntities();
         if (levelCount > 1) {
             saving.writeSave();
         }
@@ -279,7 +277,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                 .orElseThrow(
                                         () -> new MissingComponentException("HealthComponent"));
         hc.setCurrentHealthpoints(hc.getCurrentHealthpoints() + 1);
-        gameLogger.log(CustomLogLevel.INFO, "current HP: " + hc.getCurrentHealthpoints());
+        gameLogger.log(
+                CustomLogLevel.INFO,
+                "current HP: "
+                        + hc.getCurrentHealthpoints()
+                        + ", current money: "
+                        + ((Hero) hero).getMoney());
     }
 
     /** Toggle between pause and run */
@@ -377,6 +380,24 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+    }
+
+    /** Helper method used to call the correct spawn methods based on current level (levelCount) */
+    private void spawnEntities() {
+        if (levelCount % 5 == 0) {
+            spawnShopkeeper();
+            hasGhost = false;
+        } else {
+            spawnMonsters();
+            spawnGhost();
+            spawnTraps();
+            spawnChestsAndMimics();
+        }
+    }
+
+    /** Used to spawn a shopkeeper */
+    private void spawnShopkeeper() {
+        entities.add(new Shopkeeper());
     }
 
     /** Used to spawn monsters randomly based on the current level */

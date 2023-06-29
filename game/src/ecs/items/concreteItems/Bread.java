@@ -13,10 +13,12 @@ public class Bread extends ItemData {
     public Bread() {
         super(
                 ItemType.FOOD,
+                5,
                 AnimationBuilder.buildAnimation("bread.png"),
                 AnimationBuilder.buildAnimation("bread.png"),
                 "Bread",
-                "restores 5 HP to the user");
+                "restores 5 HP to the user",
+                "bread"); //
         this.setOnCollect(this::onCollect);
         this.setOnDrop(ItemData::defaultDrop);
         this.setOnUse(this::onUse);

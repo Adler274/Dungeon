@@ -10,12 +10,14 @@ import ecs.components.stats.DamageModifier;
 import ecs.entities.Entity;
 import graphic.Animation;
 import java.util.List;
+import java.util.regex.Pattern;
 import starter.Game;
 import tools.Point;
 
 /** A Class which contains the Information of a specific Item. */
 public class ItemData {
     private ItemType itemType;
+    private int price;
     private Animation inventoryTexture;
     private Animation worldTexture;
     private String itemName;
@@ -28,11 +30,13 @@ public class ItemData {
 
     // passive
     private DamageModifier damageModifier;
+    private Pattern itemPattern;
 
     /**
      * creates a new item data object.
      *
      * @param itemType
+     * @param price
      * @param inventoryTexture
      * @param worldTexture
      * @param itemName
@@ -41,9 +45,11 @@ public class ItemData {
      * @param onDrop
      * @param onUse
      * @param damageModifier
+     * @param pattern
      */
     public ItemData(
             ItemType itemType,
+            int price,
             Animation inventoryTexture,
             Animation worldTexture,
             String itemName,
@@ -51,8 +57,10 @@ public class ItemData {
             IOnCollect onCollect,
             IOnDrop onDrop,
             IOnUse onUse,
-            DamageModifier damageModifier) {
+            DamageModifier damageModifier,
+            String pattern) {
         this.itemType = itemType;
+        this.price = price;
         this.inventoryTexture = inventoryTexture;
         this.worldTexture = worldTexture;
         this.itemName = itemName;
@@ -61,25 +69,31 @@ public class ItemData {
         this.setOnDrop(onDrop);
         this.setOnUse(onUse);
         this.damageModifier = damageModifier;
+        this.itemPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
     }
 
     /**
      * creates a new item data object. With a basic handling of collecting and dropping
      *
      * @param itemType
+     * @param price
      * @param inventoryTexture
      * @param worldTexture
      * @param itemName
      * @param description
+     * @param pattern
      */
     public ItemData(
             ItemType itemType,
+            int price,
             Animation inventoryTexture,
             Animation worldTexture,
             String itemName,
-            String description) {
+            String description,
+            String pattern) {
         this(
                 itemType,
+                price,
                 inventoryTexture,
                 worldTexture,
                 itemName,
@@ -87,16 +101,19 @@ public class ItemData {
                 ItemData::defaultCollect,
                 ItemData::defaultDrop,
                 ItemData::defaultUseCallback,
-                new DamageModifier());
+                new DamageModifier(),
+                pattern);
     }
 
     public ItemData() {
         this(
                 ItemConfig.TYPE.get(),
+                ItemConfig.PRICE.get(),
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 new Animation(List.of(ItemConfig.TEXTURE.get()), 1),
                 ItemConfig.NAME.get(),
-                ItemConfig.DESCRIPTION.get());
+                ItemConfig.DESCRIPTION.get(),
+                ItemConfig.PATTERN.get());
     }
 
     /**
@@ -130,6 +147,14 @@ public class ItemData {
 
     public ItemType getItemType() {
         return itemType;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public Animation getInventoryTexture() {
@@ -221,5 +246,13 @@ public class ItemData {
 
     public void setOnUse(IOnUse onUse) {
         this.onUse = onUse;
+    }
+
+    public Pattern getItemPattern() {
+        return itemPattern;
+    }
+
+    public void setItemPattern(String pattern) {
+        itemPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
     }
 }

@@ -9,6 +9,7 @@ import ecs.entities.monster.OrcBaby;
 import ecs.entities.monster.OrcMasked;
 import ecs.entities.monster.OrcNormal;
 import ecs.entities.npc.Ghost;
+import ecs.entities.npc.Shopkeeper;
 import ecs.entities.traps.SlowTrap;
 import ecs.entities.traps.SpawnerTrap;
 import ecs.entities.traps.TrapSwitch;
@@ -32,25 +33,22 @@ public class Saving {
     /** Writes Savedata into a savefile */
     public void writeSave() {
         DataStorage data = new DataStorage();
-
+        Entity hero = Game.getHero().get();
         data.setLevelCount(game.getLevelCount());
         data.setHasGhost(game.isHasGhost());
-        Game.getHero()
-                .get()
-                .getComponent(HealthComponent.class)
+        hero.getComponent(HealthComponent.class)
                 .ifPresent(
                         hc -> {
                             data.setPlayerHealth(((HealthComponent) hc).getCurrentHealthpoints());
                         });
-        Game.getHero()
-                .get()
-                .getComponent(XPComponent.class)
+        hero.getComponent(XPComponent.class)
                 .ifPresent(
                         xc -> {
                             data.setPlayerLevel(((XPComponent) xc).getCurrentLevel());
                             data.setPlayerXP(((XPComponent) xc).getCurrentXP());
                         });
-        data.setHeroClass(((Hero) Game.getHero().get()).getHeroClass());
+        data.setPlayerMoney(((Hero) hero).getMoney());
+        data.setHeroClass(((Hero) hero).getHeroClass());
 
         ArrayList<String> entityList = new ArrayList<>();
         for (Entity entity : Game.getEntities()) {
@@ -95,16 +93,13 @@ public class Saving {
             case 3 -> Game.setHero(new Hero(Character.ELF));
             default -> Game.setHero(new Hero(Character.DEBUG));
         }
-        Game.getHero()
-                .get()
-                .getComponent(HealthComponent.class)
+        Entity hero = Game.getHero().get();
+        hero.getComponent(HealthComponent.class)
                 .ifPresent(
                         hc -> {
                             ((HealthComponent) hc).setCurrentHealthpoints(playerHealth);
                         });
-        Game.getHero()
-                .get()
-                .getComponent(XPComponent.class)
+        hero.getComponent(XPComponent.class)
                 .ifPresent(
                         xc -> {
                             for (long current = 1; current <= playerLevel; current++) {
@@ -112,8 +107,8 @@ public class Saving {
                             }
                             ((XPComponent) xc).setCurrentXP(playerXP);
                         });
+        ((Hero) hero).addMoney(data.getPlayerMoney());
         for (String entity : data.getEntityList()) {
-            System.out.println(entity);
             switch (entity) {
                 case "OrcNormal" -> Game.getEntities().add(new OrcNormal());
                 case "OrcBaby" -> Game.getEntities().add(new OrcBaby());
@@ -125,6 +120,7 @@ public class Saving {
                     Game.getEntities().add(tombstone);
                     game.setTomb(tombstone);
                 }
+                case "Shopkeeper" -> Game.getEntities().add(new Shopkeeper());
                 case "SlowTrap" -> Game.getEntities().add(new SlowTrap());
                 case "SpawnerTrap" -> {
                     SpawnerTrap spawnerT = new SpawnerTrap();
