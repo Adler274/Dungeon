@@ -108,8 +108,9 @@ public class Shopkeeper extends Entity {
                 riddlePattern = Pattern.compile("A?\\s*Brick", Pattern.CASE_INSENSITIVE);
             }
         }
-        shopLogger.log(CustomLogLevel.INFO, "Riddle was asked. (input: " + input + ")");
-        matcher = riddlePattern.matcher(scanner.nextLine());
+        shopLogger.log(CustomLogLevel.INFO, "Riddle was asked.");
+        input = scanner.nextLine();
+        matcher = riddlePattern.matcher(input);
         if (matcher.matches()) {
             riddleCleared = true;
             shopLogger.log(CustomLogLevel.INFO, "Correct answer was given. (input: " + input + ")");
